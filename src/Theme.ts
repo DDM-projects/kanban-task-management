@@ -1,7 +1,7 @@
 import { CSSProperties } from "react";
 
-export const ThemeColors = {
-    mainPurple: "#635F7C",
+export const themeColors = {
+    mainPurple: "#635FC7",
     mainPurpleHover: "#A8A4FF",
     mainPurpleLightest: "rgba(99, 95, 199, 0.1)",
     mainPurpleLight: "rgba(99, 95, 199, 0.25)",
@@ -17,83 +17,97 @@ export const ThemeColors = {
     redHover: "#FF9898",
 };
 
-export type ThemeColors = keyof typeof ThemeColors;
+export type themeColors = keyof typeof themeColors;
 
-export const ThemeFontMain: CSSProperties = {
-    fontFamily: "Plus Jakarta Sans",
+export const themeFontMain: CSSProperties = {
+    fontFamily: "Plus Jakarta Sans, sans-serif",
     fontWeight: "bold",
-    color: ThemeColors.black,
+    color: themeColors.black,
 };
 
-export const FontHeadingXl: CSSProperties = {
-    ...ThemeFontMain,
+export const fontHeadingXl: CSSProperties = {
+    ...themeFontMain,
     fontSize: "24px",
     lineHeight: "30px",
 };
 
-export const FontHeadingLarge: CSSProperties = {
-    ...ThemeFontMain,
+export const fontHeadingLarge: CSSProperties = {
+    ...themeFontMain,
     fontSize: "18px",
     lineHeight: "23px",
 };
 
-export const FontHeadingMedium: CSSProperties = {
-    ...ThemeFontMain,
+export const fontHeadingMedium: CSSProperties = {
+    ...themeFontMain,
     fontSize: "15px",
     lineHeight: "19px",
 };
 
-export const FontHeadingSmall: CSSProperties = {
-    ...ThemeFontMain,
+export const fontHeadingSmall: CSSProperties = {
+    ...themeFontMain,
     fontSize: "12px",
     lineHeight: "15px",
     letterSpacing: "2.4px",
 };
 
-export const FontBodyLarge: CSSProperties = {
-    ...ThemeFontMain,
+export const fontBodyLarge: CSSProperties = {
+    ...themeFontMain,
     fontSize: "13px",
     lineHeight: "23px",
 };
 
-export const FontBodyMedium: CSSProperties = {
-    ...ThemeFontMain,
+export const fontBodyMedium: CSSProperties = {
+    ...themeFontMain,
     fontSize: "12px",
     lineHeight: "15px",
 };
 
-export const ButtonPrimaryLarge: CSSProperties = {
-    ...FontHeadingLarge,
+export const buttonPrimaryLarge: CSSProperties = {
+    ...fontHeadingLarge,
     height: "48px",
     borderRadius: "24px",
-    backgroundColor: ThemeColors.mainPurple,
-    color: ThemeColors.white,
+    border: "none",
+    cursor: "pointer",
+    backgroundColor: themeColors.mainPurple,
+    color: themeColors.white,
 };
 
-export const ButtonSmall: CSSProperties = {
-    ...FontBodyLarge,
+export const buttonPrimaryHover: CSSProperties = { backgroundColor: themeColors.mainPurpleHover };
+
+export const buttonSmall: CSSProperties = {
+    ...fontBodyLarge,
     height: "40px",
     borderRadius: "20px",
-    color: ThemeColors.white,
+    border: "none",
+    cursor: "pointer",
+    color: themeColors.white,
 };
 
-export const ButtonPrimarySmall: CSSProperties = {
-    ...ButtonSmall,
-    backgroundColor: ThemeColors.mainPurple,
+export const buttonPrimarySmall: CSSProperties = {
+    ...buttonSmall,
+    backgroundColor: themeColors.mainPurple,
 };
 
-export const ButtonSecondary: CSSProperties = {
-    ...ButtonSmall,
-    color: ThemeColors.mainPurple,
-    backgroundColor: ThemeColors.mainPurpleLight,
+export const buttonSecondary: CSSProperties = {
+    ...buttonSmall,
+    color: themeColors.mainPurple,
+    backgroundColor: themeColors.mainPurpleLightest,
 };
 
-export const ButtonDesctructive: CSSProperties = {
-    ...ButtonSmall,
-    backgroundColor: ThemeColors.red,
+export const buttonSecondaryHover: CSSProperties = {
+    backgroundColor: themeColors.mainPurpleLight,
 };
 
-export const ButtonSecondaryDarkMode: CSSProperties = {
-    ...ButtonSecondary,
-    backgroundColor: ThemeColors.white,
+export const buttonDestructive: CSSProperties = {
+    ...buttonSmall,
+    backgroundColor: themeColors.red,
+};
+
+export const buttonDestructiveHover: CSSProperties = {
+    backgroundColor: themeColors.redHover,
+};
+
+export const buttonSecondaryDarkMode: CSSProperties = {
+    ...buttonSecondary,
+    backgroundColor: themeColors.white,
 };
