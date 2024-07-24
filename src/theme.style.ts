@@ -19,44 +19,47 @@ export const themeFontMainStyle = css`
 `;
 
 export const fontHeadingXlStyle = css`
-    ${themeFontMainStyle}
+    ${themeFontMainStyle};
     font-size: ${fontHeadingXl.fontSize};
     line-height: ${fontHeadingXl.lineHeight};
 `;
 
 export const fontHeadingLargeStyle = css`
-    ${themeFontMainStyle}
+    ${themeFontMainStyle};
     font-size: ${fontHeadingLarge.fontSize};
     line-height: ${fontHeadingLarge.lineHeight};
 `;
 
 export const fontHeadingMediumStyle = css`
-    ${themeFontMainStyle}
+    ${themeFontMainStyle};
     font-size: ${fontHeadingMedium.fontSize};
     line-height: ${fontHeadingMedium.lineHeight};
 `;
 
 export const fontHeadingSmallStyle = css`
-    ${themeFontMainStyle}
+    ${themeFontMainStyle};
     font-size: ${fontHeadingSmall.fontSize};
     line-height: ${fontHeadingSmall.lineHeight};
     letter-spacing: ${fontHeadingSmall.letterSpacing};
 `;
 
 export const fontBodyLargeStyle = css`
-    ${themeFontMainStyle}
+    ${themeFontMainStyle};
     font-size: ${fontBodyLarge.fontSize};
     line-height: ${fontBodyLarge.lineHeight};
+    color: ${fontBodyLarge.color};
+    font-weight: 500;
 `;
 
 export const fontBodyMediumStyle = css`
-    ${themeFontMainStyle}
+    ${themeFontMainStyle};
     font-size: ${fontBodyMedium.fontSize};
     line-height: ${fontBodyMedium.lineHeight};
+    color: ${fontBodyMedium.color};
 `;
 
 export const buttonPrimaryLargeStyle = css`
-    ${fontHeadingLargeStyle}
+    ${fontHeadingLargeStyle};
     height: ${buttonPrimaryLarge.height};
     border: ${buttonPrimaryLarge.border};
     cursor: ${buttonPrimaryLarge.cursor};
@@ -66,7 +69,7 @@ export const buttonPrimaryLargeStyle = css`
 `;
 
 export const buttonSmallStyle = css`
-    ${fontBodyLargeStyle}
+    ${fontBodyLargeStyle};
     height: ${buttonSmall.height};
     border-radius: ${buttonSmall.borderRadius};
     border: ${buttonSmall.border};
@@ -75,7 +78,7 @@ export const buttonSmallStyle = css`
 `;
 
 export const buttonPrimarySmallStyle = css`
-    ${buttonSmallStyle}
+    ${buttonSmallStyle};
     background-color: ${themeColors.mainPurple};
 `;
 
@@ -84,7 +87,7 @@ export const buttonPrimaryHoverStyle = css`
 `;
 
 export const buttonSecondaryStyle = css`
-    ${buttonSmallStyle}
+    ${buttonSmallStyle};
     color: ${themeColors.mainPurple};
     background-color: ${themeColors.mainPurpleLightest};
 `;
@@ -94,7 +97,7 @@ export const buttonSecondaryHoverStyle = css`
 `;
 
 export const buttonDestructiveStyle = css`
-    ${buttonSmallStyle}
+    ${buttonSmallStyle};
     background-color: ${themeColors.red};
 `;
 
@@ -103,6 +106,6 @@ export const buttonDestructiveHoverStyle = css`
 `;
 
 export const buttonSecondaryDarkModeStyle = css`
-    ${buttonSecondaryStyle}
+    ${buttonSecondaryStyle};
     background-color: ${themeColors.white};
 `;

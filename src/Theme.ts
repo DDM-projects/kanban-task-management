@@ -9,7 +9,8 @@ export const themeColors = {
     darkestGrey: "#20212C",
     darkGrey: "#2B2C37",
     mediumGrey: "#3E3F4E",
-    grey: "#828FA3",
+    grey: "rgb(130, 143, 163)",
+    greyInputBorder: "rgba(130, 143, 163, 0.25)",
     lightGrey: "#E4EBFA",
     lightestGrey: "#F4F7FD",
     white: "#FFFFFF",
@@ -17,7 +18,7 @@ export const themeColors = {
     redHover: "#FF9898",
 };
 
-export type themeColors = keyof typeof themeColors;
+export type ThemeColors = keyof typeof themeColors;
 
 export const themeFontMain: CSSProperties = {
     fontFamily: "Plus Jakarta Sans, sans-serif",
@@ -52,12 +53,15 @@ export const fontHeadingSmall: CSSProperties = {
 
 export const fontBodyLarge: CSSProperties = {
     ...themeFontMain,
+    color: themeColors.darkGrey,
     fontSize: "13px",
     lineHeight: "23px",
+    fontWeight: "500",
 };
 
 export const fontBodyMedium: CSSProperties = {
     ...themeFontMain,
+    color: themeColors.darkGrey,
     fontSize: "12px",
     lineHeight: "15px",
 };
@@ -72,7 +76,9 @@ export const buttonPrimaryLarge: CSSProperties = {
     color: themeColors.white,
 };
 
-export const buttonPrimaryHover: CSSProperties = { backgroundColor: themeColors.mainPurpleHover };
+export const buttonPrimaryHover: CSSProperties = {
+    backgroundColor: themeColors.mainPurpleHover,
+};
 
 export const buttonSmall: CSSProperties = {
     ...fontBodyLarge,
