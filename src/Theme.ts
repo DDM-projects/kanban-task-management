@@ -72,6 +72,7 @@ export const buttonPrimaryLarge: CSSProperties = {
     borderRadius: "24px",
     border: "none",
     cursor: "pointer",
+    fontWeight: "700",
     backgroundColor: themeColors.mainPurple,
     color: themeColors.white,
 };
@@ -86,6 +87,7 @@ export const buttonSmall: CSSProperties = {
     borderRadius: "20px",
     border: "none",
     cursor: "pointer",
+    fontWeight: "700",
     color: themeColors.white,
 };
 

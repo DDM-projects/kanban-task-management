@@ -1,4 +1,5 @@
 import { themeColors } from "../../theme";
+import Label from "../label/Label";
 import { StyledSelect } from "./select.style";
 import { FormikContext } from "formik";
 import { useContext, useEffect, useState } from "react";
@@ -9,9 +10,11 @@ interface SelectProps {
     onChange?: (value: string) => void;
     options?: { value: string; label: string }[];
     value?: string;
+    width?: number;
+    label?: string;
 }
 
-const Select = ({ name, defaultValue, onChange, options, value }: SelectProps) => {
+const Select = ({ name, defaultValue, onChange, options, value, width = 416, label }: SelectProps) => {
     const formikContext = useContext(FormikContext);
     const values = formikContext && formikContext.values;
     const formikValue = values && name && values[name];
@@ -36,6 +39,7 @@ const Select = ({ name, defaultValue, onChange, options, value }: SelectProps) =
             formikContext.setFieldValue(name, value);
             return;
         }
+
         onChange && onChange(value);
         setSelectValue(value);
     };
@@ -44,6 +48,7 @@ const Select = ({ name, defaultValue, onChange, options, value }: SelectProps) =
         if (formikValue === undefined) {
             return;
         }
+
         setSelectValue(formikValue || "");
     }, [formikValue]);
 
@@ -51,13 +56,23 @@ const Select = ({ name, defaultValue, onChange, options, value }: SelectProps) =
         if (value === undefined) {
             return;
         }
+
         setSelectValue(value || "");
     }, [value]);
 
     // TODO: handle dark mode
 
     return (
-        <StyledSelect onChange={handleChange} options={optionSelect} value={selectValue} defaultValue={defaultValue} />
+        <div>
+            {label && <Label label={label} />}
+            <StyledSelect
+                style={{ width }}
+                onChange={handleChange}
+                options={optionSelect}
+                value={selectValue}
+                defaultValue={defaultValue}
+            />
+        </div>
     );
 };
 

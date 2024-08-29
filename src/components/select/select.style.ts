@@ -5,10 +5,10 @@ import { themeColors } from "../../theme";
 
 export const StyledSelect = styled(Select)`
     ${fontBodyLargeStyle};
+
     box-sizing: border-box;
     border: 1px solid ${themeColors.greyInputBorder};
     border-radius: 4px;
-    width: 350px;
     height: 40px;
 
     &.ant-select-focused .ant-select-selector {

@@ -11,9 +11,12 @@ interface ButtonProps {
     buttonFunction?: () => void;
     category: "primaryLarge" | "primarySmall" | "secondary" | "destructive" | "secondaryDarkMode";
     children: ReactNode;
+    width?: number;
+    type?: "button" | "reset" | "submit";
+    disabled?: boolean;
 }
 
-const Button = ({ buttonFunction, category, children }: ButtonProps) => {
+const Button = ({ buttonFunction, category, children, width = 416, type = "button", disabled }: ButtonProps) => {
     const getButtonComponent = () => {
         switch (category) {
             case "primaryLarge":
@@ -34,7 +37,7 @@ const Button = ({ buttonFunction, category, children }: ButtonProps) => {
     const ButtonComponent = getButtonComponent();
 
     return (
-        <ButtonComponent onClick={buttonFunction}>
+        <ButtonComponent type={type} onClick={buttonFunction} style={{ width }} disabled={disabled}>
             {children}
         </ButtonComponent>
     );

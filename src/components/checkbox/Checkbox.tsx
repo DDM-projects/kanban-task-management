@@ -2,6 +2,7 @@ import { CheckboxChangeEvent } from "antd/es/checkbox";
 import { StyledCheckbox, StyledCheckboxDarkMode } from "./checkbox.style";
 import { FormikContext } from "formik";
 import { useContext, useEffect, useState } from "react";
+import Label from "../label/Label";
 
 interface CheckboxProps {
     children?: React.ReactNode;
@@ -9,9 +10,11 @@ interface CheckboxProps {
     value?: boolean;
     onChange?: (e: CheckboxChangeEvent) => void;
     lineThrough?: boolean;
+    width?: number;
+    label?: string;
 }
 
-const Checkbox = ({ children, name, value, onChange, lineThrough = true }: CheckboxProps) => {
+const Checkbox = ({ children, name, value, onChange, lineThrough = true, width = 416, label }: CheckboxProps) => {
     const formikContext = useContext(FormikContext);
     const values = formikContext && formikContext.values;
     const formikValue = values && values[name];
@@ -22,6 +25,7 @@ const Checkbox = ({ children, name, value, onChange, lineThrough = true }: Check
             formikContext.handleChange(e);
             return;
         }
+
         onChange && onChange(e);
     };
 
@@ -29,6 +33,7 @@ const Checkbox = ({ children, name, value, onChange, lineThrough = true }: Check
         if (formikValue === undefined) {
             return;
         }
+
         setCheckboxValue(formikValue || false);
     }, [formikValue]);
 
@@ -36,16 +41,24 @@ const Checkbox = ({ children, name, value, onChange, lineThrough = true }: Check
         if (value === undefined) {
             return;
         }
+
         setCheckboxValue(value || false);
     }, [value]);
 
     //TODO: handle dark mode
     return (
-        <>
-            <StyledCheckbox lineThrough={lineThrough} name={name} checked={checkboxValue} onChange={handleChange}>
+        <div>
+            {label && <Label label={label} />}
+            <StyledCheckbox
+                style={{ width }}
+                lineThrough={lineThrough}
+                name={name}
+                checked={checkboxValue}
+                onChange={handleChange}
+            >
                 {children}
             </StyledCheckbox>
-        </>
+        </div>
     );
 };
 
