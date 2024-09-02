@@ -3,9 +3,8 @@ import { Modal } from "antd";
 import { themeColors } from "../../../theme";
 import { fontHeadingLargeStyle } from "../../../theme.style";
 
-export const StyledAddNewTaskModal = styled(Modal)`
+export const StyledAddNewOrEditTaskModal = styled(Modal)`
     &.ant-modal .ant-modal-content {
-        height: 675px;
         width: 480px;
         max-height: 675px;
         border-radius: 6px;

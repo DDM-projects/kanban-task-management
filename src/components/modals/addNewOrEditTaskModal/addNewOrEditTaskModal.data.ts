@@ -1,7 +1,7 @@
 import * as Yup from "yup";
 import { nanoid } from "nanoid";
 
-export interface InitialAddNewTaskValues {
+export interface AddNewOrEditTaskValues {
     title: string;
     description: string;
     subtasks: { id: string; title: string; isCompleted: boolean }[];
@@ -28,7 +28,7 @@ export const validationSchema = Yup.object().shape({
     status: Yup.string().oneOf(["Todo", "Doing", "Done"]),
 });
 
-export const initialAddNewTaskValues: InitialAddNewTaskValues = {
+export const initialAddNewTaskValues: AddNewOrEditTaskValues = {
     title: "",
     description: "",
     subtasks: [
@@ -59,6 +59,15 @@ export const statusOptions = [
         value: "Done",
         label: "Done",
     },
+];
+
+export const placeholderOptions = [
+    "e.g. Make coffee",
+    "e.g. Drink coffee and smile",
+    "e.g. Eat some tasty cokkie for dessert",
+    "e.g. Stretch a little",
+    "e.g. Take a walk across the room",
+    "e.g. Wash the dishes after coffee",
 ];
 
 export const MAX_SUBTASKS = 6;

@@ -1,34 +1,49 @@
 import {
-    StyledAddNewTaskModal,
+    StyledAddNewOrEditTaskModal,
     StyledContainerRow,
     StyledContainerColumn,
     StyledButtonForImg,
-} from "./addNewTaskModal.style";
+} from "./addNewOrEditTaskModal.style";
+import {
+    AddNewOrEditTaskValues,
+    initialAddNewTaskValues,
+    statusOptions,
+    validationSchema,
+    MAX_SUBTASKS,
+    placeholderOptions,
+} from "./addNewOrEditTaskModal.data";
 import { Form, Formik, ErrorMessage, FormikProps } from "formik";
 import Input from "../../input/Input";
 import Button from "../../button/Button";
 import cross from "../../../assets/icon-cross.svg";
 import Label from "../../label/Label";
 import Select from "../../select/Select";
-import {
-    InitialAddNewTaskValues,
-    initialAddNewTaskValues,
-    statusOptions,
-    validationSchema,
-    MAX_SUBTASKS,
-} from "./addNewTaskModal.data";
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { nanoid } from "nanoid";
+import _ from "lodash";
 
-interface AddNewTaskModalProps {
+interface AddNewOrEditTaskModalProps {
     open: boolean;
     width?: number;
+    type: "add" | "edit";
+    initialValues?: AddNewOrEditTaskValues;
     onCancel: () => void;
-    onSubmit: (values: InitialAddNewTaskValues) => void;
+    onSubmit: (values: AddNewOrEditTaskValues) => void;
 }
 
-const AddNewTaskModal = ({ open, width = 480, onCancel, onSubmit }: AddNewTaskModalProps) => {
-    const formikValuesRef = useRef<FormikProps<InitialAddNewTaskValues> | null>(null);
+const AddNewOrEditTaskModal = ({
+    open,
+    width = 480,
+    type,
+    initialValues,
+    onCancel,
+    onSubmit,
+}: AddNewOrEditTaskModalProps) => {
+    const [currentInitialValues, setCurrentInitialValues] = useState<AddNewOrEditTaskValues>(
+        initialValues || initialAddNewTaskValues
+    );
+    const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+    const formikValuesRef = useRef<FormikProps<AddNewOrEditTaskValues> | null>(null);
 
     const addNewSubtask = () => {
         const subtasksLength = formikValuesRef.current?.values?.subtasks?.length;
@@ -56,10 +71,18 @@ const AddNewTaskModal = ({ open, width = 480, onCancel, onSubmit }: AddNewTaskMo
         });
     };
 
+    const handleSubmit = (values: AddNewOrEditTaskValues) => {
+        setCurrentInitialValues(values);
+        onSubmit(values);
+    };
+
+    const modalTitle = type === "add" ? "Add New Task" : "Edit Task";
+    const buttonTitle = type === "add" ? "Create Task" : "Save Changes";
+
     //TODO: handle dark mode
     return (
-        <StyledAddNewTaskModal
-            title="Add New Task"
+        <StyledAddNewOrEditTaskModal
+            title={modalTitle}
             open={open}
             width={width}
             centered
@@ -68,12 +91,21 @@ const AddNewTaskModal = ({ open, width = 480, onCancel, onSubmit }: AddNewTaskMo
             onCancel={onCancel}
         >
             <Formik
-                initialValues={initialAddNewTaskValues}
+                initialValues={currentInitialValues}
                 validationSchema={validationSchema}
-                onSubmit={onSubmit}
+                onSubmit={handleSubmit}
                 innerRef={formikValuesRef}
             >
                 {({ values }) => {
+                    //eslint-disable-next-line
+                    useEffect(() => {
+                        if (!_.isEqual(values, currentInitialValues)) {
+                            setIsButtonDisabled(false);
+                        } else {
+                            setIsButtonDisabled(true);
+                        }
+                    }, [values, currentInitialValues]);
+
                     return (
                         <Form>
                             <StyledContainerColumn>
@@ -101,7 +133,7 @@ const AddNewTaskModal = ({ open, width = 480, onCancel, onSubmit }: AddNewTaskMo
                                                     <Input
                                                         width={385}
                                                         name={`subtasks[${index}].title`}
-                                                        placeholder="e.g. Make coffee"
+                                                        placeholder={placeholderOptions[index]}
                                                         type="text"
                                                     />
                                                     <StyledButtonForImg
@@ -126,16 +158,16 @@ const AddNewTaskModal = ({ open, width = 480, onCancel, onSubmit }: AddNewTaskMo
                                     </Button>
                                 </StyledContainerColumn>
                                 <Select label="Status" defaultValue="Todo" options={statusOptions}></Select>
-                                <Button type="submit" category="primarySmall">
-                                    Create Task
+                                <Button type="submit" category="primarySmall" disabled={isButtonDisabled}>
+                                    {buttonTitle}
                                 </Button>
                             </StyledContainerColumn>
                         </Form>
                     );
                 }}
             </Formik>
-        </StyledAddNewTaskModal>
+        </StyledAddNewOrEditTaskModal>
     );
 };
 
-export default AddNewTaskModal;
+export default AddNewOrEditTaskModal;
