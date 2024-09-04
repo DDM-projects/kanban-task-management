@@ -1,11 +1,10 @@
 import styled from "styled-components";
 import { Modal } from "antd";
-import { themeColors } from "../../../theme";
-import { fontHeadingLargeStyle } from "../../../theme.style";
+import { themeColors } from "../../theme";
+import { fontHeadingLargeStyle } from "../../theme.style";
 
-export const StyledAddNewOrEditTaskModal = styled(Modal)`
+export const StyledModal = styled(Modal)`
     &.ant-modal .ant-modal-content {
-        width: 480px;
         max-height: 675px;
         border-radius: 6px;
         background-color: ${themeColors.white};

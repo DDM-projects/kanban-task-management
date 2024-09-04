@@ -1,34 +1,29 @@
+import React, { useEffect, useRef, useState } from "react";
+import { StyledModal, StyledContainerRow, StyledContainerColumn, StyledButtonForImg } from "../modals.style";
 import {
-    StyledAddNewOrEditTaskModal,
-    StyledContainerRow,
-    StyledContainerColumn,
-    StyledButtonForImg,
-} from "./addNewOrEditTaskModal.style";
-import {
-    AddNewOrEditTaskValues,
     initialAddNewTaskValues,
     statusOptions,
     validationSchema,
     MAX_SUBTASKS,
     placeholderOptions,
 } from "./addNewOrEditTaskModal.data";
+import { Task } from "../../../types";
 import { Form, Formik, ErrorMessage, FormikProps } from "formik";
 import Input from "../../input/Input";
 import Button from "../../button/Button";
-import cross from "../../../assets/icon-cross.svg";
 import Label from "../../label/Label";
 import Select from "../../select/Select";
-import React, { useEffect, useRef, useState } from "react";
 import { nanoid } from "nanoid";
 import _ from "lodash";
+import cross from "../../../assets/icon-cross.svg";
 
 interface AddNewOrEditTaskModalProps {
     open: boolean;
     width?: number;
     type: "add" | "edit";
-    initialValues?: AddNewOrEditTaskValues;
+    initialValues?: Task;
     onCancel: () => void;
-    onSubmit: (values: AddNewOrEditTaskValues) => void;
+    onSubmit: (values: Task) => void;
 }
 
 const AddNewOrEditTaskModal = ({
@@ -39,11 +34,9 @@ const AddNewOrEditTaskModal = ({
     onCancel,
     onSubmit,
 }: AddNewOrEditTaskModalProps) => {
-    const [currentInitialValues, setCurrentInitialValues] = useState<AddNewOrEditTaskValues>(
-        initialValues || initialAddNewTaskValues
-    );
+    const [currentInitialValues, setCurrentInitialValues] = useState<Task>(initialValues || initialAddNewTaskValues);
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-    const formikValuesRef = useRef<FormikProps<AddNewOrEditTaskValues> | null>(null);
+    const formikValuesRef = useRef<FormikProps<Task> | null>(null);
 
     const addNewSubtask = () => {
         const subtasksLength = formikValuesRef.current?.values?.subtasks?.length;
@@ -71,7 +64,7 @@ const AddNewOrEditTaskModal = ({
         });
     };
 
-    const handleSubmit = (values: AddNewOrEditTaskValues) => {
+    const handleSubmit = (values: Task) => {
         setCurrentInitialValues(values);
         onSubmit(values);
     };
@@ -80,8 +73,9 @@ const AddNewOrEditTaskModal = ({
     const buttonTitle = type === "add" ? "Create Task" : "Save Changes";
 
     //TODO: handle dark mode
+
     return (
-        <StyledAddNewOrEditTaskModal
+        <StyledModal
             title={modalTitle}
             open={open}
             width={width}
@@ -166,7 +160,7 @@ const AddNewOrEditTaskModal = ({
                     );
                 }}
             </Formik>
-        </StyledAddNewOrEditTaskModal>
+        </StyledModal>
     );
 };
 

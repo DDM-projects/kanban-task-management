@@ -1,14 +1,8 @@
 import * as Yup from "yup";
 import { nanoid } from "nanoid";
+import { Task } from "../../../types";
 
-export interface AddNewOrEditTaskValues {
-    title: string;
-    description: string;
-    subtasks: { id: string; title: string; isCompleted: boolean }[];
-    status: "Todo" | "Doing" | "Done";
-}
-
-const subtaskSchema = Yup.object().shape({
+export const subtaskSchema = Yup.object().shape({
     title: Yup.string()
         .min(2, "Title must contain at least 2 characters")
         .max(60, "Title is too long")
@@ -25,10 +19,10 @@ export const validationSchema = Yup.object().shape({
         .min(2, "Description must contain at least 2 characters")
         .max(100, "Description is too long"),
     subtasks: Yup.array().of(subtaskSchema),
-    status: Yup.string().oneOf(["Todo", "Doing", "Done"]),
+    status: Yup.string().required("Status is required"),
 });
 
-export const initialAddNewTaskValues: AddNewOrEditTaskValues = {
+export const initialAddNewTaskValues: Task = {
     title: "",
     description: "",
     subtasks: [
@@ -58,6 +52,10 @@ export const statusOptions = [
     {
         value: "Done",
         label: "Done",
+    },
+    {
+        value: "To check",
+        label: "To check",
     },
 ];
 
