@@ -13,11 +13,12 @@ export const mainInputStyle = css`
     box-shadow: none;
 
     &.ant-input-outlined:hover {
-        border-color: ${themeColors.greyInputBorder};
+        border-color: ${themeColors.mainPurple};
+        cursor: pointer;
     }
 
     &.ant-input-outlined:focus {
-        border-color: ${themeColors.greyInputBorder};
+        border-color: ${themeColors.mainPurple};
         box-shadow: none;
     }
 `;

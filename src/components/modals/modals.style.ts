@@ -27,10 +27,6 @@ export const StyledModal = styled(Modal)`
     .formik-error {
         color: red;
     }
-
-    .modal-img {
-        cursor: pointer;
-    }
 `;
 
 export const StyledContainerColumn = styled.div<{ $gapSize?: number }>`
@@ -50,4 +46,14 @@ export const StyledButtonForImg = styled.button`
     all: unset;
     width: 15px;
     height: 15px;
+
+    &:hover .modal-img {
+        filter: brightness(0) saturate(100%);
+        filter: brightness(0) saturate(100%) invert(48%) sepia(67%) saturate(1412%) hue-rotate(326deg) brightness(96%)
+            contrast(91%);
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
 `;
