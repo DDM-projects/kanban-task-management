@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { Modal } from "antd";
+import { Dropdown, Modal } from "antd";
 import { themeColors } from "../../theme";
-import { fontHeadingLargeStyle } from "../../theme.style";
+import { fontBodyLargeStyle, fontHeadingLargeStyle } from "../../theme.style";
 
 export const StyledModal = styled(Modal)`
     &.ant-modal .ant-modal-content {
@@ -42,10 +42,10 @@ export const StyledContainerRow = styled.div`
     align-items: center;
 `;
 
-export const StyledButtonForImg = styled.button`
+export const StyledButtonForImg = styled.button<{ $width?: number; $height?: number }>`
     all: unset;
-    width: 15px;
-    height: 15px;
+    width: ${({ $width }) => ($width !== undefined ? `${$width}px` : "15px")};
+    height: ${({ $height }) => ($height !== undefined ? `${$height}px` : "15px")};
 
     &:hover .modal-img {
         filter: brightness(0) saturate(100%);
@@ -56,4 +56,11 @@ export const StyledButtonForImg = styled.button`
     &:hover {
         cursor: pointer;
     }
+`;
+
+export const StyledTextContainer = styled.div`
+    ${fontBodyLargeStyle};
+
+    color: ${themeColors.grey};
+    width: 416px;
 `;

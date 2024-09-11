@@ -4,7 +4,7 @@ import { StyledSelect } from "./select.style";
 import { FormikContext } from "formik";
 import { useContext, useEffect, useState } from "react";
 
-interface SelectProps {
+export interface SelectProps {
     name?: string;
     defaultValue?: string;
     onChange?: (value: string) => void;

@@ -23,6 +23,7 @@ export const validationSchema = Yup.object().shape({
 });
 
 export const initialAddNewTaskValues: Task = {
+    id: nanoid(),
     title: "",
     description: "",
     subtasks: [

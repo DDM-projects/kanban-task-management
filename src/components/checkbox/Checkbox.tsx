@@ -3,7 +3,6 @@ import { StyledCheckbox, StyledCheckboxDarkMode } from "./checkbox.style";
 import { FormikContext } from "formik";
 import { useContext, useEffect, useState } from "react";
 import Label from "../label/Label";
-
 interface CheckboxProps {
     children?: React.ReactNode;
     name: string;
@@ -27,6 +26,7 @@ const Checkbox = ({ children, name, value, onChange, lineThrough = true, width =
         }
 
         onChange && onChange(e);
+        setCheckboxValue(e.target.checked);
     };
 
     useEffect(() => {
@@ -46,12 +46,13 @@ const Checkbox = ({ children, name, value, onChange, lineThrough = true, width =
     }, [value]);
 
     //TODO: handle dark mode
+
     return (
         <div>
             {label && <Label label={label} />}
             <StyledCheckbox
                 style={{ width }}
-                lineThrough={lineThrough}
+                $lineThrough={lineThrough}
                 name={name}
                 checked={checkboxValue}
                 onChange={handleChange}

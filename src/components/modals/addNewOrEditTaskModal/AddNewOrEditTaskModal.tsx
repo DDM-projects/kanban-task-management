@@ -7,7 +7,7 @@ import {
     MAX_SUBTASKS,
     placeholderOptions,
 } from "./addNewOrEditTaskModal.data";
-import { Task } from "../../../types";
+import { Subtask, Task } from "../../../types";
 import { Form, Formik, ErrorMessage, FormikProps } from "formik";
 import Input from "../../input/Input";
 import Button from "../../button/Button";
@@ -45,7 +45,7 @@ const AddNewOrEditTaskModal = ({
             return;
         }
 
-        const newSubtask = {
+        const newSubtask: Subtask = {
             id: nanoid(),
             title: "",
             isCompleted: false,

@@ -10,11 +10,13 @@ export const initialAddBoardValues: Board = {
             id: nanoid(),
             name: "",
             tasks: [],
+            availableStatus: [],
         },
         {
             id: nanoid(),
             name: "",
             tasks: [],
+            availableStatus: [],
         },
     ],
 };

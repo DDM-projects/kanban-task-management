@@ -3,7 +3,7 @@ import { Checkbox } from "antd";
 import { themeColors } from "../../theme";
 import { fontBodyMediumStyle } from "../../theme.style";
 
-export const StyledCheckbox = styled(Checkbox)<{ lineThrough?: boolean }>`
+export const StyledCheckbox = styled(Checkbox)<{ $lineThrough?: boolean }>`
     height: 40px;
     padding: 0 10px;
     border-radius: 4px;
@@ -45,8 +45,8 @@ export const StyledCheckbox = styled(Checkbox)<{ lineThrough?: boolean }>`
         background-color: ${themeColors.mainPurple} !important;
     }
 
-    ${({ lineThrough }) =>
-        lineThrough &&
+    ${({ $lineThrough }) =>
+        $lineThrough &&
         css`
             .ant-checkbox-checked + span {
                 color: rgba(0, 1, 18, 0.5);
@@ -63,8 +63,8 @@ export const StyledCheckboxDarkMode = styled(StyledCheckbox)`
         background-color: ${themeColors.darkGrey};
     }
 
-    ${({ lineThrough }) =>
-        lineThrough &&
+    ${({ $lineThrough }) =>
+        $lineThrough &&
         css`
             .ant-checkbox-checked + span {
                 color: rgba(255, 255, 255, 0.5);

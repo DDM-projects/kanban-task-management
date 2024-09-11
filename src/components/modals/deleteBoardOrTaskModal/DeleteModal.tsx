@@ -12,6 +12,8 @@ interface DeleteModalProps {
 }
 
 const DeleteModal = ({ open, onCancel, onDelete, title, text, width = 480 }: DeleteModalProps) => {
+    // TODO: handle dark mode
+
     return (
         <StyledDeleteModal
             title={title}

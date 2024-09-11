@@ -13,7 +13,7 @@ import {
     placeholderOptions,
     validationSchema,
 } from "./addOrEditBoardModal.data";
-import { Board } from "../../../types";
+import { Board, Column } from "../../../types";
 import React from "react";
 import { nanoid } from "nanoid";
 
@@ -45,10 +45,11 @@ const AddOrEditBoardModal = ({
             return;
         }
 
-        const newColumn = {
+        const newColumn: Column = {
             id: nanoid(),
             name: "",
             tasks: [],
+            availableStatus: [],
         };
 
         formikValuesRef.current?.setValues({
