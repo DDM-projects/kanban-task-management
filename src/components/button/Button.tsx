@@ -14,9 +14,10 @@ interface ButtonProps {
     width?: number;
     type?: "button" | "reset" | "submit";
     disabled?: boolean;
+    className?: string;
 }
 
-const Button = ({ buttonFunction, category, children, width = 416, type = "button", disabled }: ButtonProps) => {
+const Button = ({ buttonFunction, category, children, width = 416, type = "button", disabled, className }: ButtonProps) => {
     const getButtonComponent = () => {
         switch (category) {
             case "primaryLarge":
@@ -37,7 +38,7 @@ const Button = ({ buttonFunction, category, children, width = 416, type = "butto
     const ButtonComponent = getButtonComponent();
 
     return (
-        <ButtonComponent type={type} onClick={buttonFunction} style={{ width }} disabled={disabled}>
+        <ButtonComponent className={className} type={type} onClick={buttonFunction} style={{ width }} disabled={disabled}>
             {children}
         </ButtonComponent>
     );

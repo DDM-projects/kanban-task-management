@@ -1,15 +1,15 @@
 import React from "react";
 import { Subtask, Task } from "../../../types";
-import Checkbox from "../../checkbox/Checkbox";
-import Label from "../../label/Label";
+import Checkbox from "../../../components/checkbox/Checkbox";
+import Label from "../../../components/label/Label";
 import {
     StyledModal,
     StyledContainerColumn,
     StyledContainerRow,
     StyledTextContainer,
-    StyledButtonForImg,
+    StyledImgButton,
 } from "../modals.style";
-import Select, { SelectProps } from "../../select/Select";
+import Select, { SelectProps } from "../../../components/select/Select";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
 import menuIcon from "../../../assets/icon-vertical-ellipsis.svg";
 import { Dropdown, type MenuProps } from "antd";
@@ -77,9 +77,9 @@ const ViewTaskModal = ({
                 <StyledContainerRow>
                     {task.title}
                     <Dropdown placement="bottom" menu={{ items }} trigger={["click"]} overlayStyle={{ width: 192 }}>
-                        <StyledButtonForImg $width={5} $height={20} type="button">
+                        <StyledImgButton $width={5} $height={20} type="button">
                             <img src={menuIcon} alt="menu" />
-                        </StyledButtonForImg>
+                        </StyledImgButton>
                     </Dropdown>
                 </StyledContainerRow>
             }

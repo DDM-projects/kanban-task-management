@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Dropdown, Modal } from "antd";
+import { Modal } from "antd";
 import { themeColors } from "../../theme";
 import { fontBodyLargeStyle, fontHeadingLargeStyle } from "../../theme.style";
 
@@ -42,7 +42,7 @@ export const StyledContainerRow = styled.div`
     align-items: center;
 `;
 
-export const StyledButtonForImg = styled.button<{ $width?: number; $height?: number }>`
+export const StyledImgButton = styled.button<{ $width?: number; $height?: number }>`
     all: unset;
     width: ${({ $width }) => ($width !== undefined ? `${$width}px` : "15px")};
     height: ${({ $height }) => ($height !== undefined ? `${$height}px` : "15px")};

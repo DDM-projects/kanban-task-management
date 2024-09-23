@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { StyledModal, StyledContainerRow, StyledContainerColumn, StyledButtonForImg } from "../modals.style";
+import { StyledModal, StyledContainerRow, StyledContainerColumn, StyledImgButton } from "../modals.style";
 import { Form, Formik, FormikProps } from "formik";
-import Input from "../../input/Input";
-import Button from "../../button/Button";
-import Label from "../../label/Label";
+import Input from "../../../components/input/Input";
+import Button from "../../../components/button/Button";
+import Label from "../../../components/label/Label";
 import _ from "lodash";
 import cross from "../../../assets/icon-cross.svg";
 import {
@@ -132,12 +132,12 @@ const AddOrEditBoardModal = ({
                                                         type="text"
                                                     />
                                                     {values.columns.length > MIN_COLUMNS && (
-                                                        <StyledButtonForImg
+                                                        <StyledImgButton
                                                             type="button"
                                                             onClick={() => updateColumnsAfterDelete(column.id)}
                                                         >
                                                             <img src={cross} alt="cross" className="modal-img" />
-                                                        </StyledButtonForImg>
+                                                        </StyledImgButton>
                                                     )}
                                                 </StyledContainerRow>
                                             </React.Fragment>

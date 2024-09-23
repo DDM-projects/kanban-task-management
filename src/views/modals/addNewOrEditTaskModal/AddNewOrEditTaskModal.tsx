@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { StyledModal, StyledContainerRow, StyledContainerColumn, StyledButtonForImg } from "../modals.style";
+import { StyledModal, StyledContainerRow, StyledContainerColumn, StyledImgButton } from "../modals.style";
 import {
     initialAddNewTaskValues,
     statusOptions,
@@ -9,10 +9,10 @@ import {
 } from "./addNewOrEditTaskModal.data";
 import { Subtask, Task } from "../../../types";
 import { Form, Formik, ErrorMessage, FormikProps } from "formik";
-import Input from "../../input/Input";
-import Button from "../../button/Button";
-import Label from "../../label/Label";
-import Select from "../../select/Select";
+import Input from "../../../components/input/Input";
+import Button from "../../../components/button/Button";
+import Label from "../../../components/label/Label";
+import Select from "../../../components/select/Select";
 import { nanoid } from "nanoid";
 import _ from "lodash";
 import cross from "../../../assets/icon-cross.svg";
@@ -130,12 +130,12 @@ const AddNewOrEditTaskModal = ({
                                                         placeholder={placeholderOptions[index]}
                                                         type="text"
                                                     />
-                                                    <StyledButtonForImg
+                                                    <StyledImgButton
                                                         type="button"
                                                         onClick={() => updateSubtasksAfterDelete(subtask.id)}
                                                     >
                                                         <img src={cross} alt="cross" className="modal-img" />
-                                                    </StyledButtonForImg>
+                                                    </StyledImgButton>
                                                 </StyledContainerRow>
                                             </React.Fragment>
                                         );

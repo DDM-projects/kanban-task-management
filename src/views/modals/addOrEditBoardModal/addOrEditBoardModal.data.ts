@@ -4,6 +4,7 @@ import { validationSchema as taskValidationSchema } from "../addNewOrEditTaskMod
 import { Board } from "../../../types";
 
 export const initialAddBoardValues: Board = {
+    id: nanoid(),
     name: "",
     columns: [
         {

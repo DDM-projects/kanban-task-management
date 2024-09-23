@@ -1,6 +1,6 @@
 import { StyledDeleteModal, StyledContainerRow, StyledText } from "./deleteModal.style";
 import { StyledContainerColumn } from "../modals.style";
-import Button from "../../button/Button";
+import Button from "../../../components/button/Button";
 
 interface DeleteModalProps {
     open: boolean;

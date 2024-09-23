@@ -17,6 +17,7 @@ export interface Column {
     availableStatus: string[];
 }
 export interface Board {
+    id: string;
     name: string;
     columns: Column[];
 }
