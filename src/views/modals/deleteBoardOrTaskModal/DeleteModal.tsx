@@ -2,6 +2,8 @@ import { StyledDeleteModal, StyledContainerRow, StyledText } from "./deleteModal
 import { StyledContainerColumn } from "../modals.style";
 import Button from "../../../components/button/Button";
 
+const DELETE_MODAL_BUTTON_WIDTH = 200;
+
 interface DeleteModalProps {
     open: boolean;
     onCancel: () => void;
@@ -27,10 +29,10 @@ const DeleteModal = ({ open, onCancel, onDelete, title, text, width = 480 }: Del
             <StyledContainerColumn>
                 <StyledText>{text}</StyledText>
                 <StyledContainerRow>
-                    <Button category="destructive" buttonFunction={onDelete} width={200}>
+                    <Button category="destructive" buttonFunction={onDelete} width={DELETE_MODAL_BUTTON_WIDTH}>
                         Delete
                     </Button>
-                    <Button category="secondary" buttonFunction={onCancel} width={200}>
+                    <Button category="secondary" buttonFunction={onCancel} width={DELETE_MODAL_BUTTON_WIDTH}>
                         Cancel
                     </Button>
                 </StyledContainerRow>

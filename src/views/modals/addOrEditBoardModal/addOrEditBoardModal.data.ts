@@ -38,8 +38,17 @@ export const validationSchema = Yup.object().shape({
     columns: Yup.array().of(columnSchema),
 });
 
-export const placeholderOptions = ["e.g. Todo", "e.g. Doing", "e.g. Done", "e.g. To check"];
+export const placeholderOptions = [
+    "e.g. Todo",
+    "e.g. Doing",
+    "e.g. Done",
+    "e.g. To check",
+    "e.g. In Review",
+    "e.g. Ready for Testing",
+    "e.g. Testing",
+    "e.g. Needs Clarification",
+    "e.g. On Hold",
+    "e.g. Ready for Deployment",
+];
 
-export const MAX_COLUMNS = 4;
-
-export const MIN_COLUMNS = 2;
+export const MAX_COLUMNS = 10;

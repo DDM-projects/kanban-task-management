@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { StyledModal, StyledContainerRow, StyledContainerColumn, StyledImgButton } from "../modals.style";
+import { StyledModal, StyledContainerRow, StyledContainerColumn, StyledButton } from "../modals.style";
 import {
     initialAddNewTaskValues,
     statusOptions,
@@ -130,12 +130,12 @@ const AddNewOrEditTaskModal = ({
                                                         placeholder={placeholderOptions[index]}
                                                         type="text"
                                                     />
-                                                    <StyledImgButton
+                                                    <StyledButton
                                                         type="button"
                                                         onClick={() => updateSubtasksAfterDelete(subtask.id)}
                                                     >
                                                         <img src={cross} alt="cross" className="modal-img" />
-                                                    </StyledImgButton>
+                                                    </StyledButton>
                                                 </StyledContainerRow>
                                             </React.Fragment>
                                         );

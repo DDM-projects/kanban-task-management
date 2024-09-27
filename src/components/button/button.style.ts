@@ -13,7 +13,7 @@ import {
 export const disabledButtonStyle = css`
     background-color: #cccccc;
     color: #666666;
-    cursor: not-allowed;
+    cursor: default;
 `;
 
 export const StyledPrimaryLargeBtn = styled.button`

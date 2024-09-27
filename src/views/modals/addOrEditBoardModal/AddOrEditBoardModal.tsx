@@ -1,18 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { StyledModal, StyledContainerRow, StyledContainerColumn, StyledImgButton } from "../modals.style";
+import { StyledModal, StyledContainerRow, StyledContainerColumn, StyledButton } from "../modals.style";
 import { Form, Formik, FormikProps } from "formik";
 import Input from "../../../components/input/Input";
 import Button from "../../../components/button/Button";
 import Label from "../../../components/label/Label";
 import _ from "lodash";
 import cross from "../../../assets/icon-cross.svg";
-import {
-    initialAddBoardValues,
-    MAX_COLUMNS,
-    MIN_COLUMNS,
-    placeholderOptions,
-    validationSchema,
-} from "./addOrEditBoardModal.data";
+import { initialAddBoardValues, MAX_COLUMNS, placeholderOptions, validationSchema } from "./addOrEditBoardModal.data";
 import { Board, Column } from "../../../types";
 import React from "react";
 import { nanoid } from "nanoid";
@@ -59,12 +53,6 @@ const AddOrEditBoardModal = ({
     };
 
     const updateColumnsAfterDelete = (id: string) => {
-        const columnsLength = formikValuesRef.current?.values?.columns?.length;
-
-        if (columnsLength && columnsLength <= MIN_COLUMNS) {
-            return;
-        }
-
         formikValuesRef.current?.setValues({
             ...formikValuesRef.current?.values,
             columns: formikValuesRef.current?.values.columns.filter((column) => column.id !== id),
@@ -117,10 +105,7 @@ const AddOrEditBoardModal = ({
                                     type="text"
                                 />
                                 <StyledContainerColumn $gapSize={10}>
-                                    <Label
-                                        marginBottom={0}
-                                        label={`Board Columns (min ${MIN_COLUMNS}, max ${MAX_COLUMNS}) `}
-                                    />
+                                    <Label marginBottom={0} label={`Board Columns (max ${MAX_COLUMNS}) `} />
                                     {values.columns.map((column, index) => {
                                         return (
                                             <React.Fragment key={column.id}>
@@ -131,13 +116,13 @@ const AddOrEditBoardModal = ({
                                                         placeholder={placeholderOptions[index]}
                                                         type="text"
                                                     />
-                                                    {values.columns.length > MIN_COLUMNS && (
-                                                        <StyledImgButton
+                                                    {values.columns.length && (
+                                                        <StyledButton
                                                             type="button"
                                                             onClick={() => updateColumnsAfterDelete(column.id)}
                                                         >
                                                             <img src={cross} alt="cross" className="modal-img" />
-                                                        </StyledImgButton>
+                                                        </StyledButton>
                                                     )}
                                                 </StyledContainerRow>
                                             </React.Fragment>
@@ -145,9 +130,6 @@ const AddOrEditBoardModal = ({
                                     })}
                                     {values.columns.length >= MAX_COLUMNS && (
                                         <p className="formik-error">You can add max {MAX_COLUMNS} columns</p>
-                                    )}
-                                    {values.columns.length < MIN_COLUMNS && (
-                                        <p className="formik-error">You must add at least {MIN_COLUMNS} columns</p>
                                     )}
                                     <Button
                                         buttonFunction={addNewColumn}

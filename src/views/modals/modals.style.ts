@@ -42,7 +42,7 @@ export const StyledContainerRow = styled.div`
     align-items: center;
 `;
 
-export const StyledImgButton = styled.button<{ $width?: number; $height?: number }>`
+export const StyledButton = styled.button<{ $width?: number; $height?: number }>`
     all: unset;
     width: ${({ $width }) => ($width !== undefined ? `${$width}px` : "15px")};
     height: ${({ $height }) => ($height !== undefined ? `${$height}px` : "15px")};

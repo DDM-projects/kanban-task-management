@@ -7,13 +7,14 @@ import {
     StyledContainerColumn,
     StyledContainerRow,
     StyledTextContainer,
-    StyledImgButton,
+    StyledButton,
 } from "../modals.style";
 import Select, { SelectProps } from "../../../components/select/Select";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
 import menuIcon from "../../../assets/icon-vertical-ellipsis.svg";
 import { Dropdown, type MenuProps } from "antd";
 import { themeColors, fontBodyLarge } from "../../../theme";
+import { DROPDOWN_MENU_WIDTH } from "../../mainBoard/mainBoard.data";
 
 interface ViewTaskModalProps {
     open: boolean;
@@ -76,10 +77,15 @@ const ViewTaskModal = ({
             title={
                 <StyledContainerRow>
                     {task.title}
-                    <Dropdown placement="bottom" menu={{ items }} trigger={["click"]} overlayStyle={{ width: 192 }}>
-                        <StyledImgButton $width={5} $height={20} type="button">
+                    <Dropdown
+                        placement="bottom"
+                        menu={{ items }}
+                        trigger={["click"]}
+                        overlayStyle={{ width: DROPDOWN_MENU_WIDTH }}
+                    >
+                        <StyledButton $width={5} $height={20} type="button">
                             <img src={menuIcon} alt="menu" />
-                        </StyledImgButton>
+                        </StyledButton>
                     </Dropdown>
                 </StyledContainerRow>
             }

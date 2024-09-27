@@ -39,7 +39,7 @@ const Input = ({ type, id, name, placeholder, value, label, width = 416, onChang
             return;
         }
 
-        onChange && onChange(e);
+        onChange?.(e);
     };
 
     const chooseInputComponent = () => {
