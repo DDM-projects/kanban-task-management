@@ -17,7 +17,7 @@ export const validationSchema = Yup.object().shape({
         .required("Title is required"),
     description: Yup.string()
         .min(2, "Description must contain at least 2 characters")
-        .max(100, "Description is too long"),
+        .max(140, "Description is too long"),
     subtasks: Yup.array().of(subtaskSchema),
     status: Yup.string().required("Status is required"),
 });

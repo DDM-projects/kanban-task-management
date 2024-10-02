@@ -22,6 +22,7 @@ interface AddNewOrEditTaskModalProps {
     width?: number;
     type: "add" | "edit";
     initialValues?: Task;
+    destroyOnClose?: boolean;
     onCancel: () => void;
     onSubmit: (values: Task) => void;
 }
@@ -31,6 +32,7 @@ const AddNewOrEditTaskModal = ({
     width = 480,
     type,
     initialValues,
+    destroyOnClose = true,
     onCancel,
     onSubmit,
 }: AddNewOrEditTaskModalProps) => {
@@ -83,6 +85,7 @@ const AddNewOrEditTaskModal = ({
             closable={false}
             footer={null}
             onCancel={onCancel}
+            destroyOnClose={destroyOnClose}
         >
             <Formik
                 initialValues={currentInitialValues}

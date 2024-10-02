@@ -137,34 +137,28 @@ const Header = ({ board, onDelete, onEditSubmit, onAddTaskSubmit }: HeaderProps)
                 </StyledContainer>
             </StyledHeader>
 
-            {isDeleteModalOpen && (
-                <DeleteModal
-                    open={isDeleteModalOpen}
-                    onCancel={handleDeleteModalCancel}
-                    onDelete={handleDeleteBoard}
-                    title={deleteModalTitle}
-                    text={deleteModalText}
-                />
-            )}
+            <DeleteModal
+                open={isDeleteModalOpen}
+                onCancel={handleDeleteModalCancel}
+                onDelete={handleDeleteBoard}
+                title={deleteModalTitle}
+                text={deleteModalText}
+            />
 
-            {isEditBoardModalOpen && (
-                <AddOrEditBoardModal
-                    open={isEditBoardModalOpen}
-                    type="edit"
-                    onCancel={handleEditModalCancel}
-                    onSubmit={handleEditModalSubmit}
-                    initialValues={board}
-                />
-            )}
+            <AddOrEditBoardModal
+                open={isEditBoardModalOpen}
+                type="edit"
+                onCancel={handleEditModalCancel}
+                onSubmit={handleEditModalSubmit}
+                initialValues={board}
+            />
 
-            {isAddTaskModalOpen && (
-                <AddNewOrEditTaskModal
-                    open={isAddTaskModalOpen}
-                    type="add"
-                    onCancel={handleAddTaskModalCancel}
-                    onSubmit={handleAddTaskSubmit}
-                />
-            )}
+            <AddNewOrEditTaskModal
+                open={isAddTaskModalOpen}
+                type="add"
+                onCancel={handleAddTaskModalCancel}
+                onSubmit={handleAddTaskSubmit}
+            />
         </>
     );
 };

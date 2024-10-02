@@ -16,6 +16,7 @@ interface AddOrEditBoardModalProps {
     width?: number;
     type: "add" | "edit";
     initialValues?: Board;
+    destroyOnClose?: boolean;
     onCancel: () => void;
     onSubmit: (values: Board) => void;
 }
@@ -24,8 +25,9 @@ const AddOrEditBoardModal = ({
     open,
     width = 480,
     type,
-    onCancel,
     initialValues,
+    destroyOnClose = true,
+    onCancel,
     onSubmit,
 }: AddOrEditBoardModalProps) => {
     const [currentInitialValues, setCurrentInitialValues] = useState<Board>(initialValues || initialAddBoardValues);
@@ -78,6 +80,7 @@ const AddOrEditBoardModal = ({
             closable={false}
             footer={null}
             onCancel={onCancel}
+            destroyOnClose={destroyOnClose}
         >
             <Formik
                 initialValues={currentInitialValues}

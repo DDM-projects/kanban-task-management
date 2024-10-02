@@ -1,5 +1,5 @@
 import React from "react";
-import { Subtask, Task } from "../../../types";
+import { Task } from "../../../types";
 import Checkbox from "../../../components/checkbox/Checkbox";
 import Label from "../../../components/label/Label";
 import {
@@ -15,6 +15,7 @@ import menuIcon from "../../../assets/icon-vertical-ellipsis.svg";
 import { Dropdown, type MenuProps } from "antd";
 import { themeColors, fontBodyLarge } from "../../../theme";
 import { DROPDOWN_MENU_WIDTH } from "../../mainBoard/mainBoard.data";
+import { countCompletedSubtasks } from "../../utils/viewsUtils";
 
 interface ViewTaskModalProps {
     open: boolean;
@@ -26,6 +27,7 @@ interface ViewTaskModalProps {
     onChangeCheckbox: (id: string, isCompleted: boolean) => void;
     task: Task;
     statusOptions: SelectProps["options"];
+    destroyOnClose?: boolean;
 }
 
 const dropdownItemStyle = {
@@ -44,11 +46,8 @@ const ViewTaskModal = ({
     statusOptions,
     onChangeSelect,
     onChangeCheckbox,
+    destroyOnClose = true,
 }: ViewTaskModalProps) => {
-    const countCompletedSubtasks = (subtasks: Subtask[]) => {
-        return subtasks?.filter((subtask) => subtask.isCompleted).length;
-    };
-
     const items: MenuProps["items"] = [
         {
             key: "edit",
@@ -74,6 +73,7 @@ const ViewTaskModal = ({
             closable={false}
             footer={null}
             onCancel={onCancel}
+            destroyOnClose={destroyOnClose}
             title={
                 <StyledContainerRow>
                     {task.title}
