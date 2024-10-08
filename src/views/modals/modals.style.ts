@@ -1,9 +1,9 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { Modal } from "antd";
 import { themeColors } from "../../theme";
 import { fontBodyLargeStyle, fontHeadingLargeStyle } from "../../theme.style";
 
-export const StyledModal = styled(Modal)`
+export const StyledModal = styled(Modal)<{ $isScrollVisible?: boolean }>`
     &.ant-modal .ant-modal-content {
         max-height: 675px;
         border-radius: 6px;
@@ -11,11 +11,21 @@ export const StyledModal = styled(Modal)`
         display: flex;
         flex-direction: column;
         justify-content: center;
+        padding: 20px 32px;
     }
 
     .ant-modal-body {
         overflow-y: auto;
         overflow-x: hidden;
+        margin-right: ${({ $isScrollVisible }) => ($isScrollVisible ? "-25px" : "0")};
+    }
+
+    .ant-modal-body::-webkit-scrollbar {
+        ${({ $isScrollVisible }) =>
+            !$isScrollVisible &&
+            css`
+                display: none;
+            `};
     }
 
     &.ant-modal .ant-modal-title {

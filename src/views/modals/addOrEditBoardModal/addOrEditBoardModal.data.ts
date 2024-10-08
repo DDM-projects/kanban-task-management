@@ -12,12 +12,14 @@ export const initialAddBoardValues: Board = {
             name: "",
             tasks: [],
             availableStatus: [],
+            color: "#49C4E5",
         },
         {
             id: nanoid(),
             name: "",
             tasks: [],
             availableStatus: [],
+            color: "#8471F2",
         },
     ],
 };

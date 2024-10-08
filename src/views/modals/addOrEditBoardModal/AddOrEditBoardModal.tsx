@@ -10,6 +10,19 @@ import { initialAddBoardValues, MAX_COLUMNS, placeholderOptions, validationSchem
 import { Board, Column } from "../../../types";
 import React from "react";
 import { nanoid } from "nanoid";
+import { ColorPicker } from "antd";
+
+const getRandomColor = () => {
+    const getRandomValue = () => Math.floor(Math.random() * 166) + 50;
+
+    const r = getRandomValue();
+    const g = getRandomValue();
+    const b = getRandomValue();
+
+    const toHex = (value: number) => value.toString(16);
+
+    return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+};
 
 interface AddOrEditBoardModalProps {
     open: boolean;
@@ -30,9 +43,24 @@ const AddOrEditBoardModal = ({
     onCancel,
     onSubmit,
 }: AddOrEditBoardModalProps) => {
+    const [columnsLength, setColumnsLength] = useState(
+        initialValues?.columns.length || initialAddBoardValues.columns.length
+    );
     const [currentInitialValues, setCurrentInitialValues] = useState<Board>(initialValues || initialAddBoardValues);
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+    const [isScrollVisible, setIsScrollVisible] = useState(false);
     const formikValuesRef = useRef<FormikProps<Board> | null>(null);
+
+    const checkIfScrollAppeared = () => {
+        const modalBody = document.querySelector(".ant-modal-body");
+        const modalScroll = modalBody ? modalBody.scrollHeight > modalBody.clientHeight : false;
+
+        if (modalScroll) {
+            setIsScrollVisible(true);
+        } else {
+            setIsScrollVisible(false);
+        }
+    };
 
     const addNewColumn = () => {
         const columnsLength = formikValuesRef.current?.values?.columns?.length;
@@ -46,12 +74,15 @@ const AddOrEditBoardModal = ({
             name: "",
             tasks: [],
             availableStatus: [],
+            color: getRandomColor(),
         };
 
         formikValuesRef.current?.setValues({
             ...formikValuesRef.current?.values,
             columns: [...formikValuesRef.current?.values.columns, newColumn],
         });
+
+        setColumnsLength((prev) => prev + 1);
     };
 
     const updateColumnsAfterDelete = (id: string) => {
@@ -59,12 +90,18 @@ const AddOrEditBoardModal = ({
             ...formikValuesRef.current?.values,
             columns: formikValuesRef.current?.values.columns.filter((column) => column.id !== id),
         });
+
+        setColumnsLength((prev) => prev - 1);
     };
 
     const handleSubmit = (values: Board) => {
         setCurrentInitialValues(values);
         onSubmit(values);
     };
+
+    useEffect(() => {
+        checkIfScrollAppeared();
+    }, [columnsLength]);
 
     const modalTitle = type === "add" ? "Add New Board" : "Edit Board";
     const buttonTitle = type === "add" ? "Create New Board" : "Save Changes";
@@ -81,6 +118,7 @@ const AddOrEditBoardModal = ({
             footer={null}
             onCancel={onCancel}
             destroyOnClose={destroyOnClose}
+            $isScrollVisible={isScrollVisible}
         >
             <Formik
                 initialValues={currentInitialValues}
@@ -88,7 +126,7 @@ const AddOrEditBoardModal = ({
                 onSubmit={handleSubmit}
                 innerRef={formikValuesRef}
             >
-                {({ values }) => {
+                {({ values, setFieldValue }) => {
                     //eslint-disable-next-line
                     useEffect(() => {
                         if (!_.isEqual(values, currentInitialValues)) {
@@ -114,10 +152,20 @@ const AddOrEditBoardModal = ({
                                             <React.Fragment key={column.id}>
                                                 <StyledContainerRow>
                                                     <Input
-                                                        width={385}
+                                                        width={360}
                                                         name={`columns[${index}].name`}
                                                         placeholder={placeholderOptions[index]}
                                                         type="text"
+                                                    />
+                                                    <ColorPicker
+                                                        size="small"
+                                                        defaultValue={column.color}
+                                                        onChangeComplete={(value) =>
+                                                            setFieldValue(
+                                                                `columns[${index}].color`,
+                                                                value.toHexString()
+                                                            )
+                                                        }
                                                     />
                                                     {values.columns.length && (
                                                         <StyledButton

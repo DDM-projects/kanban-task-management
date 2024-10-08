@@ -17,9 +17,11 @@ export const StyledTask = styled.div`
     width: 280px;
     min-height: 88px;
     padding: 23px 16px;
+    margin-bottom: 10px;
     border-radius: 8px;
     background-color: ${themeColors.white};
-    box-shadow: 0px 4px 6px rgba(54, 78, 126, 0.101545); //copied from figma
+    /*copied from figma*/
+    box-shadow: 0px 4px 6px rgba(54, 78, 126, 0.101545); 
     cursor: pointer;
 
     &:hover {
