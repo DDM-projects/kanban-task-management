@@ -5,9 +5,8 @@ import { themeColors } from "../../../../theme";
 export const StyledMainContainer = styled.div`
     display: flex;
     flex-direction: column;
-    width: 280px;
-    max-height: 800px;
-    overflow: auto;
+    min-width: 280px;
+    height: 100%;
     gap: 10px;
 `;
 

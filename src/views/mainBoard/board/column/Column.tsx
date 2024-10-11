@@ -28,7 +28,7 @@ const Column = ({ column, statusOptions, changeColumnColor }: ColumnProps) => {
     return (
         <StyledMainContainer>
             <StyledContainer>
-                <ColorPicker onChangeComplete={handleColumnColorChange}>
+                <ColorPicker onChangeComplete={handleColumnColorChange} defaultValue={column.color}>
                     <StyledColumnIcon style={{ backgroundColor: column.color }} />
                 </ColorPicker>
                 <StyledTitle>

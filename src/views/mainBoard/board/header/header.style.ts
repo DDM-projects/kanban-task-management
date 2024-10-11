@@ -20,10 +20,10 @@ export const StyledHeaderTitle = styled.h1`
 
 export const StyledContainer = styled.div`
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     position: relative;
-    width: 20%;
+    width: 200px;
 `;
 
 export const StyledAddTaskButton = styled(Button)`
