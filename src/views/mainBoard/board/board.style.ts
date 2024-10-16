@@ -10,7 +10,6 @@ export const StyledMainContainer = styled.div<{ $isAddColumnButtonVisible: boole
     height: 100%;
     gap: 20px;
     padding: 20px;
-    background-color: ${themeColors.lightestGrey};
     overflow: auto;
 
     ${({ $isAddColumnButtonVisible }) =>
@@ -26,10 +25,10 @@ export const StyledNewColumnContainer = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    //copied from Figma
-    background: linear-gradient(180deg, #e9effa 0%, rgba(233, 239, 250, 0.5) 100%);
     min-width: 280px;
     height: 814px;
+    //copied from Figma
+    background: linear-gradient(180deg, #e9effa 0%, rgba(233, 239, 250, 0.5) 100%);
 `;
 
 export const StyledNewColumnButton = styled.button`

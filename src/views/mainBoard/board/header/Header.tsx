@@ -5,6 +5,7 @@ import {
     StyledContainer,
     StyledAddTaskButton,
     StyledMenuButton,
+    StyledLogoContainer,
 } from "./header.style";
 import {
     defaultHeaderTitle,
@@ -21,6 +22,7 @@ import AddNewOrEditTaskModal from "../../../modals/addNewOrEditTaskModal/AddNewO
 import { Dropdown, type MenuProps } from "antd";
 import { Board, Task } from "../../../../types";
 import { themeColors } from "../../../../theme";
+import logoDark from "../../../../assets/logo-dark.svg";
 
 interface HeaderProps {
     board?: Board;
@@ -113,30 +115,34 @@ const Header = ({ board, onDelete, onEditSubmit, onAddTaskSubmit }: HeaderProps)
 
     return (
         <>
-            <StyledHeader>
-                <StyledHeaderTitle>{headerTitle}</StyledHeaderTitle>
-                <StyledContainer>
-                    <StyledAddTaskButton
-                        disabled={isAddTaskButtonDisabled}
-                        category="primaryLarge"
-                        width={ADD_TASK_BUTTON_WIDTH}
-                        buttonFunction={handleAddTaskButtonClick}
-                    >
-                        + Add New Task
-                    </StyledAddTaskButton>
-                    <Dropdown
-                        placement="bottomRight"
-                        menu={{ items }}
-                        trigger={["click"]}
-                        overlayStyle={{ width: DROPDOWN_MENU_WIDTH }}
-                    >
-                        <StyledMenuButton disabled={isMenuButtonDisabled} $isDisabled={isMenuButtonDisabled}>
-                            <img src={menuIcon} alt="menu-icon" />
-                        </StyledMenuButton>
-                    </Dropdown>
-                </StyledContainer>
-            </StyledHeader>
-
+            <StyledContainer>
+                <StyledLogoContainer>
+                    <img src={logoDark} alt="logo dark" />
+                </StyledLogoContainer>
+                <StyledHeader>
+                    <StyledHeaderTitle>{headerTitle}</StyledHeaderTitle>
+                    <StyledContainer $width={200}>
+                        <StyledAddTaskButton
+                            disabled={isAddTaskButtonDisabled}
+                            category="primaryLarge"
+                            width={ADD_TASK_BUTTON_WIDTH}
+                            buttonFunction={handleAddTaskButtonClick}
+                        >
+                            + Add New Task
+                        </StyledAddTaskButton>
+                        <Dropdown
+                            placement="bottomRight"
+                            menu={{ items }}
+                            trigger={["click"]}
+                            overlayStyle={{ width: DROPDOWN_MENU_WIDTH }}
+                        >
+                            <StyledMenuButton disabled={isMenuButtonDisabled} $isDisabled={isMenuButtonDisabled}>
+                                <img src={menuIcon} alt="menu-icon" />
+                            </StyledMenuButton>
+                        </Dropdown>
+                    </StyledContainer>
+                </StyledHeader>
+            </StyledContainer>
             <DeleteModal
                 open={isDeleteModalOpen}
                 onCancel={handleDeleteModalCancel}
@@ -144,7 +150,6 @@ const Header = ({ board, onDelete, onEditSubmit, onAddTaskSubmit }: HeaderProps)
                 title={deleteModalTitle}
                 text={deleteModalText}
             />
-
             <AddOrEditBoardModal
                 open={isEditBoardModalOpen}
                 type="edit"
@@ -152,7 +157,6 @@ const Header = ({ board, onDelete, onEditSubmit, onAddTaskSubmit }: HeaderProps)
                 onSubmit={handleEditModalSubmit}
                 initialValues={board}
             />
-
             <AddNewOrEditTaskModal
                 open={isAddTaskModalOpen}
                 type="add"

@@ -1,6 +1,5 @@
 import {
     itemStyle,
-    StyledLogoContainer,
     StyledMainContainer,
     StyledSidebar,
     StyledColumnContainer,
@@ -17,7 +16,6 @@ import AddOrEditBoardModal from "../../modals/addOrEditBoardModal/AddOrEditBoard
 import { useState } from "react";
 import { Board } from "../../../types";
 import type { MenuProps } from "antd";
-import logoDark from "../../../assets/logo-dark.svg";
 import boardIcon from "../../../assets/icon-board.svg";
 import lightThemeIcon from "../../../assets/icon-light-theme.svg";
 import darkThemeIcon from "../../../assets/icon-dark-theme.svg";
@@ -26,13 +24,17 @@ import hideSidebarIcon from "../../../assets/icon-hide-sidebar.svg";
 
 interface SidebarProps {
     boards: Board[];
-    onAddBoardSubmit?: (board: Board) => void;
+    onAddBoardSubmit: (board: Board) => void;
+    selectedKeys?: string[];
+    onMenuItemSelect: (id: string) => void;
+    setSidebarVisibility: (isVisible: boolean) => void;
 }
 
-const Sidebar = ({ boards, onAddBoardSubmit }: SidebarProps) => {
+const Sidebar = ({ boards, onAddBoardSubmit, selectedKeys, onMenuItemSelect, setSidebarVisibility }: SidebarProps) => {
     const [isSidebarDisplayed, setIsSidebarDisplayed] = useState(true);
     const [isSidebarHidden, setIsSidebarHidden] = useState(false);
     const [isAddBoardModalOpen, setIsAddBoardModalOpen] = useState(false);
+    const [isAddBoardModalVisible, setIsAddBoardModalVisible] = useState(isAddBoardModalOpen);
 
     const items: MenuProps["items"] = boards.map((board) => ({
         key: board.id,
@@ -41,11 +43,16 @@ const Sidebar = ({ boards, onAddBoardSubmit }: SidebarProps) => {
         style: itemStyle,
     }));
 
+    const handleMenuItemSelect = (info: any) => {
+        onMenuItemSelect(info.key);
+    };
+
     const handleHideSidebar = () => {
         setIsSidebarHidden(true);
         setTimeout(() => {
             setIsSidebarDisplayed(false);
         }, 1000);
+       setSidebarVisibility(false);
     };
 
     const handleShowSidebar = () => {
@@ -53,33 +60,40 @@ const Sidebar = ({ boards, onAddBoardSubmit }: SidebarProps) => {
         setTimeout(() => {
             setIsSidebarHidden(false);
         }, 0);
+        setSidebarVisibility(true);
     };
 
     const handleShowAddBoardModal = () => {
+        setIsAddBoardModalVisible(true);
         setIsAddBoardModalOpen(true);
     };
 
     const handleAddBoardModalCancel = () => {
         setIsAddBoardModalOpen(false);
-    }
+    };
 
-    const handleAddBoardSubmit = (board : Board) => {
+    const handleAddBoardModalAfterClose = () => {
+        setIsAddBoardModalVisible(false);
+    };
+
+    const handleAddBoardSubmit = (board: Board) => {
         onAddBoardSubmit?.(board);
         handleAddBoardModalCancel();
-    }    
+    };
 
     //TODO: handle dark mode
 
     return (
         <>
-            <StyledLogoContainer>
-                <img src={logoDark} alt="logo dark" />
-            </StyledLogoContainer>
             <StyledMainContainer>
                 <StyledSidebar $isHidden={isSidebarHidden} $isDisplayed={isSidebarDisplayed}>
                     <StyledColumnContainer $gapSize={0}>
                         <StyledTitle>All boards ({boards.length})</StyledTitle>
-                        <StyledMenu items={items} />
+                        <StyledMenu
+                            items={items}
+                            selectedKeys={selectedKeys}
+                            onSelect={handleMenuItemSelect}
+                        />
                         <StyledCreateBoardButton onClick={handleShowAddBoardModal}>
                             <img src={boardIcon} className="add-board-icon" alt="add board icon" /> + Create New Board
                         </StyledCreateBoardButton>
@@ -105,8 +119,15 @@ const Sidebar = ({ boards, onAddBoardSubmit }: SidebarProps) => {
                     </StyledShowSidebarButton>
                 )}
             </StyledMainContainer>
-
-            <AddOrEditBoardModal open={isAddBoardModalOpen} type="add" onCancel={handleAddBoardModalCancel} onSubmit={handleAddBoardSubmit}/>
+            {isAddBoardModalVisible && (
+                <AddOrEditBoardModal
+                    open={isAddBoardModalOpen}
+                    type="add"
+                    onCancel={handleAddBoardModalCancel}
+                    onSubmit={handleAddBoardSubmit}
+                    afterClose={handleAddBoardModalAfterClose}
+                />
+            )}
         </>
     );
 };

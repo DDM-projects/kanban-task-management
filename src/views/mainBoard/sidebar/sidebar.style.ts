@@ -3,6 +3,15 @@ import { Menu, Switch } from "antd";
 import { fontHeadingMediumStyle, fontHeadingSmallStyle } from "../../../theme.style";
 import { themeColors } from "../../../theme";
 import { CSSProperties } from "react";
+import {
+    SIDEBAR_WIDTH,
+    SIDEBAR_ANIMATION_DURATION,
+    SIDEBAR_HEIGHT_WITHOUT_LOGO,
+    SIDEBAR_TITLE_HEIGHT,
+    SIDEBAR_GAP_SIZE,
+    CREATE_BOARD_BUTTON_HEIGHT,
+    SWITCH_AND_HIDE_SIDEBAR_BUTTON_CONTAINER_HEIGHT,
+} from "./sidebar.data";
 
 export const itemStyle: CSSProperties = {
     display: "flex",
@@ -15,34 +24,23 @@ export const itemStyle: CSSProperties = {
     borderRadius: "0px 100px 100px 0px",
 };
 
-export const StyledLogoContainer = styled.div`
-    display: flex;
-    align-items: center;
-    width: 275px;
-    height: 96px;
-    padding-left: 25px;
-    border-right: 1px solid ${themeColors.lightGrey};
-    border-bottom: 1px solid ${themeColors.lightGrey};
-`;
-
 export const StyledMainContainer = styled.div`
     display: flex;
     flex-direction: column;
-    box-sizing: border-box;
-    height: 929px;
-    width: 300px;
+    height: fit-content;
 `;
 
 export const StyledSidebar = styled.div<{ $width?: number; $isHidden?: boolean; $isDisplayed?: boolean }>`
     display: ${({ $isDisplayed }) => ($isDisplayed ? "flex" : "none")};
     flex-direction: column;
     justify-content: space-between;
-    gap: 20px;
-    height: 100%;
-    width: ${({ $width }) => ($width !== undefined ? `${$width}px` : "300px")};
+    gap: ${SIDEBAR_GAP_SIZE}px;
+    height: ${SIDEBAR_HEIGHT_WITHOUT_LOGO}px;
+    width: ${({ $width }) => ($width !== undefined ? `${$width}px` : `${SIDEBAR_WIDTH}px`)};
+    box-sizing: border-box;
     background-color: ${themeColors.white};
     border-right: 1px solid ${themeColors.lightGrey};
-    transition: transform linear 1s;
+    transition: transform linear ${SIDEBAR_ANIMATION_DURATION}s;
     transform: ${({ $isHidden }) => ($isHidden ? "translate(-100%, -1px)" : "translate(0, -1px)")};
 `;
 
@@ -51,6 +49,7 @@ export const StyledColumnContainer = styled.div<{ $gapSize?: number; $alignItems
     flex-direction: column;
     gap: ${({ $gapSize }) => ($gapSize !== undefined ? `${$gapSize}px` : "10px")};
     align-items: ${({ $alignItems }) => ($alignItems !== undefined ? $alignItems : "normal")};
+    height: fit-content;
 `;
 
 export const StyledTitle = styled.p`
@@ -66,7 +65,10 @@ export const StyledMenu = styled(Menu)`
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        max-height: calc(928px - 60px - 20px - 48px - 116px);
+        max-height: calc(
+            ${SIDEBAR_HEIGHT_WITHOUT_LOGO}px - ${SIDEBAR_TITLE_HEIGHT}px - ${SIDEBAR_GAP_SIZE}px -
+                ${CREATE_BOARD_BUTTON_HEIGHT}px - ${SWITCH_AND_HIDE_SIDEBAR_BUTTON_CONTAINER_HEIGHT}px
+        );
         overflow-y: auto;
     }
 
@@ -115,7 +117,7 @@ export const StyledCreateBoardButton = styled.button`
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    min-height: 48px;
+    min-height: ${CREATE_BOARD_BUTTON_HEIGHT}px;
     gap: 20px;
     margin-left: 25px;
     cursor: pointer;
@@ -197,8 +199,9 @@ export const StyledHideSidebarButton = styled.button`
 export const StyledShowSidebarButton = styled.button`
     all: unset;
     position: absolute;
+    z-index: 1;
     left: 0;
-    bottom: 20px;
+    bottom: 10px;
     display: flex;
     justify-content: center;
     align-items: center;

@@ -1,27 +1,26 @@
 import { nanoid } from "nanoid";
 import * as Yup from "yup";
 import { validationSchema as taskValidationSchema } from "../addNewOrEditTaskModal/addNewOrEditTaskModal.data";
-import { Board } from "../../../types";
 
-export const initialAddBoardValues: Board = {
-    id: nanoid(),
-    name: "",
-    columns: [
-        {
-            id: nanoid(),
-            name: "",
-            tasks: [],
-            availableStatus: [],
-            color: "#49C4E5",
-        },
-        {
-            id: nanoid(),
-            name: "",
-            tasks: [],
-            availableStatus: [],
-            color: "#8471F2",
-        },
-    ],
+export const getInitialAddBoardValues = () => {
+    return {
+        id: nanoid(),
+        name: "",
+        columns: [
+            {
+                id: nanoid(),
+                name: "",
+                tasks: [],
+                color: "#49C4E5",
+            },
+            {
+                id: nanoid(),
+                name: "",
+                tasks: [],
+                color: "#8471F2",
+            },
+        ],
+    };
 };
 
 export const columnSchema = Yup.object().shape({

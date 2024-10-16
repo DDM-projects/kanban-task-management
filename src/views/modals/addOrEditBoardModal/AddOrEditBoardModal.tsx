@@ -6,7 +6,12 @@ import Button from "../../../components/button/Button";
 import Label from "../../../components/label/Label";
 import _ from "lodash";
 import cross from "../../../assets/icon-cross.svg";
-import { initialAddBoardValues, MAX_COLUMNS, placeholderOptions, validationSchema } from "./addOrEditBoardModal.data";
+import {
+    getInitialAddBoardValues,
+    MAX_COLUMNS,
+    placeholderOptions,
+    validationSchema,
+} from "./addOrEditBoardModal.data";
 import { Board, Column } from "../../../types";
 import React from "react";
 import { nanoid } from "nanoid";
@@ -32,6 +37,7 @@ interface AddOrEditBoardModalProps {
     destroyOnClose?: boolean;
     onCancel: () => void;
     onSubmit: (values: Board) => void;
+    afterClose?: () => void;
 }
 
 const AddOrEditBoardModal = ({
@@ -42,7 +48,9 @@ const AddOrEditBoardModal = ({
     destroyOnClose = true,
     onCancel,
     onSubmit,
+    afterClose,
 }: AddOrEditBoardModalProps) => {
+    const initialAddBoardValues = getInitialAddBoardValues();
     const [columnsLength, setColumnsLength] = useState(
         initialValues?.columns.length || initialAddBoardValues.columns.length
     );
@@ -73,7 +81,6 @@ const AddOrEditBoardModal = ({
             id: nanoid(),
             name: "",
             tasks: [],
-            availableStatus: [],
             color: getRandomColor(),
         };
 
@@ -119,6 +126,7 @@ const AddOrEditBoardModal = ({
             onCancel={onCancel}
             destroyOnClose={destroyOnClose}
             $isScrollVisible={isScrollVisible}
+            afterClose={afterClose}
         >
             <Formik
                 initialValues={currentInitialValues}
