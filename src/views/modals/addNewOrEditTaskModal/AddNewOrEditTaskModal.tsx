@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { StyledModal, StyledContainerRow, StyledContainerColumn, StyledButton } from "../modals.style";
 import {
-    initialAddNewTaskValues,
-    statusOptions,
+    getInitialAddNewTaskValues,
     validationSchema,
     MAX_SUBTASKS,
     placeholderOptions,
@@ -16,6 +15,7 @@ import Select from "../../../components/select/Select";
 import { nanoid } from "nanoid";
 import _ from "lodash";
 import cross from "../../../assets/icon-cross.svg";
+import { SelectProps } from "../../../components/select/Select";
 
 interface AddNewOrEditTaskModalProps {
     open: boolean;
@@ -25,6 +25,9 @@ interface AddNewOrEditTaskModalProps {
     destroyOnClose?: boolean;
     onCancel: () => void;
     onSubmit: (values: Task) => void;
+    statusOptions: SelectProps["options"];
+    defaultStatus?: SelectProps["defaultValue"];
+    afterClose?: () => void;
 }
 
 const AddNewOrEditTaskModal = ({
@@ -35,7 +38,11 @@ const AddNewOrEditTaskModal = ({
     destroyOnClose = true,
     onCancel,
     onSubmit,
+    statusOptions,
+    defaultStatus,
+    afterClose,
 }: AddNewOrEditTaskModalProps) => {
+    const initialAddNewTaskValues = getInitialAddNewTaskValues(defaultStatus || "");
     const [currentInitialValues, setCurrentInitialValues] = useState<Task>(initialValues || initialAddNewTaskValues);
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
     const formikValuesRef = useRef<FormikProps<Task> | null>(null);
@@ -86,6 +93,7 @@ const AddNewOrEditTaskModal = ({
             footer={null}
             onCancel={onCancel}
             destroyOnClose={destroyOnClose}
+            afterClose={afterClose}
         >
             <Formik
                 initialValues={currentInitialValues}
@@ -154,7 +162,12 @@ const AddNewOrEditTaskModal = ({
                                         + Add New Subtask
                                     </Button>
                                 </StyledContainerColumn>
-                                <Select label="Status" defaultValue="Todo" options={statusOptions}></Select>
+                                <Select
+                                    name="status"
+                                    label="Status"
+                                    defaultValue={defaultStatus}
+                                    options={statusOptions}
+                                ></Select>
                                 <Button type="submit" category="primarySmall" disabled={isButtonDisabled}>
                                     {buttonTitle}
                                 </Button>

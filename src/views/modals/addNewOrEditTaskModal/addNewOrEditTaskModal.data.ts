@@ -1,6 +1,5 @@
 import * as Yup from "yup";
 import { nanoid } from "nanoid";
-import { Task } from "../../../types";
 
 export const subtaskSchema = Yup.object().shape({
     title: Yup.string()
@@ -22,43 +21,26 @@ export const validationSchema = Yup.object().shape({
     status: Yup.string().required("Status is required"),
 });
 
-export const initialAddNewTaskValues: Task = {
-    id: nanoid(),
-    title: "",
-    description: "",
-    subtasks: [
-        {
-            id: nanoid(),
-            title: "",
-            isCompleted: false,
-        },
-        {
-            id: nanoid(),
-            title: "",
-            isCompleted: false,
-        },
-    ],
-    status: "Todo",
+export const getInitialAddNewTaskValues = (defaultStatus: string) => {
+    return {
+        id: nanoid(),
+        title: "",
+        description: "",
+        subtasks: [
+            {
+                id: nanoid(),
+                title: "",
+                isCompleted: false,
+            },
+            {
+                id: nanoid(),
+                title: "",
+                isCompleted: false,
+            },
+        ],
+        status: defaultStatus,
+    };
 };
-
-export const statusOptions = [
-    {
-        value: "Todo",
-        label: "Todo",
-    },
-    {
-        value: "Doing",
-        label: "Doing",
-    },
-    {
-        value: "Done",
-        label: "Done",
-    },
-    {
-        value: "To check",
-        label: "To check",
-    },
-];
 
 export const placeholderOptions = [
     "e.g. Make coffee",

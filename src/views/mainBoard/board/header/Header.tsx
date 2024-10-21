@@ -27,18 +27,22 @@ import logoDark from "../../../../assets/logo-dark.svg";
 interface HeaderProps {
     board?: Board;
     onDelete?: () => void;
-    onEditSubmit?: (board: Board) => void;
-    onAddTaskSubmit?: (task: Task) => void;
+    updateBoard: (board: Board) => void;
 }
 
-const Header = ({ board, onDelete, onEditSubmit, onAddTaskSubmit }: HeaderProps) => {
+const Header = ({ board, onDelete, updateBoard }: HeaderProps) => {
     const [isAddTaskButtonDisabled, setIsAddTaskButtonDisabled] = useState(!board?.columns?.length);
     const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
+    const [isAddTaskModalVisible, setIsAddTaskModalVisible] = useState(isAddTaskModalOpen);
     const [isMenuButtonDisabled, setIsMenuButtonDisabled] = useState(!board);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [isEditBoardModalOpen, setIsEditBoardModalOpen] = useState(false);
+    const [isEditBoardModalVisible, setIsEditBoardModalVisible] = useState(isEditBoardModalOpen);
     const headerTitle = board ? board.name : defaultHeaderTitle;
     const deleteModalText = getDeleteModalText(board?.name || "");
+    const statusOptions = board?.columns?.map((column) => column.name) || [];
+    const transformedStatusOptions = statusOptions.map((option) => ({ value: option, label: option }));
+    const defaultStatus = statusOptions[0];
 
     useEffect(() => {
         if (!board) {
@@ -59,17 +63,43 @@ const Header = ({ board, onDelete, onEditSubmit, onAddTaskSubmit }: HeaderProps)
 
     const handleAddTaskButtonClick = () => {
         setIsAddTaskModalOpen(true);
+        setIsAddTaskModalVisible(true);
     };
 
     const handleAddTaskModalCancel = () => {
         setIsAddTaskModalOpen(false);
     };
 
-    const handleAddTaskSubmit = (task: Task) => {
-        onAddTaskSubmit?.(task);
-        handleAddTaskModalCancel();
+    const handleAddTaskModalAfterClose = () => {
+        setIsAddTaskModalVisible(false);
     };
 
+    const handleAddTask = (newTask: Task) => {
+        if (!board) {
+            return;
+        }
+
+        const updatedColumns =
+            board.columns.map((column) => {
+                if (column.name === newTask.status) {
+                    return {
+                        ...column,
+                        tasks: [...column.tasks, newTask],
+                    };
+                } else {
+                    return column;
+                }
+            });
+
+        const updatedBoard = { ...board, columns: updatedColumns };
+        updateBoard(updatedBoard);
+    };
+
+    const handleAddTaskSubmit = (task: Task) => {
+        handleAddTask(task);
+        handleAddTaskModalCancel();
+    };
+  
     const handleDeleteOptionClick = () => {
         setIsDeleteModalOpen(true);
     };
@@ -85,6 +115,7 @@ const Header = ({ board, onDelete, onEditSubmit, onAddTaskSubmit }: HeaderProps)
 
     const handleEditOptionClick = () => {
         setIsEditBoardModalOpen(true);
+        setIsEditBoardModalVisible(true);
     };
 
     const handleEditModalCancel = () => {
@@ -92,8 +123,12 @@ const Header = ({ board, onDelete, onEditSubmit, onAddTaskSubmit }: HeaderProps)
     };
 
     const handleEditModalSubmit = (board: Board) => {
-        onEditSubmit?.(board);
+        updateBoard(board);
         handleEditModalCancel();
+    };
+
+    const handleEditModalAfterClose = () => {
+        setIsEditBoardModalVisible(false);
     };
 
     const items: MenuProps["items"] = [
@@ -150,19 +185,27 @@ const Header = ({ board, onDelete, onEditSubmit, onAddTaskSubmit }: HeaderProps)
                 title={deleteModalTitle}
                 text={deleteModalText}
             />
-            <AddOrEditBoardModal
-                open={isEditBoardModalOpen}
-                type="edit"
-                onCancel={handleEditModalCancel}
-                onSubmit={handleEditModalSubmit}
-                initialValues={board}
-            />
-            <AddNewOrEditTaskModal
-                open={isAddTaskModalOpen}
-                type="add"
-                onCancel={handleAddTaskModalCancel}
-                onSubmit={handleAddTaskSubmit}
-            />
+            {isEditBoardModalVisible && (
+                <AddOrEditBoardModal
+                    open={isEditBoardModalOpen}
+                    type="edit"
+                    onCancel={handleEditModalCancel}
+                    onSubmit={handleEditModalSubmit}
+                    initialValues={board}
+                    afterClose={handleEditModalAfterClose}
+                />
+            )}
+            {isAddTaskModalVisible && (
+                <AddNewOrEditTaskModal
+                    open={isAddTaskModalOpen}
+                    type="add"
+                    onCancel={handleAddTaskModalCancel}
+                    onSubmit={handleAddTaskSubmit}
+                    statusOptions={transformedStatusOptions}
+                    defaultStatus={defaultStatus}
+                    afterClose={handleAddTaskModalAfterClose}
+                />
+            )}
         </>
     );
 };

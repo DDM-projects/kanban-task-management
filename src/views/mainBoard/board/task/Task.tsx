@@ -97,6 +97,7 @@ const Task = ({ task, statusOptions }: TaskProps) => {
                 type="edit"
                 initialValues={task}
                 onSubmit={handleEditTask}
+                statusOptions={transformedStatusOptions}
             />
         </>
     );

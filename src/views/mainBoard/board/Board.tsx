@@ -19,8 +19,8 @@ interface BoardProps {
 
 const Board = ({ board, onSubmit, changeColumnColor }: BoardProps) => {
     const [isEditBoardModalOpen, setIsEditBoardModalOpen] = useState(false);
-    const statusOptions = board.columns?.map((column) => column.name || "") || [];
-    const checkIfColumnExists = !!board.columns?.length;
+    const statusOptions = board?.columns?.map((column) => column.name) || [];
+    const checkIfColumnExists = !!board?.columns?.length;
 
     const handleEditBoardModalOpen = () => {
         setIsEditBoardModalOpen(true);
@@ -43,7 +43,7 @@ const Board = ({ board, onSubmit, changeColumnColor }: BoardProps) => {
 
     return (
         <StyledMainContainer $isAddColumnButtonVisible={!checkIfColumnExists}>
-            {board.columns?.map((column) => (
+            {board?.columns?.map((column) => (
                 <Column
                     key={column.id}
                     column={column}

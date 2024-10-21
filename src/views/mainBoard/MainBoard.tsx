@@ -8,14 +8,14 @@ import { Board as BoardType } from "../../types";
 const MainBoard = () => {
     const [boards, setBoards] = useState<BoardType[]>([]);
     const [isSidebarVisible, setIsSidebarVisible] = useState(true);
-    const [selectedBoardId, setSelectedBoardId] = useState<string>(boards[0].id || "");
+    const [selectedBoardId, setSelectedBoardId] = useState<string>(boards[0]?.id || "");
     const selectedBoard = boards?.find((board) => board.id === selectedBoardId) || boards[0];
 
     const handleMenuItemSelect = (id: string) => {
         setSelectedBoardId(id);
     };
 
-    const handleAddBoardSubmit = (board: BoardType) => {
+    const handleAddBoard = (board: BoardType) => {
         setBoards([...boards, board]);
         setSelectedBoardId(board.id);
     };
@@ -24,8 +24,15 @@ const MainBoard = () => {
         setIsSidebarVisible(isVisible);
     };
 
-    const handleEditBoardSubmit = (values: BoardType) => {
-        //TODO: create function
+    const handleDeleteBoard = () => {
+        const updatedBoards = boards.filter((board) => board.id !== selectedBoardId);
+        setBoards(updatedBoards);
+        setSelectedBoardId(updatedBoards[0]?.id || "");
+    };
+
+    const handleEditBoard = (updatedBoard: BoardType) => {
+        const updatedBoards = boards.map((board) => (board.id === updatedBoard.id ? updatedBoard : board));
+        setBoards(updatedBoards);
     };
 
     const handleChangeColumnColor = (id: string, color: string) => {
@@ -34,18 +41,18 @@ const MainBoard = () => {
 
     return (
         <StyledMainContainer>
-            <Header />
+            <Header board={selectedBoard} onDelete={handleDeleteBoard} updateBoard={handleEditBoard} />
             <StyledRowContainer>
                 <Sidebar
                     setSidebarVisibility={handleSidebarVisibility}
                     boards={boards}
                     onMenuItemSelect={handleMenuItemSelect}
                     selectedKeys={[selectedBoardId]}
-                    onAddBoardSubmit={handleAddBoardSubmit}
+                    onAddBoardSubmit={handleAddBoard}
                 />
                 <StyledBoardContainer $isSidebarVisible={isSidebarVisible}>
                     <Board
-                        onSubmit={handleEditBoardSubmit}
+                        onSubmit={handleEditBoard}
                         board={selectedBoard}
                         changeColumnColor={handleChangeColumnColor}
                     />
