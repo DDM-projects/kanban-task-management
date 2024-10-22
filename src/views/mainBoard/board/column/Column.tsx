@@ -13,14 +13,15 @@ import { Color } from "antd/es/color-picker";
 interface ColumnProps {
     column: ColumnType;
     statusOptions: string[];
-    changeColumnColor: (color: string) => void;
+    updateColumn: (column: ColumnType) => void;
 }
 
-const Column = ({ column, statusOptions, changeColumnColor }: ColumnProps) => {
+const Column = ({ column, statusOptions, updateColumn }: ColumnProps) => {
     const numberOfTasks = column.tasks?.length;
 
     const handleColumnColorChange = (color: Color) => {
-        changeColumnColor(color.toHexString());
+        const updatedColumn = { ...column, color: color.toHexString() };
+        updateColumn(updatedColumn);
     };
 
     //TODO: handle dark mode

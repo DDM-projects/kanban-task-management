@@ -111,6 +111,7 @@ const ViewTaskModal = ({
                 })}
                 <Select
                     label="Current status"
+                    name="status"
                     value={task.status}
                     options={statusOptions}
                     onChange={(value: string) => onChangeSelect(task.id, value)}

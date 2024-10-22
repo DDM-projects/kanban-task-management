@@ -35,10 +35,6 @@ const MainBoard = () => {
         setBoards(updatedBoards);
     };
 
-    const handleChangeColumnColor = (id: string, color: string) => {
-        //TODO: create function
-    };
-
     return (
         <StyledMainContainer>
             <Header board={selectedBoard} onDelete={handleDeleteBoard} updateBoard={handleEditBoard} />
@@ -51,11 +47,7 @@ const MainBoard = () => {
                     onAddBoardSubmit={handleAddBoard}
                 />
                 <StyledBoardContainer $isSidebarVisible={isSidebarVisible}>
-                    <Board
-                        onSubmit={handleEditBoard}
-                        board={selectedBoard}
-                        changeColumnColor={handleChangeColumnColor}
-                    />
+                    <Board updateBoard={handleEditBoard} board={selectedBoard} />
                 </StyledBoardContainer>
             </StyledRowContainer>
         </StyledMainContainer>
