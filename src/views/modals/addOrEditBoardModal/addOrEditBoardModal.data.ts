@@ -27,19 +27,23 @@ export const getInitialAddBoardValues = () => {
 export const getColumnSchema = () => {
     return Yup.object().shape({
         name: Yup.string()
+            .test(
+                "No-leading-and-trailing-spaces",
+                "Title cannot containt leading and trailing spaces",
+                (value) => value === value?.trim()
+            )
             .min(2, "Column name must contain at least 2 characters")
             .max(30, "Column name is too long")
-            .test(
-                "column-name-exists",
-                "Column name already exists",
-                function (value) {
-                    const columns = this.options.context?.columns as Column[];
-                    const options = this.options as any;
-                    const index = options.index  as number;
-                    const filteredColumns = columns.filter((column, i) => i !== index);
-                    return !filteredColumns.some((column) => column.name?.toLowerCase().replace(/\s+/g, '') === value?.toLowerCase().replace(/\s+/g, ''));
-                }
-            )
+            .test("column-name-exists", "Column name already exists", function (value) {
+                const columns = this.options.context?.columns as Column[];
+                const options = this.options as any;
+                const index = options.index as number;
+                const filteredColumns = columns.filter((column, i) => i !== index);
+                return !filteredColumns.some(
+                    (column) =>
+                        column.name?.toLowerCase().replace(/\s+/g, "") === value?.toLowerCase().replace(/\s+/g, "")
+                );
+            })
             .required("Column name is required"),
         tasks: Yup.array().of(taskValidationSchema),
     });
@@ -47,6 +51,11 @@ export const getColumnSchema = () => {
 
 export const validationSchema = Yup.object().shape({
     name: Yup.string()
+        .test(
+            "No-leading-and-trailing-spaces",
+            "Name cannot containt leading and trailing spaces",
+            (value) => value === value?.trim()
+        )
         .min(2, "Name must contain at least 2 characters")
         .max(40, "Name is too long")
         .required("Name is required"),

@@ -1,8 +1,15 @@
 import * as Yup from "yup";
 import { nanoid } from "nanoid";
 
+const spaceTest = {
+    title: "No-leading-trailing-spaces",
+    message: "Cannot contain leading and trailing spaces",
+    function: (value: string | undefined) => value === value?.trim(),
+};
+
 export const subtaskSchema = Yup.object().shape({
     title: Yup.string()
+        .test(spaceTest.title, spaceTest.message, spaceTest.function)
         .min(2, "Title must contain at least 2 characters")
         .max(60, "Title is too long")
         .required("Title is required"),
@@ -11,10 +18,12 @@ export const subtaskSchema = Yup.object().shape({
 
 export const validationSchema = Yup.object().shape({
     title: Yup.string()
+        .test(spaceTest.title, spaceTest.message, spaceTest.function)
         .min(2, "Title must contain at least 2 characters")
         .max(60, "Title is too long")
         .required("Title is required"),
     description: Yup.string()
+        .test(spaceTest.title, spaceTest.message, spaceTest.function)
         .min(2, "Description must contain at least 2 characters")
         .max(140, "Description is too long"),
     subtasks: Yup.array().of(subtaskSchema),
