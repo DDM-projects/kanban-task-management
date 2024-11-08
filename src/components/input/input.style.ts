@@ -23,8 +23,9 @@ export const mainInputStyle = css`
     }
 `;
 
-export const StyledTextInput = styled(Input)`
+export const StyledTextInput = styled(Input)<{$isError?: boolean}>`
     ${mainInputStyle};
+    border-color: ${({ $isError }) => ($isError ? themeColors.red : themeColors.greyInputBorder)};
 `;
 
 export const StyledTextAreaInput = styled(Input.TextArea)`
@@ -45,15 +46,12 @@ export const StyledTextInputContainer = styled.div`
     width: fit-content;
 `;
 
-export const StyledTextInputError = styled(StyledTextInput)`
-    border-color: ${themeColors.red};
-`;
-
 export const StyledTextInputErrorContainer = styled(StyledTextInputContainer)`
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     right: 20px;
+    pointer-events: none;
 `;
 
 export const StyledTextInputErrorMessage = styled.p`

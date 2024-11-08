@@ -24,7 +24,7 @@ interface AddNewOrEditTaskModalProps {
     initialValues?: Task;
     destroyOnClose?: boolean;
     onCancel: () => void;
-    onSubmit: (values: Task) => void;
+    onSubmit: (values: Task, previousStatus: string) => void;
     statusOptions: SelectProps["options"];
     defaultStatus?: SelectProps["defaultValue"];
     afterClose?: () => void;
@@ -74,8 +74,9 @@ const AddNewOrEditTaskModal = ({
     };
 
     const handleSubmit = (values: Task) => {
+        const previousStatus = currentInitialValues.status;
         setCurrentInitialValues(values);
-        onSubmit(values);
+        onSubmit(values, previousStatus);
     };
 
     const modalTitle = type === "add" ? "Add New Task" : "Edit Task";

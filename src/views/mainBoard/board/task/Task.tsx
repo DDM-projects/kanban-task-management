@@ -1,22 +1,23 @@
 import { useState } from "react";
 import { StyledTask, StyledTitle, StyledSubtaskStatus } from "./task.style";
-import { deleteModalTitle, getDeleteModalText } from "./task.data";
 import { Task as TaskType } from "../../../../types";
 import { countCompletedSubtasks } from "../../../utils/viewsUtils";
 import ViewTaskModal from "../../../modals/viewTaskModal/ViewTaskModal";
-import DeleteModal from "../../../modals/deleteBoardOrTaskModal/DeleteModal";
 import AddNewOrEditTaskModal from "../../../modals/addNewOrEditTaskModal/AddNewOrEditTaskModal";
 
 interface TaskProps {
     task: TaskType;
     statusOptions: string[];
+    deleteModalOpen: (task: TaskType) => void;
+    editTask: (updatedTask: TaskType, previousStatus?: string) => void;
+    changeTaskStatus: (updatedTask: TaskType) => void;
 }
 
-const Task = ({ task, statusOptions }: TaskProps) => {
+const Task = ({ task, statusOptions, deleteModalOpen, editTask, changeTaskStatus }: TaskProps) => {
     const [isViewTaskModalOpen, setIsViewTaskModalOpen] = useState(false);
-    const [isDeleteModalopen, setIsDeleteModalOpen] = useState(false);
     const [isEditTaskModalOpen, setIsEditTaskModalOpen] = useState(false);
-    const deleteModalText = getDeleteModalText(task.title);
+    const [updatedTask, setUpdatedTask] = useState<TaskType | null>(null);
+    const [isEditTaskModalVisible, setIsEditTaskModalVisible] = useState(isEditTaskModalOpen);
     const transformedStatusOptions = statusOptions.map((option) => ({ value: option, label: option }));
 
     const handleViewTaskModalOpen = () => {
@@ -24,41 +25,47 @@ const Task = ({ task, statusOptions }: TaskProps) => {
     };
 
     const handleViewTaskModalCancel = () => {
+        if (updatedTask && updatedTask !== null) {
+            changeTaskStatus(updatedTask);
+        }
         setIsViewTaskModalOpen(false);
     };
 
     const handleDeleteModalOpen = () => {
-        setIsDeleteModalOpen(true);
         setIsViewTaskModalOpen(false);
-    };
-
-    const handleDeleteModalCancel = () => {
-        setIsDeleteModalOpen(false);
+        deleteModalOpen(task);
     };
 
     const handleEditTaskModalOpen = () => {
         setIsEditTaskModalOpen(true);
         setIsViewTaskModalOpen(false);
+        setIsEditTaskModalVisible(true);
     };
 
     const handleEditTaskModalCancel = () => {
         setIsEditTaskModalOpen(false);
     };
 
+    const handleEditTakModalAfterClose = () => {
+        setIsEditTaskModalVisible(false);
+    };
+
     const handleChangeCheckbox = (id: string, isCompleted: boolean) => {
-        //TODO: create function
+        const updatedSubtasks = task.subtasks.map((subtask) =>
+            subtask.id === id ? { ...subtask, isCompleted: isCompleted } : subtask
+        );
+        const updatedTask = { ...task, subtasks: updatedSubtasks };
+        editTask(updatedTask);
     };
 
-    const handleChangeSelect = (id: string, status: string) => {
-        //TODO: create function
+    const handleChangeSelect = (status: string) => {
+        const updatedTask = { ...task, status: status };
+        setUpdatedTask(updatedTask);
     };
 
-    const handleDeleteTask = () => {
-        //TODO: create function
-    };
-
-    const handleEditTask = (values: TaskType) => {
-        //TODO: create function
+    const handleEditTask = (updatedTask: TaskType, previousStatus?: string) => {
+        editTask(updatedTask, previousStatus);
+        handleEditTaskModalCancel();
     };
 
     //TODO: handle dark mode
@@ -83,22 +90,17 @@ const Task = ({ task, statusOptions }: TaskProps) => {
                 onChangeSelect={handleChangeSelect}
             />
 
-            <DeleteModal
-                open={isDeleteModalopen}
-                onCancel={handleDeleteModalCancel}
-                onDelete={handleDeleteTask}
-                title={deleteModalTitle}
-                text={deleteModalText}
-            />
-
-            <AddNewOrEditTaskModal
-                open={isEditTaskModalOpen}
-                onCancel={handleEditTaskModalCancel}
-                type="edit"
-                initialValues={task}
-                onSubmit={handleEditTask}
-                statusOptions={transformedStatusOptions}
-            />
+            {isEditTaskModalVisible && (
+                <AddNewOrEditTaskModal
+                    open={isEditTaskModalOpen}
+                    onCancel={handleEditTaskModalCancel}
+                    type="edit"
+                    initialValues={task}
+                    onSubmit={handleEditTask}
+                    statusOptions={transformedStatusOptions}
+                    afterClose={handleEditTakModalAfterClose}
+                />
+            )}
         </>
     );
 };

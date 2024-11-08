@@ -7,7 +7,7 @@ import {
     StyledText,
 } from "./board.style";
 import Column from "./column/Column";
-import { Board as BoardType, Column as ColumnType } from "../../../types";
+import { Board as BoardType, Column as ColumnType, Task } from "../../../types";
 import AddOrEditBoardModal from "../../modals/addOrEditBoardModal/AddOrEditBoardModal";
 import { useState } from "react";
 
@@ -44,6 +44,27 @@ const Board = ({ board, updateBoard }: BoardProps) => {
     const handleEditColumn = (updatedColumn: ColumnType) => {
         const updatedColumns = board.columns.map((column) => (column.id === updatedColumn.id ? updatedColumn : column));
         updateBoard({ ...board, columns: updatedColumns });
+    };
+
+    const handleUpdateColumnAfterTaskStatusChange = (updatedTask: Task, columnId: string) => {
+        const updatedColumns = board.columns.map((column) => {
+            if (column.name === updatedTask.status) {
+                return {
+                    ...column,
+                    tasks: [...column.tasks, updatedTask],
+                };
+            }
+
+            if (column.id === columnId) {
+                const updatedTasks = column.tasks.filter((task) => task.id !== updatedTask.id);
+                return { ...column, tasks: updatedTasks };
+            } else {
+                return column;
+            }
+        });
+
+        const updatedBoard = { ...board, columns: updatedColumns };
+        updateBoard(updatedBoard);
     };
 
     const getEmptyBoardView = () => {
@@ -84,7 +105,13 @@ const Board = ({ board, updateBoard }: BoardProps) => {
     return (
         <StyledMainContainer $isAddColumnButtonVisible={!checkIfColumnExists}>
             {board?.columns?.map((column) => (
-                <Column key={column.id} column={column} statusOptions={statusOptions} updateColumn={handleEditColumn} />
+                <Column
+                    key={column.id}
+                    column={column}
+                    statusOptions={statusOptions}
+                    updateColumn={handleEditColumn}
+                    updateColumnsAfterTaskStatusChange={handleUpdateColumnAfterTaskStatusChange}
+                />
             ))}
             {emptyBoardView}
             {boardWithColumnsView}

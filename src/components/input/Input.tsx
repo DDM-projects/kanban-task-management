@@ -1,7 +1,6 @@
 import { FormikContext } from "formik";
 import {
     StyledTextInput,
-    StyledTextInputError,
     StyledTextInputContainer,
     StyledTextInputErrorMessage,
     StyledTextInputErrorContainer,
@@ -56,19 +55,10 @@ const Input = ({ type, id, name, placeholder, value, label, width = 416, onChang
                     />
                 );
             case "text":
-                return !isError ? (
-                    <StyledTextInput
-                        style={{ width }}
-                        type={type}
-                        id={id}
-                        name={name}
-                        placeholder={placeholder}
-                        value={inputValue}
-                        onChange={handleChange}
-                    />
-                ) : (
+                return (
                     <StyledTextInputContainer>
-                        <StyledTextInputError
+                        <StyledTextInput
+                            $isError={isError}
                             style={{ width }}
                             type={type}
                             id={id}
@@ -77,9 +67,11 @@ const Input = ({ type, id, name, placeholder, value, label, width = 416, onChang
                             value={inputValue}
                             onChange={handleChange}
                         />
-                        <StyledTextInputErrorContainer>
-                            <StyledTextInputErrorMessage>{inputError}</StyledTextInputErrorMessage>
-                        </StyledTextInputErrorContainer>
+                        {isError && (
+                            <StyledTextInputErrorContainer>
+                                <StyledTextInputErrorMessage>{inputError}</StyledTextInputErrorMessage>
+                            </StyledTextInputErrorContainer>
+                        )}
                     </StyledTextInputContainer>
                 );
             default:

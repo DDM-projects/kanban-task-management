@@ -23,7 +23,7 @@ interface ViewTaskModalProps {
     onCancel: () => void;
     onDelete: () => void;
     onEdit: () => void;
-    onChangeSelect: (id: string, status: string) => void;
+    onChangeSelect: (status: string) => void;
     onChangeCheckbox: (id: string, isCompleted: boolean) => void;
     task: Task;
     statusOptions: SelectProps["options"];
@@ -114,7 +114,7 @@ const ViewTaskModal = ({
                     name="status"
                     value={task.status}
                     options={statusOptions}
-                    onChange={(value: string) => onChangeSelect(task.id, value)}
+                    onChange={(value: string) => onChangeSelect(value)}
                 />
             </StyledContainerColumn>
         </StyledModal>
