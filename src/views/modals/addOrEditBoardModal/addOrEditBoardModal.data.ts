@@ -1,7 +1,22 @@
 import { nanoid } from "nanoid";
 import * as Yup from "yup";
-import { validationSchema as taskValidationSchema } from "../addNewOrEditTaskModal/addNewOrEditTaskModal.data";
+import {
+    validationSchema as taskValidationSchema,
+    spaceTest,
+} from "../addNewOrEditTaskModal/addNewOrEditTaskModal.data";
 import { Column } from "../../../types";
+
+export const getRandomColor = () => {
+    const getRandomValue = () => Math.floor(Math.random() * 166) + 50;
+
+    const r = getRandomValue();
+    const g = getRandomValue();
+    const b = getRandomValue();
+
+    const toHex = (value: number) => value.toString(16);
+
+    return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+};
 
 export const getInitialAddBoardValues = () => {
     return {
@@ -27,11 +42,7 @@ export const getInitialAddBoardValues = () => {
 export const getColumnSchema = () => {
     return Yup.object().shape({
         name: Yup.string()
-            .test(
-                "No-leading-and-trailing-spaces",
-                "Title cannot containt leading and trailing spaces",
-                (value) => value === value?.trim()
-            )
+            .test(spaceTest.title, spaceTest.message, spaceTest.function)
             .min(2, "Column name must contain at least 2 characters")
             .max(30, "Column name is too long")
             .test("column-name-exists", "Column name already exists", function (value) {
@@ -51,11 +62,7 @@ export const getColumnSchema = () => {
 
 export const validationSchema = Yup.object().shape({
     name: Yup.string()
-        .test(
-            "No-leading-and-trailing-spaces",
-            "Name cannot containt leading and trailing spaces",
-            (value) => value === value?.trim()
-        )
+        .test(spaceTest.title, spaceTest.message, spaceTest.function)
         .min(2, "Name must contain at least 2 characters")
         .max(40, "Name is too long")
         .required("Name is required"),

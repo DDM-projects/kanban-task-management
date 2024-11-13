@@ -7,6 +7,7 @@ import Label from "../../../components/label/Label";
 import _ from "lodash";
 import cross from "../../../assets/icon-cross.svg";
 import {
+    getRandomColor,
     getInitialAddBoardValues,
     MAX_COLUMNS,
     placeholderOptions,
@@ -16,18 +17,6 @@ import { Board, Column } from "../../../types";
 import React from "react";
 import { nanoid } from "nanoid";
 import { ColorPicker } from "antd";
-
-const getRandomColor = () => {
-    const getRandomValue = () => Math.floor(Math.random() * 166) + 50;
-
-    const r = getRandomValue();
-    const g = getRandomValue();
-    const b = getRandomValue();
-
-    const toHex = (value: number) => value.toString(16);
-
-    return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
-};
 
 interface AddOrEditBoardModalProps {
     open: boolean;

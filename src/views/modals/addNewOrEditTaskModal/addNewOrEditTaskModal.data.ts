@@ -1,7 +1,7 @@
 import * as Yup from "yup";
 import { nanoid } from "nanoid";
 
-const spaceTest = {
+export const spaceTest = {
     title: "No-leading-trailing-spaces",
     message: "Cannot contain leading and trailing spaces",
     function: (value: string | undefined) => value === value?.trim(),
