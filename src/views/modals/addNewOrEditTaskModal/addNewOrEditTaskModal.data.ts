@@ -20,7 +20,7 @@ export const validationSchema = Yup.object().shape({
     title: Yup.string()
         .test(spaceTest.title, spaceTest.message, spaceTest.function)
         .min(2, "Title must contain at least 2 characters")
-        .max(60, "Title is too long")
+        .max(80, "Title is too long")
         .required("Title is required"),
     description: Yup.string()
         .test(spaceTest.title, spaceTest.message, spaceTest.function)

@@ -45,7 +45,7 @@ export const getColumnSchema = () => {
         name: Yup.string()
             .test(spaceTest.title, spaceTest.message, spaceTest.function)
             .min(2, "Column name must contain at least 2 characters")
-            .max(30, "Column name is too long")
+            .max(50, "Column name is too long")
             .test("column-name-exists", "Column name already exists", function (value) {
                 const columns = this.options.context?.columns as Column[];
                 const options = this.options as any;
@@ -66,7 +66,7 @@ export const getValidationSchema = (type: string) => {
         name: Yup.string()
             .test(spaceTest.title, spaceTest.message, spaceTest.function)
             .min(2, "Name must contain at least 2 characters")
-            .max(40, "Name is too long")
+            .max(50, "Name is too long")
             .test("board-name-exists", "Board name already exists", function (value) {
                 const dataState = store.getState();
                 const boardsState = dataState.boards.boards;

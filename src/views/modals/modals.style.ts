@@ -53,12 +53,14 @@ export const StyledContainerRow = styled.div`
     width: 416px;
     justify-content: space-between;
     align-items: center;
+    overflow-wrap: anywhere;
 `;
 
-export const StyledButton = styled.button<{ $width?: number; $height?: number }>`
+export const StyledButton = styled.button<{ $width?: number; $height?: number; $paddingLeft?: number }>`
     all: unset;
     width: ${({ $width }) => ($width !== undefined ? `${$width}px` : "15px")};
     height: ${({ $height }) => ($height !== undefined ? `${$height}px` : "15px")};
+    padding-left: ${({ $paddingLeft }) => ($paddingLeft !== undefined ? `${$paddingLeft}px` : "0px")};
 
     &:hover .modal-img {
         filter: brightness(0) saturate(100%);

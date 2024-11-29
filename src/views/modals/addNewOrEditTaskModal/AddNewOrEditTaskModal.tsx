@@ -155,7 +155,6 @@ const AddNewOrEditTaskModal = ({
                                     id="description"
                                     label="Description"
                                 />
-                                <ErrorMessage name="description" component="div" className="formik-error" />
                                 <StyledContainerColumn $gapSize={10}>
                                     <Label marginBottom={0} label={`Subtasks (max ${MAX_SUBTASKS})`} />
                                     {values.subtasks.map((subtask, index) => {

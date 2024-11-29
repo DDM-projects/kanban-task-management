@@ -23,7 +23,7 @@ export const mainInputStyle = css`
     }
 `;
 
-export const StyledTextInput = styled(Input)<{$isError?: boolean}>`
+export const StyledTextInput = styled(Input)<{ $isError?: boolean }>`
     ${mainInputStyle};
     border-color: ${({ $isError }) => ($isError ? themeColors.red : themeColors.greyInputBorder)};
 `;
@@ -39,23 +39,4 @@ export const StyledTextAreaInput = styled(Input.TextArea)`
 
 export const StyledTextInputDarkMode = styled(StyledTextInput)`
     color: ${themeColors.white};
-`;
-
-export const StyledTextInputContainer = styled.div`
-    position: relative;
-    width: fit-content;
-`;
-
-export const StyledTextInputErrorContainer = styled(StyledTextInputContainer)`
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 20px;
-    pointer-events: none;
-`;
-
-export const StyledTextInputErrorMessage = styled.p`
-    ${fontBodyLargeStyle};
-
-    color: ${themeColors.red};
 `;

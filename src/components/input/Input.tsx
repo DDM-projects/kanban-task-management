@@ -1,11 +1,5 @@
-import { FormikContext } from "formik";
-import {
-    StyledTextInput,
-    StyledTextInputContainer,
-    StyledTextInputErrorMessage,
-    StyledTextInputErrorContainer,
-    StyledTextAreaInput,
-} from "./input.style";
+import { ErrorMessage, FormikContext } from "formik";
+import { StyledTextInput, StyledTextAreaInput } from "./input.style";
 import { useContext, useEffect, useState } from "react";
 import Label from "../label/Label";
 import { getValueFromPath } from "../../utils/utils";
@@ -45,18 +39,21 @@ const Input = ({ type, id, name, placeholder, value, label, width = 416, onChang
         switch (type) {
             case "textarea":
                 return (
-                    <StyledTextAreaInput
-                        style={{ width }}
-                        id={id}
-                        name={name}
-                        placeholder={placeholder}
-                        value={inputValue}
-                        onChange={handleChange}
-                    />
+                    <>
+                        <StyledTextAreaInput
+                            style={{ width }}
+                            id={id}
+                            name={name}
+                            placeholder={placeholder}
+                            value={inputValue}
+                            onChange={handleChange}
+                        />
+                        {isError && <ErrorMessage name={name} component="div" className="formik-error" />}
+                    </>
                 );
             case "text":
                 return (
-                    <StyledTextInputContainer>
+                    <>
                         <StyledTextInput
                             $isError={isError}
                             style={{ width }}
@@ -67,12 +64,8 @@ const Input = ({ type, id, name, placeholder, value, label, width = 416, onChang
                             value={inputValue}
                             onChange={handleChange}
                         />
-                        {isError && (
-                            <StyledTextInputErrorContainer>
-                                <StyledTextInputErrorMessage>{inputError}</StyledTextInputErrorMessage>
-                            </StyledTextInputErrorContainer>
-                        )}
-                    </StyledTextInputContainer>
+                        {isError && <ErrorMessage name={name} component="div" className="formik-error" />}
+                    </>
                 );
             default:
                 return StyledTextInput;

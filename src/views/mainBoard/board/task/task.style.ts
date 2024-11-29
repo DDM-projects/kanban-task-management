@@ -6,6 +6,7 @@ export const StyledTitle = styled.p`
     ${fontHeadingMediumStyle};
 
     margin: 0;
+    overflow-wrap: anywhere;
 `;
 
 export const StyledTask = styled.div`
@@ -21,7 +22,7 @@ export const StyledTask = styled.div`
     border-radius: 8px;
     background-color: ${themeColors.white};
     /*copied from figma*/
-    box-shadow: 0px 4px 6px rgba(54, 78, 126, 0.101545); 
+    box-shadow: 0px 4px 6px rgba(54, 78, 126, 0.101545);
     cursor: pointer;
 
     &:hover {
