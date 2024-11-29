@@ -47,7 +47,22 @@ const AddNewOrEditTaskModal = ({
     const initialAddNewTaskValues = getInitialAddNewTaskValues(defaultStatus || "");
     const [currentInitialValues, setCurrentInitialValues] = useState<Task>(initialValues || initialAddNewTaskValues);
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+    const [subtasksLength, setSubtasksLength] = useState(
+        initialValues?.subtasks.length || initialAddNewTaskValues.subtasks.length
+    );
+    const [isScrollVisible, setIsScrollVisible] = useState(false);
     const formikValuesRef = useRef<FormikProps<Task> | null>(null);
+
+    const checkIfScrollAppeared = () => {
+        const modalBody = document.querySelector(".ant-modal-body");
+        const modalScroll = modalBody ? modalBody.scrollHeight > modalBody.clientHeight : false;
+
+        if (modalScroll) {
+            setIsScrollVisible(true);
+        } else {
+            setIsScrollVisible(false);
+        }
+    };
 
     const addNewSubtask = () => {
         const subtasksLength = formikValuesRef.current?.values?.subtasks?.length;
@@ -66,6 +81,8 @@ const AddNewOrEditTaskModal = ({
             ...formikValuesRef.current?.values,
             subtasks: [...formikValuesRef.current?.values.subtasks, newSubtask],
         });
+
+        setSubtasksLength((prev) => prev + 1);
     };
 
     const updateSubtasksAfterDelete = (id: string) => {
@@ -73,12 +90,18 @@ const AddNewOrEditTaskModal = ({
             ...formikValuesRef.current?.values,
             subtasks: formikValuesRef.current?.values.subtasks.filter((subtask) => subtask.id !== id),
         });
+
+        setSubtasksLength((prev) => prev - 1);
     };
 
     const handleSubmit = (values: Task) => {
         setCurrentInitialValues(values);
         onSubmit(values);
     };
+
+    useEffect(() => {
+        checkIfScrollAppeared();
+    }, [subtasksLength]);
 
     const modalTitle = type === "add" ? "Add New Task" : "Edit Task";
     const buttonTitle = type === "add" ? "Create Task" : "Save Changes";
@@ -96,6 +119,7 @@ const AddNewOrEditTaskModal = ({
             onCancel={onCancel}
             destroyOnClose={destroyOnClose}
             afterClose={afterClose}
+            $isScrollVisible={isScrollVisible}
         >
             <Formik
                 initialValues={currentInitialValues}
