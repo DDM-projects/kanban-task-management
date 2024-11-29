@@ -2,6 +2,9 @@ import styled, { css } from "styled-components";
 import { themeColors } from "../../../theme";
 import Button from "../../../components/button/Button";
 import { fontHeadingLargeStyle, fontHeadingMediumStyle, fontHeadingXlStyle } from "../../../theme.style";
+import { COLUMN_MAIN_CONTAINER_GAP } from "./column/column.data";
+
+export const COLUMN_TITLE_HEIGHT = 39;
 
 export const StyledMainContainer = styled.div<{ $isAddColumnButtonVisible: boolean }>`
     display: flex;
@@ -26,7 +29,8 @@ export const StyledNewColumnContainer = styled.div`
     align-items: center;
     justify-content: center;
     min-width: 280px;
-    height: 814px;
+    height: 714px;
+    margin-top: calc(${COLUMN_TITLE_HEIGHT}px + ${COLUMN_MAIN_CONTAINER_GAP}px);
     //copied from Figma
     background: linear-gradient(180deg, #e9effa 0%, rgba(233, 239, 250, 0.5) 100%);
 `;
@@ -54,7 +58,7 @@ export const StyledContainer = styled.div`
 `;
 
 export const StyledText = styled.p`
-    ${fontHeadingLargeStyle}
+    ${fontHeadingLargeStyle};
 
     color: ${themeColors.grey};
 `;

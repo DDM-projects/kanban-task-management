@@ -2,6 +2,7 @@ import styled, { css } from "styled-components";
 import { Modal } from "antd";
 import { themeColors } from "../../theme";
 import { fontBodyLargeStyle, fontHeadingLargeStyle } from "../../theme.style";
+import { scrollbarsStyle } from "../mainBoard/mainBoard.style";
 
 export const StyledModal = styled(Modal)<{ $isScrollVisible?: boolean }>`
     &.ant-modal .ant-modal-content {
@@ -27,6 +28,8 @@ export const StyledModal = styled(Modal)<{ $isScrollVisible?: boolean }>`
                 display: none;
             `};
     }
+
+    ${scrollbarsStyle};
 
     &.ant-modal .ant-modal-title {
         ${fontHeadingLargeStyle};

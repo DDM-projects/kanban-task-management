@@ -1,13 +1,14 @@
 import styled from "styled-components";
 import { fontHeadingSmallStyle } from "../../../../theme.style";
 import { themeColors } from "../../../../theme";
+import { COLUMN_MAIN_CONTAINER_GAP } from "./column.data";
 
 export const StyledMainContainer = styled.div`
     display: flex;
     flex-direction: column;
     min-width: 280px;
     height: 100%;
-    gap: 10px;
+    gap: ${COLUMN_MAIN_CONTAINER_GAP}px;
 `;
 
 export const StyledContainer = styled.div`

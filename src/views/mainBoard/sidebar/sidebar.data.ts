@@ -2,7 +2,7 @@ export const SIDEBAR_WIDTH = 300;
 
 export const SIDEBAR_ANIMATION_DURATION = 1;
 
-export const SIDEBAR_HEIGHT_WITHOUT_LOGO = 927;
+export const SIDEBAR_HEIGHT_WITHOUT_LOGO = 803;
 
 export const SIDEBAR_TITLE_HEIGHT = 60;
 

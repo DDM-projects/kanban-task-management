@@ -201,15 +201,19 @@ export const StyledShowSidebarButton = styled.button`
     position: absolute;
     z-index: 1;
     left: 0;
-    bottom: 10px;
+    bottom: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 56px;
-    height: 48px;
+    width: 40px;
+    height: 32px;
     cursor: pointer;
     background-color: ${themeColors.mainPurple};
     border-radius: 0px 100px 100px 0px;
+
+    img {
+        width: 14px;
+    }
 
     &:hover {
         background-color: ${themeColors.mainPurpleHover};
