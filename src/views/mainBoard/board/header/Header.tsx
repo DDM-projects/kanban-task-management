@@ -23,43 +23,41 @@ import { Dropdown, type MenuProps } from "antd";
 import { Board, Task } from "../../../../types";
 import { themeColors } from "../../../../theme";
 import logoDark from "../../../../assets/logo-dark.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { selectBoard, setSelectedBoard, addTask } from "../../../../state/selectedBoard/selectedBoardSlice";
+import { deleteBoard, selectBoards } from "../../../../state/boards/boardsSlice";
+import { AppDispatch } from "../../../../state/store";
 
-interface HeaderProps {
-    board?: Board;
-    onDelete?: () => void;
-    updateBoard: (board: Board) => void;
-}
-
-const Header = ({ board, onDelete, updateBoard }: HeaderProps) => {
-    const [isAddTaskButtonDisabled, setIsAddTaskButtonDisabled] = useState(!board?.columns?.length);
+const Header = () => {
+    const dispatch = useDispatch<AppDispatch>();
+    const selectedBoard = useSelector(selectBoard);
+    const boards = useSelector(selectBoards);
+    const [isAddTaskButtonDisabled, setIsAddTaskButtonDisabled] = useState(!selectedBoard?.columns?.length);
     const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
     const [isAddTaskModalVisible, setIsAddTaskModalVisible] = useState(isAddTaskModalOpen);
-    const [isMenuButtonDisabled, setIsMenuButtonDisabled] = useState(!board);
+    const [isMenuButtonDisabled, setIsMenuButtonDisabled] = useState(!selectedBoard);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [isEditBoardModalOpen, setIsEditBoardModalOpen] = useState(false);
     const [isEditBoardModalVisible, setIsEditBoardModalVisible] = useState(isEditBoardModalOpen);
-    const headerTitle = board ? board.name : defaultHeaderTitle;
-    const deleteModalText = getDeleteModalText(board?.name || "");
-    const statusOptions = board?.columns?.map((column) => column.name) || [];
-    const transformedStatusOptions = statusOptions.map((option) => ({ value: option, label: option }));
-    const defaultStatus = statusOptions[0];
+    const headerTitle = selectedBoard ? selectedBoard.name : defaultHeaderTitle;
+    const deleteModalText = getDeleteModalText(selectedBoard?.name || "");
 
     useEffect(() => {
-        if (!board) {
+        if (!selectedBoard) {
             setIsMenuButtonDisabled(true);
             setIsAddTaskButtonDisabled(true);
         }
 
-        if (board) {
+        if (selectedBoard) {
             setIsMenuButtonDisabled(false);
 
-            if (board.columns?.length > 0) {
+            if (selectedBoard.columns?.length > 0) {
                 setIsAddTaskButtonDisabled(false);
             } else {
                 setIsAddTaskButtonDisabled(true);
             }
         }
-    }, [board]);
+    }, [selectedBoard]);
 
     const handleAddTaskButtonClick = () => {
         setIsAddTaskModalOpen(true);
@@ -74,32 +72,15 @@ const Header = ({ board, onDelete, updateBoard }: HeaderProps) => {
         setIsAddTaskModalVisible(false);
     };
 
-    const handleAddTask = (newTask: Task) => {
-        if (!board) {
+    const handleAddTaskSubmit = (task: Task) => {
+        if (!selectedBoard) {
             return;
         }
 
-        const updatedColumns =
-            board.columns.map((column) => {
-                if (column.name === newTask.status) {
-                    return {
-                        ...column,
-                        tasks: [...column.tasks, newTask],
-                    };
-                } else {
-                    return column;
-                }
-            });
-
-        const updatedBoard = { ...board, columns: updatedColumns };
-        updateBoard(updatedBoard);
-    };
-
-    const handleAddTaskSubmit = (task: Task) => {
-        handleAddTask(task);
+        dispatch(addTask(task));
         handleAddTaskModalCancel();
     };
-  
+
     const handleDeleteOptionClick = () => {
         setIsDeleteModalOpen(true);
     };
@@ -109,7 +90,14 @@ const Header = ({ board, onDelete, updateBoard }: HeaderProps) => {
     };
 
     const handleDeleteBoard = () => {
-        onDelete?.();
+        dispatch(deleteBoard(selectedBoard));
+
+        if (boards && boards[0].id !== selectedBoard.id) {
+            dispatch(setSelectedBoard(boards[0]));
+        } else {
+            dispatch(setSelectedBoard(boards[1]));
+        }
+
         handleDeleteModalCancel();
     };
 
@@ -123,7 +111,7 @@ const Header = ({ board, onDelete, updateBoard }: HeaderProps) => {
     };
 
     const handleEditModalSubmit = (board: Board) => {
-        updateBoard(board);
+        dispatch(setSelectedBoard(board));
         handleEditModalCancel();
     };
 
@@ -178,6 +166,7 @@ const Header = ({ board, onDelete, updateBoard }: HeaderProps) => {
                     </StyledContainer>
                 </StyledHeader>
             </StyledContainer>
+
             <DeleteModal
                 open={isDeleteModalOpen}
                 onCancel={handleDeleteModalCancel}
@@ -185,24 +174,24 @@ const Header = ({ board, onDelete, updateBoard }: HeaderProps) => {
                 title={deleteModalTitle}
                 text={deleteModalText}
             />
+
             {isEditBoardModalVisible && (
                 <AddOrEditBoardModal
                     open={isEditBoardModalOpen}
                     type="edit"
                     onCancel={handleEditModalCancel}
                     onSubmit={handleEditModalSubmit}
-                    initialValues={board}
+                    initialValues={selectedBoard}
                     afterClose={handleEditModalAfterClose}
                 />
             )}
+
             {isAddTaskModalVisible && (
                 <AddNewOrEditTaskModal
                     open={isAddTaskModalOpen}
                     type="add"
                     onCancel={handleAddTaskModalCancel}
                     onSubmit={handleAddTaskSubmit}
-                    statusOptions={transformedStatusOptions}
-                    defaultStatus={defaultStatus}
                     afterClose={handleAddTaskModalAfterClose}
                 />
             )}

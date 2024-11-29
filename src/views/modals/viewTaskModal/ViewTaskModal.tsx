@@ -9,13 +9,15 @@ import {
     StyledTextContainer,
     StyledButton,
 } from "../modals.style";
-import Select, { SelectProps } from "../../../components/select/Select";
+import Select from "../../../components/select/Select";
 import { CheckboxChangeEvent } from "antd/es/checkbox";
 import menuIcon from "../../../assets/icon-vertical-ellipsis.svg";
 import { Dropdown, type MenuProps } from "antd";
 import { themeColors, fontBodyLarge } from "../../../theme";
 import { DROPDOWN_MENU_WIDTH } from "../../mainBoard/mainBoard.data";
-import { countCompletedSubtasks } from "../../utils/viewsUtils";
+import { countCompletedSubtasks, getTransformedStatusOptions } from "../../utils/viewsUtils";
+import { useSelector } from "react-redux";
+import { selectBoard } from "../../../state/selectedBoard/selectedBoardSlice";
 
 interface ViewTaskModalProps {
     open: boolean;
@@ -26,7 +28,6 @@ interface ViewTaskModalProps {
     onChangeSelect: (status: string) => void;
     onChangeCheckbox: (id: string, isCompleted: boolean) => void;
     task: Task;
-    statusOptions: SelectProps["options"];
     destroyOnClose?: boolean;
 }
 
@@ -43,11 +44,13 @@ const ViewTaskModal = ({
     onDelete,
     onEdit,
     task,
-    statusOptions,
     onChangeSelect,
     onChangeCheckbox,
     destroyOnClose = true,
 }: ViewTaskModalProps) => {
+    const selectedBoard = useSelector(selectBoard);
+    const transformedStatusOptions = getTransformedStatusOptions(selectedBoard);
+
     const items: MenuProps["items"] = [
         {
             key: "edit",
@@ -113,7 +116,7 @@ const ViewTaskModal = ({
                     label="Current status"
                     name="status"
                     value={task.status}
-                    options={statusOptions}
+                    options={transformedStatusOptions}
                     onChange={(value: string) => onChangeSelect(value)}
                 />
             </StyledContainerColumn>

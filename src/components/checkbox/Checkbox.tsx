@@ -1,5 +1,5 @@
 import { CheckboxChangeEvent } from "antd/es/checkbox";
-import { StyledCheckbox, StyledCheckboxDarkMode } from "./checkbox.style";
+import { StyledCheckbox } from "./checkbox.style";
 import { FormikContext } from "formik";
 import { useContext, useEffect, useState } from "react";
 import Label from "../label/Label";

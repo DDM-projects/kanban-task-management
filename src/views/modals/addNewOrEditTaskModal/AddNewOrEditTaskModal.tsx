@@ -15,7 +15,9 @@ import Select from "../../../components/select/Select";
 import { nanoid } from "nanoid";
 import _ from "lodash";
 import cross from "../../../assets/icon-cross.svg";
-import { SelectProps } from "../../../components/select/Select";
+import { useSelector } from "react-redux";
+import { selectBoard } from "../../../state/selectedBoard/selectedBoardSlice";
+import { getStatusOptions, getTransformedStatusOptions } from "../../utils/viewsUtils";
 
 interface AddNewOrEditTaskModalProps {
     open: boolean;
@@ -24,9 +26,7 @@ interface AddNewOrEditTaskModalProps {
     initialValues?: Task;
     destroyOnClose?: boolean;
     onCancel: () => void;
-    onSubmit: (values: Task, previousStatus: string) => void;
-    statusOptions: SelectProps["options"];
-    defaultStatus?: SelectProps["defaultValue"];
+    onSubmit: (values: Task) => void;
     afterClose?: () => void;
 }
 
@@ -38,10 +38,12 @@ const AddNewOrEditTaskModal = ({
     destroyOnClose = true,
     onCancel,
     onSubmit,
-    statusOptions,
-    defaultStatus,
     afterClose,
 }: AddNewOrEditTaskModalProps) => {
+    const selectedBoard = useSelector(selectBoard);
+    const statusOptions = getStatusOptions(selectedBoard);
+    const transformedStatusOptions = getTransformedStatusOptions(selectedBoard);
+    const defaultStatus = statusOptions[0];
     const initialAddNewTaskValues = getInitialAddNewTaskValues(defaultStatus || "");
     const [currentInitialValues, setCurrentInitialValues] = useState<Task>(initialValues || initialAddNewTaskValues);
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -74,9 +76,8 @@ const AddNewOrEditTaskModal = ({
     };
 
     const handleSubmit = (values: Task) => {
-        const previousStatus = currentInitialValues.status;
         setCurrentInitialValues(values);
-        onSubmit(values, previousStatus);
+        onSubmit(values);
     };
 
     const modalTitle = type === "add" ? "Add New Task" : "Edit Task";
@@ -110,6 +111,7 @@ const AddNewOrEditTaskModal = ({
                         } else {
                             setIsButtonDisabled(true);
                         }
+                        // eslint-disable-next-line
                     }, [values, currentInitialValues]);
 
                     return (
@@ -167,7 +169,7 @@ const AddNewOrEditTaskModal = ({
                                     name="status"
                                     label="Status"
                                     defaultValue={defaultStatus}
-                                    options={statusOptions}
+                                    options={transformedStatusOptions}
                                 ></Select>
                                 <Button type="submit" category="primarySmall" disabled={isButtonDisabled}>
                                     {buttonTitle}

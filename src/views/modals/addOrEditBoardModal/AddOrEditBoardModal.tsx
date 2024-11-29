@@ -11,7 +11,7 @@ import {
     getInitialAddBoardValues,
     MAX_COLUMNS,
     placeholderOptions,
-    validationSchema,
+    getValidationSchema,
 } from "./addOrEditBoardModal.data";
 import { Board, Column } from "../../../types";
 import React from "react";
@@ -47,6 +47,7 @@ const AddOrEditBoardModal = ({
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
     const [isScrollVisible, setIsScrollVisible] = useState(false);
     const formikValuesRef = useRef<FormikProps<Board> | null>(null);
+    const validationSchema = getValidationSchema(type);
 
     const checkIfScrollAppeared = () => {
         const modalBody = document.querySelector(".ant-modal-body");
@@ -131,6 +132,7 @@ const AddOrEditBoardModal = ({
                         } else {
                             setIsButtonDisabled(true);
                         }
+                    // eslint-disable-next-line react-hooks/exhaustive-deps
                     }, [values, currentInitialValues]);
                     return (
                         <Form>

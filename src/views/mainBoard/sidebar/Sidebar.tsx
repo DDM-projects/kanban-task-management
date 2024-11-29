@@ -21,16 +21,19 @@ import lightThemeIcon from "../../../assets/icon-light-theme.svg";
 import darkThemeIcon from "../../../assets/icon-dark-theme.svg";
 import showSidebarIcon from "../../../assets/icon-show-sidebar.svg";
 import hideSidebarIcon from "../../../assets/icon-hide-sidebar.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "../../../state/store";
+import { addBoard, selectBoards } from "../../../state/boards/boardsSlice";
+import { setSelectedBoard, selectBoard } from "../../../state/selectedBoard/selectedBoardSlice";
 
 interface SidebarProps {
-    boards: Board[];
-    onAddBoardSubmit: (board: Board) => void;
-    selectedKeys?: string[];
-    onMenuItemSelect: (id: string) => void;
     setSidebarVisibility: (isVisible: boolean) => void;
 }
 
-const Sidebar = ({ boards, onAddBoardSubmit, selectedKeys, onMenuItemSelect, setSidebarVisibility }: SidebarProps) => {
+const Sidebar = ({ setSidebarVisibility }: SidebarProps) => {
+    const dispatch = useDispatch<AppDispatch>();
+    const boards = useSelector(selectBoards);
+    const selectedBoard = useSelector(selectBoard);
     const [isSidebarDisplayed, setIsSidebarDisplayed] = useState(true);
     const [isSidebarHidden, setIsSidebarHidden] = useState(false);
     const [isAddBoardModalOpen, setIsAddBoardModalOpen] = useState(false);
@@ -44,7 +47,9 @@ const Sidebar = ({ boards, onAddBoardSubmit, selectedKeys, onMenuItemSelect, set
     }));
 
     const handleMenuItemSelect = (info: any) => {
-        onMenuItemSelect(info.key);
+        const currentSelectedBoard = boards?.find((board) => board.id === info.key) || boards[0];
+
+        dispatch(setSelectedBoard(currentSelectedBoard));
     };
 
     const handleHideSidebar = () => {
@@ -52,7 +57,7 @@ const Sidebar = ({ boards, onAddBoardSubmit, selectedKeys, onMenuItemSelect, set
         setTimeout(() => {
             setIsSidebarDisplayed(false);
         }, 1000);
-       setSidebarVisibility(false);
+        setSidebarVisibility(false);
     };
 
     const handleShowSidebar = () => {
@@ -77,7 +82,8 @@ const Sidebar = ({ boards, onAddBoardSubmit, selectedKeys, onMenuItemSelect, set
     };
 
     const handleAddBoardSubmit = (board: Board) => {
-        onAddBoardSubmit?.(board);
+        dispatch(addBoard(board));
+        dispatch(setSelectedBoard(board));
         handleAddBoardModalCancel();
     };
 
@@ -89,11 +95,7 @@ const Sidebar = ({ boards, onAddBoardSubmit, selectedKeys, onMenuItemSelect, set
                 <StyledSidebar $isHidden={isSidebarHidden} $isDisplayed={isSidebarDisplayed}>
                     <StyledColumnContainer $gapSize={0}>
                         <StyledTitle>All boards ({boards.length})</StyledTitle>
-                        <StyledMenu
-                            items={items}
-                            selectedKeys={selectedKeys}
-                            onSelect={handleMenuItemSelect}
-                        />
+                        <StyledMenu items={items} selectedKeys={[selectedBoard?.id]} onSelect={handleMenuItemSelect} />
                         <StyledCreateBoardButton onClick={handleShowAddBoardModal}>
                             <img src={boardIcon} className="add-board-icon" alt="add board icon" /> + Create New Board
                         </StyledCreateBoardButton>
@@ -119,6 +121,7 @@ const Sidebar = ({ boards, onAddBoardSubmit, selectedKeys, onMenuItemSelect, set
                     </StyledShowSidebarButton>
                 )}
             </StyledMainContainer>
+
             {isAddBoardModalVisible && (
                 <AddOrEditBoardModal
                     open={isAddBoardModalOpen}

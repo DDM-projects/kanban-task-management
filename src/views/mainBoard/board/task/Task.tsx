@@ -4,21 +4,21 @@ import { Task as TaskType } from "../../../../types";
 import { countCompletedSubtasks } from "../../../utils/viewsUtils";
 import ViewTaskModal from "../../../modals/viewTaskModal/ViewTaskModal";
 import AddNewOrEditTaskModal from "../../../modals/addNewOrEditTaskModal/AddNewOrEditTaskModal";
+import { useDispatch } from "react-redux";
+import { updateTask } from "../../../../state/selectedBoard/selectedBoardSlice";
+import { AppDispatch } from "../../../../state/store";
 
 interface TaskProps {
     task: TaskType;
-    statusOptions: string[];
     deleteModalOpen: (task: TaskType) => void;
-    editTask: (updatedTask: TaskType, previousStatus?: string) => void;
-    changeTaskStatus: (updatedTask: TaskType) => void;
+    updatedColumnId: string;
 }
-
-const Task = ({ task, statusOptions, deleteModalOpen, editTask, changeTaskStatus }: TaskProps) => {
+const Task = ({ task, deleteModalOpen, updatedColumnId }: TaskProps) => {
+    const dispatch = useDispatch<AppDispatch>();
     const [isViewTaskModalOpen, setIsViewTaskModalOpen] = useState(false);
     const [isEditTaskModalOpen, setIsEditTaskModalOpen] = useState(false);
-    const [updatedTask, setUpdatedTask] = useState<TaskType | null>(null);
+    const [updatedTask, setUpdatedTask] = useState<TaskType>(task);
     const [isEditTaskModalVisible, setIsEditTaskModalVisible] = useState(isEditTaskModalOpen);
-    const transformedStatusOptions = statusOptions.map((option) => ({ value: option, label: option }));
 
     const handleViewTaskModalOpen = () => {
         setIsViewTaskModalOpen(true);
@@ -26,7 +26,7 @@ const Task = ({ task, statusOptions, deleteModalOpen, editTask, changeTaskStatus
 
     const handleViewTaskModalCancel = () => {
         if (updatedTask && updatedTask !== null) {
-            changeTaskStatus(updatedTask);
+            dispatch(updateTask({ updatedTask: updatedTask, columnId: updatedColumnId }));
         }
         setIsViewTaskModalOpen(false);
     };
@@ -51,20 +51,21 @@ const Task = ({ task, statusOptions, deleteModalOpen, editTask, changeTaskStatus
     };
 
     const handleChangeCheckbox = (id: string, isCompleted: boolean) => {
-        const updatedSubtasks = task.subtasks.map((subtask) =>
+        const updatedSubtasks = updatedTask.subtasks.map((subtask) =>
             subtask.id === id ? { ...subtask, isCompleted: isCompleted } : subtask
         );
-        const updatedTask = { ...task, subtasks: updatedSubtasks };
-        editTask(updatedTask);
+        const _updatedTask = { ...updatedTask, subtasks: updatedSubtasks };
+        setUpdatedTask(_updatedTask);
     };
 
     const handleChangeSelect = (status: string) => {
-        const updatedTask = { ...task, status: status };
-        setUpdatedTask(updatedTask);
+        const _updatedTask = { ...updatedTask, status: status };
+        setUpdatedTask(_updatedTask);
     };
 
-    const handleEditTask = (updatedTask: TaskType, previousStatus?: string) => {
-        editTask(updatedTask, previousStatus);
+    const handleEditTask = (updatedTask: TaskType) => {
+        dispatch(updateTask({ updatedTask: updatedTask, columnId: updatedColumnId }));
+        setUpdatedTask(updatedTask);
         handleEditTaskModalCancel();
     };
 
@@ -84,8 +85,7 @@ const Task = ({ task, statusOptions, deleteModalOpen, editTask, changeTaskStatus
                 onCancel={handleViewTaskModalCancel}
                 onDelete={handleDeleteModalOpen}
                 onEdit={handleEditTaskModalOpen}
-                statusOptions={transformedStatusOptions}
-                task={task}
+                task={updatedTask}
                 onChangeCheckbox={handleChangeCheckbox}
                 onChangeSelect={handleChangeSelect}
             />
@@ -97,7 +97,6 @@ const Task = ({ task, statusOptions, deleteModalOpen, editTask, changeTaskStatus
                     type="edit"
                     initialValues={task}
                     onSubmit={handleEditTask}
-                    statusOptions={transformedStatusOptions}
                     afterClose={handleEditTakModalAfterClose}
                 />
             )}

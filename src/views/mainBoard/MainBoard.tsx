@@ -2,52 +2,40 @@ import { StyledMainContainer, StyledRowContainer, StyledBoardContainer } from ".
 import Sidebar from "./sidebar/Sidebar";
 import Header from "./board/header/Header";
 import Board from "./board/Board";
-import { useState } from "react";
-import { Board as BoardType } from "../../types";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "../../state/store";
+import { selectBoard } from "../../state/selectedBoard/selectedBoardSlice";
+import { selectBoards, setBoards } from "../../state/boards/boardsSlice";
+import _ from "lodash";
 
 const MainBoard = () => {
-    const [boards, setBoards] = useState<BoardType[]>([]);
+    const dispatch = useDispatch<AppDispatch>();
+    const boards = useSelector(selectBoards);
+    const selectedBoard = useSelector(selectBoard);
     const [isSidebarVisible, setIsSidebarVisible] = useState(true);
-    const [selectedBoardId, setSelectedBoardId] = useState<string>(boards[0]?.id || "");
-    const selectedBoard = boards?.find((board) => board.id === selectedBoardId) || boards[0];
-
-    const handleMenuItemSelect = (id: string) => {
-        setSelectedBoardId(id);
-    };
-
-    const handleAddBoard = (board: BoardType) => {
-        setBoards([...boards, board]);
-        setSelectedBoardId(board.id);
-    };
 
     const handleSidebarVisibility = (isVisible: boolean) => {
         setIsSidebarVisible(isVisible);
     };
 
-    const handleDeleteBoard = () => {
-        const updatedBoards = boards.filter((board) => board.id !== selectedBoardId);
-        setBoards(updatedBoards);
-        setSelectedBoardId(updatedBoards[0]?.id || "");
-    };
+    useEffect(() => {
+        const board = boards.find((board) => board.id === selectedBoard.id);
 
-    const handleEditBoard = (updatedBoard: BoardType) => {
-        const updatedBoards = boards.map((board) => (board.id === updatedBoard.id ? updatedBoard : board));
-        setBoards(updatedBoards);
-    };
+        if (!_.isEqual(board, selectedBoard) && !!selectedBoard) {
+            const newBoards = boards.map((item) => (item.id === board?.id ? selectedBoard : item));
+            dispatch(setBoards(newBoards));
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedBoard]);
 
     return (
         <StyledMainContainer>
-            <Header board={selectedBoard} onDelete={handleDeleteBoard} updateBoard={handleEditBoard} />
+            <Header />
             <StyledRowContainer>
-                <Sidebar
-                    setSidebarVisibility={handleSidebarVisibility}
-                    boards={boards}
-                    onMenuItemSelect={handleMenuItemSelect}
-                    selectedKeys={[selectedBoardId]}
-                    onAddBoardSubmit={handleAddBoard}
-                />
+                <Sidebar setSidebarVisibility={handleSidebarVisibility} />
                 <StyledBoardContainer $isSidebarVisible={isSidebarVisible}>
-                    <Board updateBoard={handleEditBoard} board={selectedBoard} />
+                    <Board />
                 </StyledBoardContainer>
             </StyledRowContainer>
         </StyledMainContainer>

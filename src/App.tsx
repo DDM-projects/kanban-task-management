@@ -1,5 +1,7 @@
+import MainBoard from "./views/mainBoard/MainBoard";
+
 function App() {
-    return <div></div>;
+    return <MainBoard />;
 }
 
 export default App;
