@@ -158,6 +158,7 @@ const Header = () => {
                             menu={{ items }}
                             trigger={["click"]}
                             overlayStyle={{ width: DROPDOWN_MENU_WIDTH }}
+                            align={{ offset: [0, 15] }}
                         >
                             <StyledMenuButton disabled={isMenuButtonDisabled} $isDisabled={isMenuButtonDisabled}>
                                 <img src={menuIcon} alt="menu-icon" />

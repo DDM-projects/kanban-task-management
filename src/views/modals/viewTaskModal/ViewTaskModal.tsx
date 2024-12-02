@@ -85,6 +85,7 @@ const ViewTaskModal = ({
                         menu={{ items }}
                         trigger={["click"]}
                         overlayStyle={{ width: DROPDOWN_MENU_WIDTH }}
+                        align={{ offset: [0, 15] }}
                     >
                         <StyledButton $width={5} $height={20} $paddingLeft={10} type="button">
                             <img src={menuIcon} alt="menu" />

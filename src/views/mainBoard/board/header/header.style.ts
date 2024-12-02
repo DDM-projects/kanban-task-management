@@ -53,7 +53,7 @@ export const StyledAddTaskButton = styled(Button)`
 export const StyledMenuButton = styled.button<{ $isDisabled?: boolean }>`
     all: unset;
     width: 5px;
-    height: 20px;
+    height: 48px;
     cursor: pointer;
 
     ${({ $isDisabled }) =>
