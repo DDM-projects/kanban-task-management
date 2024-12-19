@@ -13,6 +13,7 @@ interface TaskProps {
     deleteModalOpen: (task: TaskType) => void;
     updatedColumnId: string;
 }
+
 const Task = ({ task, deleteModalOpen, updatedColumnId }: TaskProps) => {
     const dispatch = useDispatch<AppDispatch>();
     const [isViewTaskModalOpen, setIsViewTaskModalOpen] = useState(false);
@@ -73,7 +74,7 @@ const Task = ({ task, deleteModalOpen, updatedColumnId }: TaskProps) => {
 
     return (
         <>
-            <StyledTask onClick={handleViewTaskModalOpen}>
+            <StyledTask data-testid="task" onClick={handleViewTaskModalOpen}>
                 <StyledTitle>{task.title}</StyledTitle>
                 <StyledSubtaskStatus>{`${countCompletedSubtasks(task.subtasks)} of ${
                     task.subtasks?.length

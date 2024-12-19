@@ -140,7 +140,7 @@ const AddNewOrEditTaskModal = ({
 
                     return (
                         <Form>
-                            <StyledContainerColumn>
+                            <StyledContainerColumn data-testid="add-or-edit-task-modal">
                                 <Input
                                     name="title"
                                     placeholder="e.g. Take coffee break"
