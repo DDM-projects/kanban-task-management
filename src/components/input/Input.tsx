@@ -44,6 +44,7 @@ const Input = ({ type, id, name, placeholder, value, label, width = 416, onChang
                 return (
                     <>
                         <StyledTextAreaInput
+                            $isError={isError}
                             style={{ width }}
                             id={id}
                             name={name}
@@ -55,7 +56,7 @@ const Input = ({ type, id, name, placeholder, value, label, width = 416, onChang
                         {isError && <ErrorMessage name={name} component="div" className="formik-error" />}
                     </>
                 );
-            case "text":
+            default:
                 return (
                     <>
                         <StyledTextInput
@@ -72,8 +73,6 @@ const Input = ({ type, id, name, placeholder, value, label, width = 416, onChang
                         {isError && <ErrorMessage name={name} component="div" className="formik-error" />}
                     </>
                 );
-            default:
-                return StyledTextInput;
         }
     };
 

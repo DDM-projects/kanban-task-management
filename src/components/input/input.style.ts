@@ -28,8 +28,10 @@ export const StyledTextInput = styled(Input)<{ $isError?: boolean }>`
     border-color: ${({ $isError }) => ($isError ? themeColors.red : themeColors.greyInputBorder)};
 `;
 
-export const StyledTextAreaInput = styled(Input.TextArea)`
+export const StyledTextAreaInput = styled(Input.TextArea)<{$isError?: boolean}>`
     ${mainInputStyle};
+
+    border-color: ${({ $isError }) => ($isError ? themeColors.red : themeColors.greyInputBorder)};
 
     &.ant-input {
         height: 112px !important;
