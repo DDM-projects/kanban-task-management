@@ -13,9 +13,10 @@ import {
     StyledShowSidebarButton,
 } from "./sidebar.style";
 import AddOrEditBoardModal from "../../modals/addOrEditBoardModal/AddOrEditBoardModal";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Board } from "../../../types";
 import type { MenuProps } from "antd";
+import { Tooltip } from "antd";
 import boardIcon from "../../../assets/icon-board.svg";
 import lightThemeIcon from "../../../assets/icon-light-theme.svg";
 import darkThemeIcon from "../../../assets/icon-dark-theme.svg";
@@ -25,6 +26,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../../state/store";
 import { addBoard, selectBoards } from "../../../state/boards/boardsSlice";
 import { setSelectedBoard, selectBoard } from "../../../state/selectedBoard/selectedBoardSlice";
+import { themeColors } from "../../../theme";
 
 interface SidebarProps {
     setSidebarVisibility: (isVisible: boolean) => void;
@@ -38,10 +40,35 @@ const Sidebar = ({ setSidebarVisibility }: SidebarProps) => {
     const [isSidebarHidden, setIsSidebarHidden] = useState(false);
     const [isAddBoardModalOpen, setIsAddBoardModalOpen] = useState(false);
     const [isAddBoardModalVisible, setIsAddBoardModalVisible] = useState(isAddBoardModalOpen);
+    const [tooltipVisibility, setTooltipVisibility] = useState<Record<string, boolean>>({});
+    const textRef = useRef<Record<string, HTMLSpanElement>>({});
+
+    useEffect(() => {
+        const newTooltipVisibility: { [key: string]: boolean } = {};
+        boards.forEach((board) => {
+            const boardNameRef = textRef.current[board.id];
+            if (boardNameRef) {
+                const rect = boardNameRef.getBoundingClientRect();
+                const isOverflowing = rect.width > 198;
+                newTooltipVisibility[board.id] = isOverflowing;
+            }
+        });
+        setTooltipVisibility(newTooltipVisibility);
+    }, [boards]);
 
     const items: MenuProps["items"] = boards.map((board) => ({
         key: board.id,
-        label: board.name,
+        label: (
+            <Tooltip
+                color={themeColors.mainPurpleHover}
+                overlayInnerStyle={{ fontFamily: "Plus Jakarta Sans, sans-serif" }}
+                title={board.name}
+                mouseLeaveDelay={0}
+                {...(tooltipVisibility[board.id] ? {} : { open: false })}
+            >
+                <span ref={(element) => (textRef.current[board.id] = element!)}>{board.name}</span>
+            </Tooltip>
+        ),
         icon: <img src={boardIcon} className="board-icon" alt="board icon" />,
         style: itemStyle,
     }));

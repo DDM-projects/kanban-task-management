@@ -15,7 +15,7 @@ export const StyledTask = styled.div`
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
-    width: 280px;
+    width: 260px;
     min-height: 88px;
     padding: 23px 16px;
     margin-bottom: 10px;

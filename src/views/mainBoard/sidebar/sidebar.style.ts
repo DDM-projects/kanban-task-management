@@ -87,6 +87,15 @@ export const StyledMenu = styled(Menu)`
         color: ${themeColors.grey};
     }
 
+    .ant-menu-title-content {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &&&.ant-menu .ant-menu-item .ant-menu-item-icon {
+        min-width: 16px !important;
+    }
+
     .ant-menu-item-active {
         background-color: ${themeColors.mainPurpleLightest} !important;
         color: ${themeColors.mainPurple} !important;

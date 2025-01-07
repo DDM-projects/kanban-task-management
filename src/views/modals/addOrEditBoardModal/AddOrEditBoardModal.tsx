@@ -132,7 +132,7 @@ const AddOrEditBoardModal = ({
                         } else {
                             setIsButtonDisabled(true);
                         }
-                    // eslint-disable-next-line react-hooks/exhaustive-deps
+                        // eslint-disable-next-line react-hooks/exhaustive-deps
                     }, [values, currentInitialValues]);
                     return (
                         <Form>

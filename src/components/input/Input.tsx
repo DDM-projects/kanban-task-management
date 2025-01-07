@@ -1,6 +1,6 @@
 import { ErrorMessage, FormikContext } from "formik";
 import { StyledTextInput, StyledTextAreaInput } from "./input.style";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Label from "../label/Label";
 import { getValueFromPath } from "../../utils/utils";
 
@@ -25,8 +25,11 @@ const Input = ({ type, id, name, placeholder, value, label, width = 416, onChang
     const touchedInput = touchedObject && getValueFromPath(touchedObject, name);
     const isError = inputError && touchedInput;
     const [inputValue, setInputValue] = useState("");
+    const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
+        setInputValue(e.target.value);
+
         if (formikContext) {
             formikContext.setFieldValue(name, e.target.value);
             return;
@@ -47,6 +50,7 @@ const Input = ({ type, id, name, placeholder, value, label, width = 416, onChang
                             placeholder={placeholder}
                             value={inputValue}
                             onChange={handleChange}
+                            ref={inputRef as React.RefObject<any>}
                         />
                         {isError && <ErrorMessage name={name} component="div" className="formik-error" />}
                     </>
@@ -63,6 +67,7 @@ const Input = ({ type, id, name, placeholder, value, label, width = 416, onChang
                             placeholder={placeholder}
                             value={inputValue}
                             onChange={handleChange}
+                            ref={inputRef as React.RefObject<any>}
                         />
                         {isError && <ErrorMessage name={name} component="div" className="formik-error" />}
                     </>

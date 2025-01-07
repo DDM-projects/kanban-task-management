@@ -7,7 +7,7 @@ import {
     placeholderOptions,
 } from "./addNewOrEditTaskModal.data";
 import { Subtask, Task } from "../../../types";
-import { Form, Formik, ErrorMessage, FormikProps } from "formik";
+import { Form, Formik, FormikProps } from "formik";
 import Input from "../../../components/input/Input";
 import Button from "../../../components/button/Button";
 import Label from "../../../components/label/Label";
