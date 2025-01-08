@@ -1,6 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import Button from "./Button";
 import "@testing-library/jest-dom";
+import { buttonPrimaryLarge, buttonSmall } from "../../theme";
 
 describe("Button component", () => {
     it("renders button with primaryLarge category", () => {
@@ -8,7 +9,7 @@ describe("Button component", () => {
 
         const button = screen.getByText("Primary large button");
 
-        expect(button).toHaveStyle("height: 48px");
+        expect(button).toHaveStyle(`height: ${buttonPrimaryLarge.height}`);
     });
 
     it("renders button with primarySmall category", () => {
@@ -16,7 +17,7 @@ describe("Button component", () => {
 
         const button = screen.getByText("Primary small button");
 
-        expect(button).toHaveStyle({ height: "40px", backgroundColor: "themeColors.mainPurple" });
+        expect(button).toHaveStyle({ height: `${buttonSmall.height}`, backgroundColor: "themeColors.mainPurple" });
     });
 
     it("renders button with secondary category", () => {
