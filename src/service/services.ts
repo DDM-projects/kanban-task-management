@@ -12,7 +12,16 @@ const tasksPostURL = `${host}/api/tasks/create`;
 const tasksPutURL = `${host}/api/tasks/update`;
 const tasksDeleteURL = `${host}/api/tasks/delete-by-id`;
 
-const getFetch = async (url: string) => {
+type Response<T> =
+    | {
+          status: "success";
+          data: T;
+      }
+    | {
+          status: "error";
+      };
+
+const getFetch = async <T>(url: string): Promise<Response<T>> => {
     try {
         const response = await fetch(url, {
             method: "GET",
@@ -31,19 +40,9 @@ const getFetch = async (url: string) => {
         console.log(error);
         return {
             status: "error",
-            data: null,
         };
     }
 };
-
-type Response<T> =
-    | {
-          status: "success";
-          data: T;
-      }
-    | {
-          status: "error";
-      };
 
 const postFetch = async <T>(url: string, data: any): Promise<Response<T>> => {
     try {
