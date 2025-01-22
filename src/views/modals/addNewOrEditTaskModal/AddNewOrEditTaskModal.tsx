@@ -12,7 +12,6 @@ import Input from "../../../components/input/Input";
 import Button from "../../../components/button/Button";
 import Label from "../../../components/label/Label";
 import Select from "../../../components/select/Select";
-import { nanoid } from "nanoid";
 import _ from "lodash";
 import cross from "../../../assets/icon-cross.svg";
 import { useSelector } from "react-redux";
@@ -41,8 +40,8 @@ const AddNewOrEditTaskModal = ({
     afterClose,
 }: AddNewOrEditTaskModalProps) => {
     const selectedBoard = useSelector(selectBoard);
-    const statusOptions = getStatusOptions(selectedBoard);
-    const transformedStatusOptions = getTransformedStatusOptions(selectedBoard);
+    const statusOptions = selectedBoard ? getStatusOptions(selectedBoard) : [];
+    const transformedStatusOptions = selectedBoard ? getTransformedStatusOptions(selectedBoard) : [];
     const defaultStatus = statusOptions[0];
     const initialAddNewTaskValues = getInitialAddNewTaskValues(defaultStatus || "");
     const [currentInitialValues, setCurrentInitialValues] = useState<Task>(initialValues || initialAddNewTaskValues);
@@ -72,7 +71,7 @@ const AddNewOrEditTaskModal = ({
         }
 
         const newSubtask: Subtask = {
-            id: nanoid(),
+            id: "",
             title: "",
             isCompleted: false,
         };

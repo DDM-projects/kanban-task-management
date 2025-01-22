@@ -3,31 +3,52 @@ import Sidebar from "./sidebar/Sidebar";
 import Header from "./board/header/Header";
 import Board from "./board/Board";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../state/store";
-import { selectBoard } from "../../state/selectedBoard/selectedBoardSlice";
-import { selectBoards, setBoards } from "../../state/boards/boardsSlice";
-import _ from "lodash";
+import { setSelectedBoard } from "../../state/selectedBoard/selectedBoardSlice";
+import { setBoards } from "../../state/boards/boardsSlice";
+import { getAllBoards, getBoardById } from "../../service/services";
 
 const MainBoard = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const boards = useSelector(selectBoards);
-    const selectedBoard = useSelector(selectBoard);
     const [isSidebarVisible, setIsSidebarVisible] = useState(true);
 
     const handleSidebarVisibility = (isVisible: boolean) => {
         setIsSidebarVisible(isVisible);
     };
 
-    useEffect(() => {
-        const board = boards.find((board) => board.id === selectedBoard.id);
+    const fetchBoards = async () => {
+        const response = await getAllBoards();
 
-        if (!_.isEqual(board, selectedBoard) && !!selectedBoard) {
-            const newBoards = boards.map((item) => (item.id === board?.id ? selectedBoard : item));
-            dispatch(setBoards(newBoards));
+        if (response.status !== "success") {
+            console.log("error");
+            return;
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedBoard]);
+
+        const fetchedBoards = response.data.map((board) => {
+            return {
+                id: board.id,
+                name: board.name,
+            };
+        });
+
+        if (fetchedBoards.length === 0) return;
+
+        const boardResponse = await getBoardById(fetchedBoards[0].id);
+
+        if (boardResponse.status !== "success") {
+            console.log("error");
+            return;
+        }
+
+        dispatch(setSelectedBoard(boardResponse.data));
+        dispatch(setBoards(fetchedBoards));
+    };
+
+    useEffect(() => {
+        fetchBoards();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <StyledMainContainer>

@@ -5,7 +5,7 @@ export const countCompletedSubtasks = (subtasks: Subtask[]) => {
 };
 
 export const getStatusOptions = (board: Board) => {
-    return board?.columns?.map((column) => column.name) || [];
+    return board?.statuses?.map((column) => column.name) || [];
 };
 
 export const getTransformedStatusOptions = (board: Board) => {

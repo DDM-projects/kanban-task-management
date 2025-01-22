@@ -1,5 +1,4 @@
 import * as Yup from "yup";
-import { nanoid } from "nanoid";
 
 export const spaceTest = {
     title: "No-leading-trailing-spaces",
@@ -27,27 +26,28 @@ export const validationSchema = Yup.object().shape({
         .min(2, "Description must contain at least 2 characters")
         .max(140, "Description is too long"),
     subtasks: Yup.array().of(subtaskSchema),
-    status: Yup.string().required("Status is required"),
+    statusName: Yup.string().required("Status is required"),
 });
 
 export const getInitialAddNewTaskValues = (defaultStatus: string) => {
     return {
-        id: nanoid(),
+        id: "",
         title: "",
         description: "",
         subtasks: [
             {
-                id: nanoid(),
+                id: "",
                 title: "",
                 isCompleted: false,
             },
             {
-                id: nanoid(),
+                id: "",
                 title: "",
                 isCompleted: false,
             },
         ],
-        status: defaultStatus,
+        statusName: defaultStatus,
+        statusId: ""
     };
 };
 

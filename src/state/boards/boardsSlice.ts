@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Board } from "../../types";
+import { BoardInfo } from "../../types";
 import { RootState } from "../store";
 
 interface BoardsState {
-    boards: Board[];
+    boards: BoardInfo[];
 }
 
 const initialState: BoardsState = {
@@ -14,15 +14,15 @@ const boardsSlice = createSlice({
     name: "boards",
     initialState,
     reducers: {
-        setBoards(state, action: PayloadAction<Board[]>) {
+        setBoards(state, action: PayloadAction<BoardsState["boards"]>) {
             state.boards = action.payload;
         },
 
-        addBoard(state, action: PayloadAction<Board>) {
+        addBoard(state, action: PayloadAction<BoardInfo>) {
             state.boards.push(action.payload);
         },
 
-        deleteBoard(state, action: PayloadAction<Board>) {
+        deleteBoard(state, action: PayloadAction<BoardInfo>) {
             state.boards = state.boards.filter((board) => board.id !== action.payload.id);
         },
     },

@@ -21,9 +21,9 @@ export const getRandomColor = () => {
 
 export const getInitialAddBoardValues = () => {
     return {
-        id: nanoid(),
+        id: "",
         name: "",
-        columns: [
+        statuses: [
             {
                 id: nanoid(),
                 name: "",
@@ -47,7 +47,7 @@ export const getColumnSchema = () => {
             .min(2, "Column name must contain at least 2 characters")
             .max(50, "Column name is too long")
             .test("column-name-exists", "Column name already exists", function (value) {
-                const columns = this.options.context?.columns as Column[];
+                const columns = this.options.context?.statuses as Column[];
                 const options = this.options as any;
                 const index = options.index as number;
                 const filteredColumns = columns.filter((column, i) => i !== index);
@@ -88,7 +88,7 @@ export const getValidationSchema = (type: string) => {
                 );
             })
             .required("Name is required"),
-        columns: Yup.array().of(getColumnSchema()),
+        statuses: Yup.array().of(getColumnSchema()),
     });
 };
 

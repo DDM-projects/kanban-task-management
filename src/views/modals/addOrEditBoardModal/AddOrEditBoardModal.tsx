@@ -15,7 +15,6 @@ import {
 } from "./addOrEditBoardModal.data";
 import { Board, Column } from "../../../types";
 import React from "react";
-import { nanoid } from "nanoid";
 import { ColorPicker } from "antd";
 
 interface AddOrEditBoardModalProps {
@@ -41,7 +40,7 @@ const AddOrEditBoardModal = ({
 }: AddOrEditBoardModalProps) => {
     const initialAddBoardValues = getInitialAddBoardValues();
     const [columnsLength, setColumnsLength] = useState(
-        initialValues?.columns.length || initialAddBoardValues.columns.length
+        initialValues?.statuses.length || initialAddBoardValues.statuses.length
     );
     const [currentInitialValues, setCurrentInitialValues] = useState<Board>(initialValues || initialAddBoardValues);
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -61,14 +60,14 @@ const AddOrEditBoardModal = ({
     };
 
     const addNewColumn = () => {
-        const columnsLength = formikValuesRef.current?.values?.columns?.length;
+        const columnsLength = formikValuesRef.current?.values?.statuses?.length;
 
         if (columnsLength && columnsLength >= MAX_COLUMNS) {
             return;
         }
 
         const newColumn: Column = {
-            id: nanoid(),
+            id: "",
             name: "",
             tasks: [],
             color: getRandomColor(),
@@ -76,7 +75,7 @@ const AddOrEditBoardModal = ({
 
         formikValuesRef.current?.setValues({
             ...formikValuesRef.current?.values,
-            columns: [...formikValuesRef.current?.values.columns, newColumn],
+            statuses: [...formikValuesRef.current?.values.statuses, newColumn],
         });
 
         setColumnsLength((prev) => prev + 1);
@@ -85,7 +84,7 @@ const AddOrEditBoardModal = ({
     const updateColumnsAfterDelete = (id: string) => {
         formikValuesRef.current?.setValues({
             ...formikValuesRef.current?.values,
-            columns: formikValuesRef.current?.values.columns.filter((column) => column.id !== id),
+            statuses: formikValuesRef.current?.values.statuses.filter((status) => status.id !== id),
         });
 
         setColumnsLength((prev) => prev - 1);
@@ -146,30 +145,30 @@ const AddOrEditBoardModal = ({
                                 />
                                 <StyledContainerColumn $gapSize={10}>
                                     <Label marginBottom={0} label={`Board Columns (max ${MAX_COLUMNS}) `} />
-                                    {values.columns.map((column, index) => {
+                                    {values.statuses.map((status, index) => {
                                         return (
-                                            <React.Fragment key={column.id}>
+                                            <React.Fragment key={status.id}>
                                                 <StyledContainerRow>
                                                     <Input
                                                         width={360}
-                                                        name={`columns[${index}].name`}
+                                                        name={`statuses[${index}].name`}
                                                         placeholder={placeholderOptions[index]}
                                                         type="text"
                                                     />
                                                     <ColorPicker
                                                         size="small"
-                                                        defaultValue={column.color}
+                                                        defaultValue={status.color}
                                                         onChangeComplete={(value) =>
                                                             setFieldValue(
-                                                                `columns[${index}].color`,
+                                                                `statuses[${index}].color`,
                                                                 value.toHexString()
                                                             )
                                                         }
                                                     />
-                                                    {values.columns.length && (
+                                                    {values.statuses.length && (
                                                         <StyledButton
                                                             type="button"
-                                                            onClick={() => updateColumnsAfterDelete(column.id)}
+                                                            onClick={() => updateColumnsAfterDelete(status.id)}
                                                         >
                                                             <img src={cross} alt="cross" className="modal-img" />
                                                         </StyledButton>
@@ -178,13 +177,13 @@ const AddOrEditBoardModal = ({
                                             </React.Fragment>
                                         );
                                     })}
-                                    {values.columns.length >= MAX_COLUMNS && (
+                                    {values.statuses.length >= MAX_COLUMNS && (
                                         <p className="formik-error">You can add max {MAX_COLUMNS} columns</p>
                                     )}
                                     <Button
                                         buttonFunction={addNewColumn}
                                         category="secondary"
-                                        disabled={values.columns.length >= MAX_COLUMNS}
+                                        disabled={values.statuses.length >= MAX_COLUMNS}
                                     >
                                         + Add New Column
                                     </Button>

@@ -27,12 +27,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectBoard, setSelectedBoard, addTask } from "../../../../state/selectedBoard/selectedBoardSlice";
 import { deleteBoard, selectBoards } from "../../../../state/boards/boardsSlice";
 import { AppDispatch } from "../../../../state/store";
+import { getBoardById } from "../../../../service/services";
 
 const Header = () => {
     const dispatch = useDispatch<AppDispatch>();
     const selectedBoard = useSelector(selectBoard);
     const boards = useSelector(selectBoards);
-    const [isAddTaskButtonDisabled, setIsAddTaskButtonDisabled] = useState(!selectedBoard?.columns?.length);
+    const [isAddTaskButtonDisabled, setIsAddTaskButtonDisabled] = useState(!selectedBoard?.statuses?.length);
     const [isAddTaskModalOpen, setIsAddTaskModalOpen] = useState(false);
     const [isAddTaskModalVisible, setIsAddTaskModalVisible] = useState(isAddTaskModalOpen);
     const [isMenuButtonDisabled, setIsMenuButtonDisabled] = useState(!selectedBoard);
@@ -51,7 +52,7 @@ const Header = () => {
         if (selectedBoard) {
             setIsMenuButtonDisabled(false);
 
-            if (selectedBoard.columns?.length > 0) {
+            if (selectedBoard.statuses?.length > 0) {
                 setIsAddTaskButtonDisabled(false);
             } else {
                 setIsAddTaskButtonDisabled(true);
@@ -89,15 +90,26 @@ const Header = () => {
         setIsDeleteModalOpen(false);
     };
 
-    const handleDeleteBoard = () => {
-        dispatch(deleteBoard(selectedBoard));
+    const handleDeleteBoard = async () => {
+        selectedBoard && dispatch(deleteBoard(selectedBoard));
 
-        if (boards && boards[0].id !== selectedBoard.id) {
-            dispatch(setSelectedBoard(boards[0]));
-        } else {
-            dispatch(setSelectedBoard(boards[1]));
+        const remainingBoards = boards.filter((board) => board.id !== selectedBoard?.id);
+
+        if (remainingBoards.length === 0) {
+            dispatch(setSelectedBoard(undefined));
+            handleDeleteModalCancel();
+            return;
         }
 
+        const nextBoard = remainingBoards[0];
+        const response = await getBoardById(nextBoard.id);
+
+        if (response.status !== "success") {
+            console.log("error");
+            return;
+        }
+
+        dispatch(setSelectedBoard(response.data));
         handleDeleteModalCancel();
     };
 

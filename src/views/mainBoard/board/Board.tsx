@@ -19,7 +19,7 @@ const Board = () => {
     const selectedBoard = useSelector(selectBoard);
     const [isEditBoardModalOpen, setIsEditBoardModalOpen] = useState(false);
     const [isEditBoardModalVisible, setIsEditBoardModalVisible] = useState(isEditBoardModalOpen);
-    const columnExists = !!selectedBoard?.columns?.length;
+    const columnExists = !!selectedBoard?.statuses?.length;
     const boardExists = !!selectedBoard;
 
     const handleEditBoardModalOpen = () => {
@@ -77,7 +77,7 @@ const Board = () => {
 
     return (
         <StyledMainContainer $isAddColumnButtonVisible={!columnExists}>
-            {selectedBoard?.columns?.map((column) => (
+            {selectedBoard?.statuses?.map((column) => (
                 <Column key={column.id} column={column} />
             ))}
             {emptyBoardView}

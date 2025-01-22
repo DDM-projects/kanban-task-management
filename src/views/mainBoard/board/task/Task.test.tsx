@@ -18,7 +18,7 @@ jest.mock("../../../../components/select/select.style", () => {
 const selectedBoard: Board = {
     id: "1",
     name: "Test Board",
-    columns: [
+    statuses: [
         {
             id: "column-1",
             name: "To Do",
@@ -28,7 +28,8 @@ const selectedBoard: Board = {
                     id: "1",
                     title: "Test Task",
                     description: "Test Description",
-                    status: "To Do",
+                    statusName: "To Do",
+                    statusId: "",
                     subtasks: [
                         { id: "1", title: "Subtask 1", isCompleted: false },
                         { id: "2", title: "Subtask 2", isCompleted: true },
@@ -55,7 +56,7 @@ describe("Task Component", () => {
         return render(
             <Provider store={store}>
                 <Task
-                    task={selectedBoard.columns[0].tasks[0]}
+                    task={selectedBoard.statuses[0].tasks[0]}
                     deleteModalOpen={deleteModalOpen}
                     updatedColumnId={updatedColumnId}
                 />

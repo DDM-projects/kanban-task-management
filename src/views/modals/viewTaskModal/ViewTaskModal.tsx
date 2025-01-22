@@ -49,7 +49,7 @@ const ViewTaskModal = ({
     destroyOnClose = true,
 }: ViewTaskModalProps) => {
     const selectedBoard = useSelector(selectBoard);
-    const transformedStatusOptions = getTransformedStatusOptions(selectedBoard);
+    const transformedStatusOptions = selectedBoard ? getTransformedStatusOptions(selectedBoard) : [];
 
     const items: MenuProps["items"] = [
         {
@@ -116,7 +116,7 @@ const ViewTaskModal = ({
                 <Select
                     label="Current status"
                     name="status"
-                    value={task.status}
+                    value={task.statusName}
                     options={transformedStatusOptions}
                     onChange={(value: string) => onChangeSelect(value)}
                 />

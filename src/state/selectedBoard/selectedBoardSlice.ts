@@ -3,7 +3,7 @@ import { Board, Column, Task } from "../../types";
 import { RootState } from "../store";
 
 interface SelectedBoardState {
-    board: Board;
+    board: Board | undefined;
 }
 
 const initialState: SelectedBoardState = {
@@ -14,42 +14,55 @@ const selectedBoardSlice = createSlice({
     name: "selectedBoard",
     initialState,
     reducers: {
-        setSelectedBoard(state, action: PayloadAction<Board>) {
+        setSelectedBoard(state, action: PayloadAction<SelectedBoardState['board']>) {
             state.board = action.payload;
         },
 
         updateColumn(state, action: PayloadAction<Column>) {
-            const columnIndex = state.board.columns.findIndex((col) => col.id === action.payload.id);
+            if (!state.board) {
+                return;
+            }
+
+            const columnIndex = state.board.statuses.findIndex((col) => col.id === action.payload.id);
 
             if (columnIndex !== -1) {
-                state.board.columns[columnIndex] = action.payload;
+                state.board.statuses[columnIndex] = action.payload;
             }
         },
 
         addTask(state, action: PayloadAction<Task>) {
-            const column = state.board.columns?.find((col) => col.name === action.payload.status);
+            if (!state.board) {
+                return;
+            }
+
+            const column = state.board.statuses?.find((col) => col.name === action.payload.statusName);
             column?.tasks.push(action.payload);
         },
 
         updateTask(state, action: PayloadAction<{ updatedTask: Task; columnId: string }>) {
             const { updatedTask, columnId } = action.payload;
-            const columnIndex = state.board.columns.findIndex((column) => column.id === columnId);
+
+            if (!state.board) {
+                return;
+            }
+
+            const columnIndex = state.board.statuses.findIndex((column) => column.id === columnId);
 
             if (columnIndex < 0) {
                 return;
             }
 
-            const task = state.board.columns[columnIndex].tasks.find((task) => task.id === updatedTask.id);
+            const task = state.board.statuses[columnIndex].tasks.find((task) => task.id === updatedTask.id);
 
-            if (task?.status === updatedTask.status) {
-                state.board.columns[columnIndex].tasks = state.board.columns[columnIndex].tasks.map((task) =>
+            if (task?.statusName === updatedTask.statusName) {
+                state.board.statuses[columnIndex].tasks = state.board.statuses[columnIndex].tasks.map((task) =>
                     task.id === updatedTask.id ? updatedTask : task
                 );
                 return;
             }
 
-            state.board.columns = state.board.columns.map((column) => {
-                if (column.name === updatedTask.status) {
+            state.board.statuses = state.board.statuses.map((column) => {
+                if (column.name === updatedTask.statusName) {
                     return {
                         ...column,
                         tasks: [...column.tasks, updatedTask],
@@ -66,11 +79,15 @@ const selectedBoardSlice = createSlice({
         },
 
         deleteTask(state, action: PayloadAction<{ task: Task; columnId: string }>) {
+            if (!state.board) {
+                return;
+            }
+
             const { task, columnId } = action.payload;
-            const columnIndex = state.board.columns.findIndex((col) => col.id === columnId);
+            const columnIndex = state.board.statuses.findIndex((col) => col.id === columnId);
 
             if (columnIndex !== -1) {
-                state.board.columns[columnIndex].tasks = state.board.columns[columnIndex].tasks.filter(
+                state.board.statuses[columnIndex].tasks = state.board.statuses[columnIndex].tasks.filter(
                     (item) => item.id !== task.id
                 );
             }

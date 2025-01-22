@@ -1,4 +1,4 @@
-import { Board, Task } from "../types";
+import { Board, BoardInfo, Task } from "../types";
 
 const host = "http://192.168.1.25:8080";
 
@@ -62,7 +62,9 @@ const postFetch = async <T>(url: string, data: any): Promise<Response<T>> => {
         };
     } catch (error) {
         console.log(error);
-        return { status: "error" };
+        return {
+            status: "error",
+        };
     }
 };
 
@@ -101,12 +103,14 @@ const updateFetch = async <T>(url: string, data: any): Promise<Response<T>> => {
         };
     } catch (error) {
         console.log(error);
-        return { status: "error" };
+        return {
+            status: "error",
+        };
     }
 };
 
-export const getAllBoards = async () => await getFetch(boardsGetAllURL);
-export const getBoardById = async (id: string) => await getFetch(`${boardGetById}?id=${id}`);
+export const getAllBoards = async () => await getFetch<BoardInfo[]>(boardsGetAllURL);
+export const getBoardById = async (id: string) => await getFetch<Board>(`${boardGetById}?id=${id}`);
 
 export const postNewBoard = async (data: Board) => await postFetch<Board>(boardsPostURL, data);
 export const postNewTask = async (data: Task) => await postFetch<Task>(tasksPostURL, data);

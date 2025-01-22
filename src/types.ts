@@ -3,21 +3,30 @@ export interface Subtask {
     title: string;
     isCompleted: boolean;
 }
+
 export interface Task {
     id: string;
     title: string;
     description: string;
     subtasks: Subtask[];
-    status: string;
+    statusName: string;
+    statusId: string;
 }
+
 export interface Column {
     id: string;
     name: string;
     tasks: Task[];
     color: string;
 }
+
 export interface Board {
     id: string;
     name: string;
-    columns: Column[];
+    statuses: Column[];
+}
+
+export interface BoardInfo {
+    id: string;
+    name: string;
 }
