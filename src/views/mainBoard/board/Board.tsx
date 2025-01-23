@@ -13,6 +13,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectBoard, setSelectedBoard } from "../../../state/selectedBoard/selectedBoardSlice";
 import { AppDispatch } from "../../../state/store";
+import { updateBoard } from "../../../service/services";
 
 const Board = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -35,8 +36,15 @@ const Board = () => {
         setIsEditBoardModalVisible(false);
     };
 
-    const handleSubmit = (updatedBoard: BoardType) => {
-        dispatch(setSelectedBoard(updatedBoard));
+    const handleSubmit = async (updatedBoard: BoardType) => {
+        const response = await updateBoard(updatedBoard);
+
+        if (response.status !== "success") {
+            console.log("error");
+            return;
+        }
+
+        dispatch(setSelectedBoard(response.data));
         setIsEditBoardModalOpen(false);
     };
 

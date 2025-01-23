@@ -16,6 +16,7 @@ import {
 import { Board, Column } from "../../../types";
 import React from "react";
 import { ColorPicker } from "antd";
+import { nanoid } from "nanoid";
 
 interface AddOrEditBoardModalProps {
     open: boolean;
@@ -67,7 +68,7 @@ const AddOrEditBoardModal = ({
         }
 
         const newColumn: Column = {
-            id: "",
+            id: nanoid(),
             name: "",
             tasks: [],
             color: getRandomColor(),

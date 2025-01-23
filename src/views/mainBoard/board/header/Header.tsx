@@ -27,7 +27,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectBoard, setSelectedBoard, addTask } from "../../../../state/selectedBoard/selectedBoardSlice";
 import { deleteBoard, selectBoards } from "../../../../state/boards/boardsSlice";
 import { AppDispatch } from "../../../../state/store";
-import { getBoardById } from "../../../../service/services";
+import { deleteBoardById, getBoardById, updateBoard } from "../../../../service/services";
 
 const Header = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -91,6 +91,13 @@ const Header = () => {
     };
 
     const handleDeleteBoard = async () => {
+        const response = await deleteBoardById(selectedBoard?.id || "");
+
+        if (response !== "success") {
+            console.log("error");
+            return;
+        }
+
         selectedBoard && dispatch(deleteBoard(selectedBoard));
 
         const remainingBoards = boards.filter((board) => board.id !== selectedBoard?.id);
@@ -102,14 +109,14 @@ const Header = () => {
         }
 
         const nextBoard = remainingBoards[0];
-        const response = await getBoardById(nextBoard.id);
+        const boardResponse = await getBoardById(nextBoard.id);
 
-        if (response.status !== "success") {
+        if (boardResponse.status !== "success") {
             console.log("error");
             return;
         }
 
-        dispatch(setSelectedBoard(response.data));
+        dispatch(setSelectedBoard(boardResponse.data));
         handleDeleteModalCancel();
     };
 
@@ -122,8 +129,15 @@ const Header = () => {
         setIsEditBoardModalOpen(false);
     };
 
-    const handleEditModalSubmit = (board: Board) => {
-        dispatch(setSelectedBoard(board));
+    const handleEditModalSubmit = async (board: Board) => {
+        const response = await updateBoard(board);
+
+        if (response.status !== "success") {
+            console.log("error");
+            return;
+        }
+
+        dispatch(setSelectedBoard(response.data));
         handleEditModalCancel();
     };
 

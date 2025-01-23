@@ -27,7 +27,7 @@ import { AppDispatch } from "../../../state/store";
 import { addBoard, selectBoards } from "../../../state/boards/boardsSlice";
 import { setSelectedBoard, selectBoard } from "../../../state/selectedBoard/selectedBoardSlice";
 import { themeColors } from "../../../theme";
-import { getBoardById } from "../../../service/services";
+import { getBoardById, postNewBoard } from "../../../service/services";
 
 interface SidebarProps {
     setSidebarVisibility: (isVisible: boolean) => void;
@@ -48,12 +48,14 @@ const Sidebar = ({ setSidebarVisibility }: SidebarProps) => {
         const newTooltipVisibility: { [key: string]: boolean } = {};
         boards.forEach((board) => {
             const boardNameRef = textRef.current[board.id];
+
             if (boardNameRef) {
                 const rect = boardNameRef.getBoundingClientRect();
                 const isOverflowing = rect.width > 198;
                 newTooltipVisibility[board.id] = isOverflowing;
             }
         });
+
         setTooltipVisibility(newTooltipVisibility);
     }, [boards]);
 
@@ -116,9 +118,16 @@ const Sidebar = ({ setSidebarVisibility }: SidebarProps) => {
         setIsAddBoardModalVisible(false);
     };
 
-    const handleAddBoardSubmit = (board: Board) => {
-        dispatch(addBoard(board));
-        dispatch(setSelectedBoard(board));
+    const handleAddBoardSubmit = async (board: Board) => {
+        const response = await postNewBoard(board);
+
+        if (response.status !== "success") {
+            console.log("error");
+            return;
+        }
+
+        dispatch(addBoard(response.data));
+        dispatch(setSelectedBoard(response.data));
         handleAddBoardModalCancel();
     };
 
