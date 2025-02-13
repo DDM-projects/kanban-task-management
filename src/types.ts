@@ -1,7 +1,8 @@
 export interface Subtask {
     id: string;
     title: string;
-    isCompleted: boolean;
+    completed: boolean;
+    taskId: string;
 }
 
 export interface Task {

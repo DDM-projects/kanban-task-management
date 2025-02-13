@@ -15,6 +15,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { deleteTask, updateColumn } from "../../../../state/selectedBoard/selectedBoardSlice";
 import { AppDispatch } from "../../../../state/store";
+import { deleteTaskById } from "../../../../service/services";
 
 interface ColumnProps {
     column: ColumnType;
@@ -41,8 +42,15 @@ const Column = ({ column }: ColumnProps) => {
         setIsDeleteModalOpen(false);
     };
 
-    const handleDeleteTask = () => {
+    const handleDeleteTask = async () => {
         if (!taskToDelete) {
+            return;
+        }
+
+        const response = await deleteTaskById(taskToDelete.id);
+
+        if (response !== "success") {
+            console.log("error");
             return;
         }
 

@@ -27,7 +27,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectBoard, setSelectedBoard, addTask } from "../../../../state/selectedBoard/selectedBoardSlice";
 import { deleteBoard, selectBoards } from "../../../../state/boards/boardsSlice";
 import { AppDispatch } from "../../../../state/store";
-import { deleteBoardById, getBoardById, updateBoard } from "../../../../service/services";
+import { deleteBoardById, getBoardById, postNewTask, updateBoard } from "../../../../service/services";
 
 const Header = () => {
     const dispatch = useDispatch<AppDispatch>();
@@ -73,12 +73,19 @@ const Header = () => {
         setIsAddTaskModalVisible(false);
     };
 
-    const handleAddTaskSubmit = (task: Task) => {
+    const handleAddTaskSubmit = async (task: Task) => {
         if (!selectedBoard) {
             return;
         }
 
-        dispatch(addTask(task));
+        const response = await postNewTask(task);
+
+        if (response.status !== "success") {
+            console.log("error");
+            return;
+        }
+
+        dispatch(addTask(response.data));
         handleAddTaskModalCancel();
     };
 

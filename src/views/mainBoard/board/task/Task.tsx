@@ -7,6 +7,7 @@ import AddNewOrEditTaskModal from "../../../modals/addNewOrEditTaskModal/AddNewO
 import { useDispatch } from "react-redux";
 import { updateTask } from "../../../../state/selectedBoard/selectedBoardSlice";
 import { AppDispatch } from "../../../../state/store";
+import { updateTask as updateTaskService } from "../../../../service/services";
 
 interface TaskProps {
     task: TaskType;
@@ -23,13 +24,6 @@ const Task = ({ task, deleteModalOpen, updatedColumnId }: TaskProps) => {
 
     const handleViewTaskModalOpen = () => {
         setIsViewTaskModalOpen(true);
-    };
-
-    const handleViewTaskModalCancel = () => {
-        if (updatedTask && updatedTask !== null) {
-            dispatch(updateTask({ updatedTask: updatedTask, columnId: updatedColumnId }));
-        }
-        setIsViewTaskModalOpen(false);
     };
 
     const handleDeleteModalOpen = () => {
@@ -53,21 +47,45 @@ const Task = ({ task, deleteModalOpen, updatedColumnId }: TaskProps) => {
 
     const handleChangeCheckbox = (id: string, isCompleted: boolean) => {
         const updatedSubtasks = updatedTask.subtasks.map((subtask) =>
-            subtask.id === id ? { ...subtask, isCompleted: isCompleted } : subtask
+            subtask.id === id ? { ...subtask, completed: isCompleted } : subtask
         );
+
         const _updatedTask = { ...updatedTask, subtasks: updatedSubtasks };
         setUpdatedTask(_updatedTask);
     };
 
-    const handleChangeSelect = (status: string) => {
-        const _updatedTask = { ...updatedTask, status: status };
+    const handleChangeSelect = (status: { label: string; value: string }) => {
+        const _updatedTask = { ...updatedTask, statusName: status.label, statusId: status.value };
         setUpdatedTask(_updatedTask);
     };
 
-    const handleEditTask = (updatedTask: TaskType) => {
-        dispatch(updateTask({ updatedTask: updatedTask, columnId: updatedColumnId }));
-        setUpdatedTask(updatedTask);
+    const handleEditTask = async (updatedTask: TaskType) => {
+        const response = await updateTaskService(updatedTask);
+
+        if (response.status !== "success") {
+            console.log("error");
+            return;
+        }
+
+        dispatch(updateTask({ updatedTask: response.data, columnId: updatedColumnId }));
+        setUpdatedTask(response.data);
         handleEditTaskModalCancel();
+    };
+
+    const handleViewTaskModalCancel = async () => {
+        if (!updatedTask || updatedTask === null) {
+            return;
+        }
+
+        const response = await updateTaskService(updatedTask);
+
+        if (response.status !== "success") {
+            console.log("error");
+            return;
+        }
+
+        dispatch(updateTask({ updatedTask: response.data, columnId: updatedColumnId }));
+        setIsViewTaskModalOpen(false);
     };
 
     //TODO: handle dark mode

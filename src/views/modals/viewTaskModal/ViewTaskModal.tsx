@@ -25,7 +25,7 @@ interface ViewTaskModalProps {
     onCancel: () => void;
     onDelete: () => void;
     onEdit: () => void;
-    onChangeSelect: (status: string) => void;
+    onChangeSelect: (status: { value: string; label: string }) => void;
     onChangeCheckbox: (id: string, isCompleted: boolean) => void;
     task: Task;
     destroyOnClose?: boolean;
@@ -66,6 +66,11 @@ const ViewTaskModal = ({
         },
     ];
 
+    const handleChangeSelect = (value: string) => {
+        const status = transformedStatusOptions.find((option) => option.value === value);
+        status && onChangeSelect(status);
+    };
+
     //TODO: handle dark mode
 
     return (
@@ -105,7 +110,7 @@ const ViewTaskModal = ({
                         <React.Fragment key={subtask.id}>
                             <Checkbox
                                 name={`subtasks[${index}].title`}
-                                value={subtask.isCompleted}
+                                value={subtask.completed}
                                 onChange={(e: CheckboxChangeEvent) => onChangeCheckbox(subtask.id, e.target.checked)}
                             >
                                 {subtask.title}
@@ -115,10 +120,10 @@ const ViewTaskModal = ({
                 })}
                 <Select
                     label="Current status"
-                    name="status"
-                    value={task.statusName}
+                    name="statusId"
+                    value={task.statusId}
                     options={transformedStatusOptions}
-                    onChange={(value: string) => onChangeSelect(value)}
+                    onChange={handleChangeSelect}
                 />
             </StyledContainerColumn>
         </StyledModal>

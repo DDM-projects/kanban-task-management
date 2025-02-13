@@ -35,12 +35,13 @@ const Select = ({ name, defaultValue, onChange, options, value, width = 416, lab
     });
 
     const handleChange = (value: any) => {
+        onChange && onChange(value);
+
         if (formikContext && name) {
             formikContext.setFieldValue(name, value);
             return;
         }
 
-        onChange && onChange(value);
         setSelectValue(value);
     };
 

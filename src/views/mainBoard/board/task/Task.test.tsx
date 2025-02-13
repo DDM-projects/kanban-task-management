@@ -29,10 +29,10 @@ const selectedBoard: Board = {
                     title: "Test Task",
                     description: "Test Description",
                     statusName: "To Do",
-                    statusId: "",
+                    statusId: "column-1",
                     subtasks: [
-                        { id: "1", title: "Subtask 1", isCompleted: false },
-                        { id: "2", title: "Subtask 2", isCompleted: true },
+                        { id: "1", title: "Subtask 1", completed: false, taskId: "1" },
+                        { id: "2", title: "Subtask 2", completed: true, taskId: "1" },
                     ],
                 },
             ],

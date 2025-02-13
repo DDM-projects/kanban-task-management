@@ -16,7 +16,8 @@ import _ from "lodash";
 import cross from "../../../assets/icon-cross.svg";
 import { useSelector } from "react-redux";
 import { selectBoard } from "../../../state/selectedBoard/selectedBoardSlice";
-import { getStatusOptions, getTransformedStatusOptions } from "../../utils/viewsUtils";
+import { getTransformedStatusOptions } from "../../utils/viewsUtils";
+import { nanoid } from "nanoid";
 
 interface AddNewOrEditTaskModalProps {
     open: boolean;
@@ -40,10 +41,9 @@ const AddNewOrEditTaskModal = ({
     afterClose,
 }: AddNewOrEditTaskModalProps) => {
     const selectedBoard = useSelector(selectBoard);
-    const statusOptions = selectedBoard ? getStatusOptions(selectedBoard) : [];
     const transformedStatusOptions = selectedBoard ? getTransformedStatusOptions(selectedBoard) : [];
-    const defaultStatus = statusOptions[0];
-    const initialAddNewTaskValues = getInitialAddNewTaskValues(defaultStatus || "");
+    const defaultStatus = transformedStatusOptions[0] || { value: "", label: "" };
+    const initialAddNewTaskValues = getInitialAddNewTaskValues(defaultStatus);
     const [currentInitialValues, setCurrentInitialValues] = useState<Task>(initialValues || initialAddNewTaskValues);
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
     const [subtasksLength, setSubtasksLength] = useState(
@@ -71,9 +71,10 @@ const AddNewOrEditTaskModal = ({
         }
 
         const newSubtask: Subtask = {
-            id: "",
+            id: nanoid(),
             title: "",
-            isCompleted: false,
+            completed: false,
+            taskId: "",
         };
 
         formikValuesRef.current?.setValues({
@@ -126,7 +127,7 @@ const AddNewOrEditTaskModal = ({
                 onSubmit={handleSubmit}
                 innerRef={formikValuesRef}
             >
-                {({ values }) => {
+                {({ values, setFieldValue }) => {
                     //eslint-disable-next-line
                     useEffect(() => {
                         if (!_.isEqual(values, currentInitialValues)) {
@@ -188,10 +189,15 @@ const AddNewOrEditTaskModal = ({
                                     </Button>
                                 </StyledContainerColumn>
                                 <Select
-                                    name="status"
+                                    name="statusId"
                                     label="Status"
-                                    defaultValue={defaultStatus}
                                     options={transformedStatusOptions}
+                                    onChange={(value) => {
+                                        const status = transformedStatusOptions.find(
+                                            (option) => option.value === value
+                                        );
+                                        status && setFieldValue("statusName", status.label);
+                                    }}
                                 ></Select>
                                 <Button type="submit" category="primarySmall" disabled={isButtonDisabled}>
                                     {buttonTitle}

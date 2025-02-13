@@ -1,3 +1,4 @@
+import { nanoid } from "nanoid";
 import * as Yup from "yup";
 
 export const spaceTest = {
@@ -12,7 +13,7 @@ export const subtaskSchema = Yup.object().shape({
         .min(2, "Title must contain at least 2 characters")
         .max(60, "Title is too long")
         .required("Title is required"),
-    isCompleted: Yup.boolean(),
+    completed: Yup.boolean(),
 });
 
 export const validationSchema = Yup.object().shape({
@@ -29,25 +30,27 @@ export const validationSchema = Yup.object().shape({
     statusName: Yup.string().required("Status is required"),
 });
 
-export const getInitialAddNewTaskValues = (defaultStatus: string) => {
+export const getInitialAddNewTaskValues = (defaultStatus: { value: string; label: string }) => {
     return {
         id: "",
         title: "",
         description: "",
         subtasks: [
             {
-                id: "",
+                id: nanoid(),
                 title: "",
-                isCompleted: false,
+                completed: false,
+                taskId: "",
             },
             {
-                id: "",
+                id: nanoid(),
                 title: "",
-                isCompleted: false,
+                completed: false,
+                taskId: "",
             },
         ],
-        statusName: defaultStatus,
-        statusId: ""
+        statusName: defaultStatus.label,
+        statusId: defaultStatus.value,
     };
 };
 
