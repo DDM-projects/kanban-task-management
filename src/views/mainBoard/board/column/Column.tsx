@@ -15,7 +15,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { deleteTask, updateColumn } from "../../../../state/selectedBoard/selectedBoardSlice";
 import { AppDispatch } from "../../../../state/store";
-import { deleteTaskById } from "../../../../service/services";
+import { deleteTaskById, postNewColumnColor } from "../../../../service/services";
 
 interface ColumnProps {
     column: ColumnType;
@@ -28,9 +28,15 @@ const Column = ({ column }: ColumnProps) => {
     const numberOfTasks = column.tasks?.length;
     const deleteModalText = taskToDelete ? getDeleteModalText(taskToDelete.title) : "";
 
-    const handleColumnColorChange = (color: Color) => {
-        const updatedColumn = { ...column, color: color.toHexString() };
-        dispatch(updateColumn(updatedColumn));
+    const handleColumnColorChange = async (color: Color) => {
+        const response = await postNewColumnColor({ id: column.id, color: color.toHexString() });
+
+        if (response.status !== "success") {
+            console.log("error");
+            return;
+        }
+
+        dispatch(updateColumn(response.data));
     };
 
     const handleDeleteModalOpen = (task: TaskType) => {

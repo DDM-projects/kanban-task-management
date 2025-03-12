@@ -41,7 +41,7 @@ const Task = ({ task, deleteModalOpen, updatedColumnId }: TaskProps) => {
         setIsEditTaskModalOpen(false);
     };
 
-    const handleEditTakModalAfterClose = () => {
+    const handleEditTaskModalAfterClose = () => {
         setIsEditTaskModalVisible(false);
     };
 
@@ -116,7 +116,7 @@ const Task = ({ task, deleteModalOpen, updatedColumnId }: TaskProps) => {
                     type="edit"
                     initialValues={task}
                     onSubmit={handleEditTask}
-                    afterClose={handleEditTakModalAfterClose}
+                    afterClose={handleEditTaskModalAfterClose}
                 />
             )}
         </>

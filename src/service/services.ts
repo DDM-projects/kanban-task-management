@@ -1,4 +1,4 @@
-import { Board, BoardInfo, Task } from "../types";
+import { Board, BoardInfo, Column, Task } from "../types";
 
 const host = "http://192.168.1.25:8080";
 
@@ -11,6 +11,8 @@ const boardsDeleteURL = `${host}/api/boards/delete-by-id`;
 const tasksPostURL = `${host}/api/tasks/create`;
 const tasksPutURL = `${host}/api/tasks/update`;
 const tasksDeleteURL = `${host}/api/tasks/delete-by-id`;
+
+const columnsColorPostURL = `${host}/api/status/update-by-color`;
 
 type Response<T> =
     | {
@@ -114,6 +116,8 @@ export const getBoardById = async (id: string) => await getFetch<Board>(`${board
 
 export const postNewBoard = async (data: Board) => await postFetch<Board>(boardsPostURL, data);
 export const postNewTask = async (data: Task) => await postFetch<Task>(tasksPostURL, data);
+export const postNewColumnColor = async (data: { id: string; color: string }) =>
+    await postFetch<Column>(columnsColorPostURL, data);
 
 export const deleteBoardById = async (id: string) => await deleteFetch(boardsDeleteURL, id);
 export const deleteTaskById = async (id: string) => await deleteFetch(tasksDeleteURL, id);
