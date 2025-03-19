@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { updateTask } from "../../../../state/selectedBoard/selectedBoardSlice";
 import { AppDispatch } from "../../../../state/store";
 import { updateTask as updateTaskService } from "../../../../service/services";
+import _ from "lodash";
 
 interface TaskProps {
     task: TaskType;
@@ -73,6 +74,11 @@ const Task = ({ task, deleteModalOpen, updatedColumnId }: TaskProps) => {
     };
 
     const handleViewTaskModalCancel = async () => {
+        if (_.isEqual(task, updatedTask)) {
+            setIsViewTaskModalOpen(false);
+            return;
+        } 
+
         if (!updatedTask || updatedTask === null) {
             return;
         }
@@ -85,6 +91,7 @@ const Task = ({ task, deleteModalOpen, updatedColumnId }: TaskProps) => {
         }
 
         dispatch(updateTask({ updatedTask: response.data, columnId: updatedColumnId }));
+        setUpdatedTask(response.data);
         setIsViewTaskModalOpen(false);
     };
 
