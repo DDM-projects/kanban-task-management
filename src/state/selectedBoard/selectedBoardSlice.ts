@@ -14,7 +14,7 @@ const selectedBoardSlice = createSlice({
     name: "selectedBoard",
     initialState,
     reducers: {
-        setSelectedBoard(state, action: PayloadAction<SelectedBoardState['board']>) {
+        setSelectedBoard(state, action: PayloadAction<SelectedBoardState["board"]>) {
             state.board = action.payload;
         },
 
@@ -71,9 +71,9 @@ const selectedBoardSlice = createSlice({
 
                 if (column.id === columnId) {
                     const updatedTasks = column.tasks.filter((task) => task.id !== updatedTask.id);
-                    return { ...column, tasks: updatedTasks };
+                    const tasksWithUpdatedIndex = updatedTasks.map((task, index) => ({ ...task, index }));
+                    return { ...column, tasks: tasksWithUpdatedIndex };
                 }
-
                 return column;
             });
         },
@@ -87,9 +87,9 @@ const selectedBoardSlice = createSlice({
             const columnIndex = state.board.statuses.findIndex((col) => col.id === columnId);
 
             if (columnIndex !== -1) {
-                state.board.statuses[columnIndex].tasks = state.board.statuses[columnIndex].tasks.filter(
-                    (item) => item.id !== task.id
-                );
+                state.board.statuses[columnIndex].tasks = state.board.statuses[columnIndex].tasks
+                    .filter((item) => item.id !== task.id)
+                    .map((task, index) => ({ ...task, index }));
             }
         },
     },

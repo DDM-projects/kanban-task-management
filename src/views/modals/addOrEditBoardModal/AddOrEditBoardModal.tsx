@@ -72,6 +72,7 @@ const AddOrEditBoardModal = ({
             name: "",
             tasks: [],
             color: getRandomColor(),
+            index: 0,
         };
 
         formikValuesRef.current?.setValues({
@@ -92,6 +93,8 @@ const AddOrEditBoardModal = ({
     };
 
     const handleSubmit = (values: Board) => {
+        const columns = values.statuses.map((column, index) => ({ ...column, index }));
+        values.statuses = columns;
         setCurrentInitialValues(values);
         onSubmit(values);
     };

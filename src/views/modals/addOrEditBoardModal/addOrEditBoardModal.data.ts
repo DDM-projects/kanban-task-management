@@ -29,12 +29,14 @@ export const getInitialAddBoardValues = () => {
                 name: "",
                 tasks: [],
                 color: "#49C4E5",
+                index: 0,
             },
             {
                 id: nanoid(),
                 name: "",
                 tasks: [],
                 color: "#8471F2",
+                index: 1,
             },
         ],
     };

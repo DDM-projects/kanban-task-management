@@ -1,18 +1,16 @@
 import { Board, BoardInfo, Column, Task } from "../types";
 
-const host = "http://192.168.1.25:8080";
+const boardsGetAllURL = "/api/boards/get-all";
+const boardGetById = "/api/boards/get-by-id";
+const boardsPostURL = "/api/boards/create";
+const boardsPutURL = "/api/boards/update";
+const boardsDeleteURL = "/api/boards/delete-by-id";
 
-const boardsGetAllURL = `${host}/api/boards/get-all`;
-const boardGetById = `${host}/api/boards/get-by-id`;
-const boardsPostURL = `${host}/api/boards/create`;
-const boardsPutURL = `${host}/api/boards/update`;
-const boardsDeleteURL = `${host}/api/boards/delete-by-id`;
+const tasksPostURL = "/api/tasks/create";
+const tasksPutURL = "/api/tasks/update";
+const tasksDeleteURL = "/api/tasks/delete-by-id";
 
-const tasksPostURL = `${host}/api/tasks/create`;
-const tasksPutURL = `${host}/api/tasks/update`;
-const tasksDeleteURL = `${host}/api/tasks/delete-by-id`;
-
-const columnsColorPostURL = `${host}/api/status/update-by-color`;
+const columnsColorPostURL = "/api/status/update-by-color";
 
 type Response<T> =
     | {
@@ -27,6 +25,7 @@ const getFetch = async <T>(url: string): Promise<Response<T>> => {
     try {
         const response = await fetch(url, {
             method: "GET",
+            credentials: "include",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -50,6 +49,7 @@ const postFetch = async <T>(url: string, data: any): Promise<Response<T>> => {
     try {
         const response = await fetch(url, {
             method: "POST",
+            credentials: "include",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -74,6 +74,7 @@ const deleteFetch = async (url: string, id: string) => {
     try {
         await fetch(url, {
             method: "DELETE",
+            credentials: "include",
             headers: {
                 "Content-Type": "application/json",
             },
@@ -91,6 +92,7 @@ const updateFetch = async <T>(url: string, data: any): Promise<Response<T>> => {
     try {
         const response = await fetch(url, {
             method: "PUT",
+            credentials: "include",
             headers: {
                 "Content-Type": "application/json",
             },

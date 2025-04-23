@@ -23,6 +23,7 @@ const selectedBoard: Board = {
             id: "column-1",
             name: "To Do",
             color: "blue",
+            index: 0,
             tasks: [
                 {
                     id: "1",
@@ -30,9 +31,10 @@ const selectedBoard: Board = {
                     description: "Test Description",
                     statusName: "To Do",
                     statusId: "column-1",
+                    index: 0,
                     subtasks: [
-                        { id: "1", title: "Subtask 1", completed: false, taskId: "1" },
-                        { id: "2", title: "Subtask 2", completed: true, taskId: "1" },
+                        { id: "1", title: "Subtask 1", completed: false, taskId: "1", index: 0 },
+                        { id: "2", title: "Subtask 2", completed: true, taskId: "1", index: 1 },
                     ],
                 },
             ],
@@ -41,6 +43,7 @@ const selectedBoard: Board = {
             id: "column-2",
             name: "In Progress",
             color: "green",
+            index: 1,
             tasks: [],
         },
     ],

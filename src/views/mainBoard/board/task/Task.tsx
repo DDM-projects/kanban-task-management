@@ -54,8 +54,8 @@ const Task = ({ task, deleteModalOpen, updatedColumnId }: TaskProps) => {
         setUpdatedTask(_updatedTask);
     };
 
-    const handleChangeSelect = (status: { label: string; value: string }) => {
-        const _updatedTask = { ...updatedTask, statusName: status.label, statusId: status.value };
+    const handleChangeSelect = (status: { label: string; value: string }, index: number) => {
+        const _updatedTask = { ...updatedTask, statusName: status.label, statusId: status.value, index: index };
         setUpdatedTask(_updatedTask);
     };
 

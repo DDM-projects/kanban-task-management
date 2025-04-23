@@ -3,6 +3,7 @@ export interface Subtask {
     title: string;
     completed: boolean;
     taskId: string;
+    index: number;
 }
 
 export interface Task {
@@ -12,6 +13,7 @@ export interface Task {
     subtasks: Subtask[];
     statusName: string;
     statusId: string;
+    index: number;
 }
 
 export interface Column {
@@ -19,6 +21,7 @@ export interface Column {
     name: string;
     tasks: Task[];
     color: string;
+    index: number;
 }
 
 export interface Board {

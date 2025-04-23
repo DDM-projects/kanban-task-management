@@ -2,6 +2,7 @@
   "name": "kanban-task-management",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:8080",
   "dependencies": {
     "@babel/preset-typescript": "^7.26.0",
     "@reduxjs/toolkit": "^2.3.0",

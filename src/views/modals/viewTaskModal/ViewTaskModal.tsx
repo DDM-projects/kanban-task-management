@@ -25,7 +25,7 @@ interface ViewTaskModalProps {
     onCancel: () => void;
     onDelete: () => void;
     onEdit: () => void;
-    onChangeSelect: (status: { value: string; label: string }) => void;
+    onChangeSelect: (status: { value: string; label: string }, index: number) => void;
     onChangeCheckbox: (id: string, isCompleted: boolean) => void;
     task: Task;
     destroyOnClose?: boolean;
@@ -68,7 +68,9 @@ const ViewTaskModal = ({
 
     const handleChangeSelect = (value: string) => {
         const status = transformedStatusOptions.find((option) => option.value === value);
-        status && onChangeSelect(status);
+        const column = selectedBoard?.statuses.find((status) => status.id === value);
+        const index = column?.tasks.length || 0;
+        status && onChangeSelect(status, index);
     };
 
     //TODO: handle dark mode

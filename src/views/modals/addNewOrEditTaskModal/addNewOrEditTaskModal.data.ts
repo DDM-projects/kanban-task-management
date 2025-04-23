@@ -41,16 +41,19 @@ export const getInitialAddNewTaskValues = (defaultStatus: { value: string; label
                 title: "",
                 completed: false,
                 taskId: "",
+                index: 0,
             },
             {
                 id: nanoid(),
                 title: "",
                 completed: false,
                 taskId: "",
+                index: 1,
             },
         ],
         statusName: defaultStatus.label,
         statusId: defaultStatus.value,
+        index: 0,
     };
 };
 

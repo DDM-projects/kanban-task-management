@@ -75,6 +75,7 @@ const AddNewOrEditTaskModal = ({
             title: "",
             completed: false,
             taskId: "",
+            index: 0,
         };
 
         formikValuesRef.current?.setValues({
@@ -95,6 +96,13 @@ const AddNewOrEditTaskModal = ({
     };
 
     const handleSubmit = (values: Task) => {
+        const subtasks = values.subtasks.map((subtask, index) => ({ ...subtask, index }));
+        const column = selectedBoard?.statuses.find((status) => status.name === values.statusName);
+        values.subtasks = subtasks;
+
+        if (type === "add") {
+            values.index = column?.tasks.length || 0;
+        }
         setCurrentInitialValues(values);
         onSubmit(values);
     };
