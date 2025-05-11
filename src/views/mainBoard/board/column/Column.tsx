@@ -16,6 +16,7 @@ import { useDispatch } from "react-redux";
 import { deleteTask, updateColumn } from "../../../../state/selectedBoard/selectedBoardSlice";
 import { AppDispatch } from "../../../../state/store";
 import { deleteTaskById, postNewColumnColor } from "../../../../service/services";
+import { useDroppable } from "@dnd-kit/core";
 
 interface ColumnProps {
     column: ColumnType;
@@ -28,11 +29,15 @@ const Column = ({ column }: ColumnProps) => {
     const numberOfTasks = column.tasks?.length;
     const deleteModalText = taskToDelete ? getDeleteModalText(taskToDelete.title) : "";
 
+    const {setNodeRef} = useDroppable({
+        id: column.id,
+    })
+
     const handleColumnColorChange = async (color: Color) => {
         const response = await postNewColumnColor({ id: column.id, color: color.toHexString() });
 
         if (response.status !== "success") {
-            console.log("error");
+            console.error("error");
             return;
         }
 
@@ -56,7 +61,7 @@ const Column = ({ column }: ColumnProps) => {
         const response = await deleteTaskById(taskToDelete.id);
 
         if (response !== "success") {
-            console.log("error");
+            console.error("error");
             return;
         }
 
@@ -78,7 +83,7 @@ const Column = ({ column }: ColumnProps) => {
                         {column.name} ({numberOfTasks})
                     </StyledTitle>
                 </StyledContainer>
-                <StyledTasksContainer>
+                <StyledTasksContainer ref={setNodeRef}>
                     {column.tasks?.map((task) => (
                         <Task
                             key={task.id}

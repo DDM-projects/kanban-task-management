@@ -10,6 +10,8 @@ const tasksPostURL = "/api/tasks/create";
 const tasksPutURL = "/api/tasks/update";
 const tasksDeleteURL = "/api/tasks/delete-by-id";
 
+const tasksMoveURL = "/api/boards/move-tasks";
+
 const columnsColorPostURL = "/api/status/update-by-color";
 
 type Response<T> =
@@ -125,4 +127,5 @@ export const deleteBoardById = async (id: string) => await deleteFetch(boardsDel
 export const deleteTaskById = async (id: string) => await deleteFetch(tasksDeleteURL, id);
 
 export const updateBoard = async (data: Board) => await updateFetch<Board>(boardsPutURL, data);
+export const moveTasks = async (data: Board) => await updateFetch<Board>(tasksMoveURL, data);
 export const updateTask = async (data: Task) => await updateFetch<Task>(tasksPutURL, data);

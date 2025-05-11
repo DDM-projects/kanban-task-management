@@ -9,6 +9,7 @@ import { updateTask } from "../../../../state/selectedBoard/selectedBoardSlice";
 import { AppDispatch } from "../../../../state/store";
 import { updateTask as updateTaskService } from "../../../../service/services";
 import _ from "lodash";
+import { useDraggable, useDroppable } from "@dnd-kit/core";
 
 interface TaskProps {
     task: TaskType;
@@ -22,6 +23,30 @@ const Task = ({ task, deleteModalOpen, updatedColumnId }: TaskProps) => {
     const [isEditTaskModalOpen, setIsEditTaskModalOpen] = useState(false);
     const [updatedTask, setUpdatedTask] = useState<TaskType>(task);
     const [isEditTaskModalVisible, setIsEditTaskModalVisible] = useState(isEditTaskModalOpen);
+
+    const {
+        attributes,
+        listeners,
+        transform,
+        setNodeRef: setDraggableRef,
+    } = useDraggable({
+        id: task.id,
+    });
+
+    const { setNodeRef: setDroppableRef } = useDroppable({
+        id: task.id,
+    });
+
+    const setNodeRef = (node: HTMLElement | null) => {
+        setDraggableRef(node);
+        setDroppableRef(node);
+    };
+
+    const style = transform
+        ? {
+              transform: `translate(${transform.x}px, ${transform.y}px)`,
+          }
+        : undefined;
 
     const handleViewTaskModalOpen = () => {
         setIsViewTaskModalOpen(true);
@@ -64,7 +89,7 @@ const Task = ({ task, deleteModalOpen, updatedColumnId }: TaskProps) => {
         const response = await updateTaskService(updatedTask);
 
         if (response.status !== "success") {
-            console.log("error");
+            console.error("error");
             return;
         }
 
@@ -77,7 +102,7 @@ const Task = ({ task, deleteModalOpen, updatedColumnId }: TaskProps) => {
         if (_.isEqual(task, updatedTask)) {
             setIsViewTaskModalOpen(false);
             return;
-        } 
+        }
 
         if (!updatedTask || updatedTask === null) {
             return;
@@ -86,7 +111,7 @@ const Task = ({ task, deleteModalOpen, updatedColumnId }: TaskProps) => {
         const response = await updateTaskService(updatedTask);
 
         if (response.status !== "success") {
-            console.log("error");
+            console.error("error");
             return;
         }
 
@@ -99,7 +124,14 @@ const Task = ({ task, deleteModalOpen, updatedColumnId }: TaskProps) => {
 
     return (
         <>
-            <StyledTask data-testid="task" onClick={handleViewTaskModalOpen}>
+            <StyledTask
+                style={style}
+                ref={setNodeRef}
+                {...listeners}
+                {...attributes}
+                data-testid="task"
+                onDoubleClick={handleViewTaskModalOpen}
+            >
                 <StyledTitle>{task.title}</StyledTitle>
                 <StyledSubtaskStatus>{`${countCompletedSubtasks(task.subtasks)} of ${
                     task.subtasks?.length

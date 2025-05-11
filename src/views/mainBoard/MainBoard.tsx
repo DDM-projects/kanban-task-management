@@ -21,7 +21,7 @@ const MainBoard = () => {
         const response = await getAllBoards();
 
         if (response.status !== "success") {
-            console.log("error");
+            console.error("error");
             return;
         }
 
@@ -37,7 +37,7 @@ const MainBoard = () => {
         const boardResponse = await getBoardById(fetchedBoards[0].id);
 
         if (boardResponse.status !== "success") {
-            console.log("error");
+            console.error("error");
             return;
         }
 
@@ -47,7 +47,7 @@ const MainBoard = () => {
 
     useEffect(() => {
         fetchBoards();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

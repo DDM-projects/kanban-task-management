@@ -81,7 +81,7 @@ const Header = () => {
         const response = await postNewTask(task);
 
         if (response.status !== "success") {
-            console.log("error");
+            console.error("error");
             return;
         }
 
@@ -101,7 +101,7 @@ const Header = () => {
         const response = await deleteBoardById(selectedBoard?.id || "");
 
         if (response !== "success") {
-            console.log("error");
+            console.error("error");
             return;
         }
 
@@ -119,7 +119,7 @@ const Header = () => {
         const boardResponse = await getBoardById(nextBoard.id);
 
         if (boardResponse.status !== "success") {
-            console.log("error");
+            console.error("error");
             return;
         }
 
@@ -140,7 +140,7 @@ const Header = () => {
         const response = await updateBoard(board);
 
         if (response.status !== "success") {
-            console.log("error");
+            console.error("error");
             return;
         }
 

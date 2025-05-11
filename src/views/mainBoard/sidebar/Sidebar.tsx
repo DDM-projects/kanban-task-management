@@ -82,7 +82,7 @@ const Sidebar = ({ setSidebarVisibility }: SidebarProps) => {
         const fetchSelectedBoard = await getBoardById(currentSelectedBoard.id);
 
         if (fetchSelectedBoard.status !== "success") {
-            console.log("error");
+            console.error("error");
             return;
         }
 
@@ -122,7 +122,7 @@ const Sidebar = ({ setSidebarVisibility }: SidebarProps) => {
         const response = await postNewBoard(board);
 
         if (response.status !== "success") {
-            console.log("error");
+            console.error("error");
             return;
         }
 
