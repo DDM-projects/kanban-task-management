@@ -180,8 +180,13 @@ const Board = () => {
         } else {
             const updatedSourceTasks = sourceColumn.tasks.filter((task) => task.id !== taskId);
             const updatedSourceColumn = updateColumnTasks(sourceColumn, updatedSourceTasks);
+            const updatedActiveTask = {
+                ...activeTask,
+                statusId: destinationColumn.id,
+                statusName: destinationColumn.name,
+            };
             const updatedDestinationTasks = [...destinationColumn.tasks];
-            updatedDestinationTasks.splice(newIndex, 0, activeTask);
+            updatedDestinationTasks.splice(newIndex, 0, updatedActiveTask);
             const updatedDestinationColumn = updateColumnTasks(destinationColumn, updatedDestinationTasks);
             const currentStatuses = selectedBoard.statuses.map((column) => {
                 if (column.id === sourceColumn.id) {
