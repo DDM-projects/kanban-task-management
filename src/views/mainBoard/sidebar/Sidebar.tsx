@@ -6,8 +6,6 @@ import {
     StyledTitle,
     StyledMenu,
     StyledCreateBoardButton,
-    StyledRowContainer,
-    StyledSwitch,
     StyledHideSidebarContainer,
     StyledHideSidebarButton,
     StyledShowSidebarButton,
@@ -18,8 +16,6 @@ import { Board } from "../../../types";
 import type { MenuProps } from "antd";
 import { Tooltip } from "antd";
 import boardIcon from "../../../assets/icon-board.svg";
-import lightThemeIcon from "../../../assets/icon-light-theme.svg";
-import darkThemeIcon from "../../../assets/icon-dark-theme.svg";
 import showSidebarIcon from "../../../assets/icon-show-sidebar.svg";
 import hideSidebarIcon from "../../../assets/icon-hide-sidebar.svg";
 import { useDispatch, useSelector } from "react-redux";
@@ -148,19 +144,12 @@ const Sidebar = ({ setSidebarVisibility }: SidebarProps) => {
                             <img src={boardIcon} className="add-board-icon" alt="add board icon" /> + Create New Board
                         </StyledCreateBoardButton>
                     </StyledColumnContainer>
-                    <StyledColumnContainer $alignItems="center" $gapSize={20}>
-                        <StyledRowContainer>
-                            <img src={lightThemeIcon} alt="light theme icon" />
-                            <StyledSwitch />
-                            <img src={darkThemeIcon} alt="dark theme icon" />
-                        </StyledRowContainer>
-                        <StyledHideSidebarContainer>
-                            <StyledHideSidebarButton onClick={handleHideSidebar}>
-                                <img src={hideSidebarIcon} className="hideSidebar-icon" alt="hide sidebar icon" />
-                                Hide Sidebar
-                            </StyledHideSidebarButton>
-                        </StyledHideSidebarContainer>
-                    </StyledColumnContainer>
+                    <StyledHideSidebarContainer>
+                        <StyledHideSidebarButton onClick={handleHideSidebar}>
+                            <img src={hideSidebarIcon} className="hideSidebar-icon" alt="hide sidebar icon" />
+                            Hide Sidebar
+                        </StyledHideSidebarButton>
+                    </StyledHideSidebarContainer>
                 </StyledSidebar>
 
                 {!isSidebarDisplayed && (

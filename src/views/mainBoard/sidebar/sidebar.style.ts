@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Menu, Switch } from "antd";
+import { Menu} from "antd";
 import { fontHeadingMediumStyle, fontHeadingSmallStyle } from "../../../theme.style";
 import { themeColors } from "../../../theme";
 import { CSSProperties } from "react";
@@ -143,32 +143,6 @@ export const StyledCreateBoardButton = styled.button`
         .add-board-icon {
             filter: brightness(0) saturate(100%) invert(80%) sepia(55%) saturate(4234%) hue-rotate(201deg)
                 brightness(103%) contrast(101%);
-        }
-    }
-`;
-
-export const StyledRowContainer = styled.div<{ $width?: number }>`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    width: ${({ $width }) => ($width !== undefined ? `${$width}px` : "250px")};
-    height: 48px;
-    background-color: ${themeColors.lightestGrey};
-`;
-
-export const StyledSwitch = styled(Switch)`
-    background-color: ${themeColors.mainPurple};
-
-    &&:hover {
-        background-color: ${themeColors.mainPurpleHover};
-    }
-
-    &&.ant-switch-checked {
-        background-color: ${themeColors.mainPurple};
-
-        &:hover {
-            background-color: ${themeColors.mainPurpleHover};
         }
     }
 `;
