@@ -1,0 +1,346 @@
+{
+    "name": "Example Board - Platform Launch",
+    "statuses": [
+        {
+            "name": "Todo",
+            "index": "0",
+            "color": "#49C4E5",
+            "tasks": [
+                {
+                    "title": "Build UI for onboarding flow",
+                    "description": "",
+                    "statusName": "Todo",
+                    "index": "0",
+                    "subtasks": [
+                        {
+                            "title": "Sign up page",
+                            "completed": true,
+                            "index": "0"
+                        },
+                        {
+                            "title": "Sign in page",
+                            "completed": false,
+                            "index": "1"
+                        },
+                        {
+                            "title": "Welcome page",
+                            "completed": false,
+                            "index": "2"
+                        }
+                    ]
+                },
+                {
+                    "title": "Build UI for search",
+                    "description": "",
+                    "statusName": "Todo",
+                    "index": "1",
+                    "subtasks": [
+                        {
+                            "title": "Search page",
+                            "completed": false,
+                            "index": "0"
+                        }
+                    ]
+                },
+                {
+                    "title": "Build settings UI",
+                    "description": "",
+                    "statusName": "Todo",
+                    "index": "2",
+                    "subtasks": [
+                        {
+                            "title": "Account page",
+                            "completed": false,
+                            "index": "0"
+                        },
+                        {
+                            "title": "Billing page",
+                            "completed": false,
+                            "index": "1"
+                        }
+                    ]
+                },
+                {
+                    "title": "QA and test all major user journeys",
+                    "description": "Once we feel version one is ready, we need to rigorously test it both internally and externally to identify any major gaps.",
+                    "statusName": "Todo",
+                    "index": "3",
+                    "subtasks": [
+                        {
+                            "title": "Internal testing",
+                            "completed": false,
+                            "index": "0"
+                        },
+                        {
+                            "title": "External testing",
+                            "completed": false,
+                            "index": "1"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Doing",
+            "index": "1",
+            "color": "#8471F2",
+            "tasks": [
+                {
+                    "title": "Design settings and search pages",
+                    "description": "",
+                    "statusName": "Doing",
+                    "index": "0",
+                    "subtasks": [
+                        {
+                            "title": "Settings - Account page",
+                            "completed": true,
+                            "index": "0"
+                        },
+                        {
+                            "title": "Settings - Billing page",
+                            "completed": true,
+                            "index": "1"
+                        },
+                        {
+                            "title": "Search page",
+                            "completed": false,
+                            "index": "2"
+                        }
+                    ]
+                },
+                {
+                    "title": "Add account management endpoints",
+                    "description": "",
+                    "statusName": "Doing",
+                    "index": "1",
+                    "subtasks": [
+                        {
+                            "title": "Upgrade plan",
+                            "completed": true,
+                            "index": "0"
+                        },
+                        {
+                            "title": "Cancel plan",
+                            "completed": true,
+                            "index": "1"
+                        },
+                        {
+                            "title": "Update payment method",
+                            "completed": false,
+                            "index": "2"
+                        }
+                    ]
+                },
+                {
+                    "title": "Design onboarding flow",
+                    "description": "",
+                    "statusName": "Doing",
+                    "index": "2",
+                    "subtasks": [
+                        {
+                            "title": "Sign up page",
+                            "completed": true,
+                            "index": "0"
+                        },
+                        {
+                            "title": "Sign in page",
+                            "completed": false,
+                            "index": "1"
+                        },
+                        {
+                            "title": "Welcome page",
+                            "completed": false,
+                            "index": "2"
+                        }
+                    ]
+                },
+                {
+                    "title": "Add search enpoints",
+                    "description": "",
+                    "statusName": "Doing",
+                    "index": "3",
+                    "subtasks": [
+                        {
+                            "title": "Add search endpoint",
+                            "completed": true,
+                            "index": "0"
+                        },
+                        {
+                            "title": "Define search filters",
+                            "completed": false,
+                            "index": "1"
+                        }
+                    ]
+                },
+                {
+                    "title": "Add authentication endpoints",
+                    "description": "",
+                    "statusName": "Doing",
+                    "index": "4",
+                    "subtasks": [
+                        {
+                            "title": "Define user model",
+                            "completed": true,
+                            "index": "0"
+                        },
+                        {
+                            "title": "Add auth endpoints",
+                            "completed": false,
+                            "index": "1"
+                        }
+                    ]
+                },
+                {
+                    "title": "Research pricing points of various competitors and trial different business models",
+                    "description": "We know what we're planning to build for version one. Now we need to finalise the first pricing model we'll use. Keep iterating the subtasks until we have a coherent proposition.",
+                    "statusName": "Doing",
+                    "index": "5",
+                    "subtasks": [
+                        {
+                            "title": "Research competitor pricing and business models",
+                            "completed": true,
+                            "index": "0"
+                        },
+                        {
+                            "title": "Outline a business model that works for our solution",
+                            "completed": false,
+                            "index": "1"
+                        },
+                        {
+                            "title": "Talk to potential customers about our proposed solution and ask for fair price expectancy",
+                            "completed": false,
+                            "index": "2"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Done",
+            "index": "2",
+            "color": "#2bca40",
+            "tasks": [
+                {
+                    "title": "Conduct 5 wireframe tests",
+                    "description": "Ensure the layout continues to make sense and we have strong buy-in from potential users.",
+                    "statusName": "Done",
+                    "index": "0",
+                    "subtasks": [
+                        {
+                            "title": "Complete 5 wireframe prototype tests",
+                            "completed": true,
+                            "index": "0"
+                        }
+                    ]
+                },
+                {
+                    "title": "Create wireframe prototype",
+                    "description": "Create a greyscale clickable wireframe prototype to test our asssumptions so far.",
+                    "statusName": "Done",
+                    "index": "1",
+                    "subtasks": [
+                        {
+                            "title": "Create clickable wireframe prototype in Balsamiq",
+                            "completed": true,
+                            "index": "0"
+                        }
+                    ]
+                },
+                {
+                    "title": "Review results of usability tests and iterate",
+                    "description": "Keep iterating through the subtasks until we're clear on the core concepts for the app.",
+                    "statusName": "Done",
+                    "index": "2",
+                    "subtasks": [
+                        {
+                            "title": "Meet to review notes from previous tests and plan changes",
+                            "completed": true,
+                            "index": "0"
+                        },
+                        {
+                            "title": "Make changes to paper prototypes",
+                            "completed": true,
+                            "index": "1"
+                        },
+                        {
+                            "title": "Conduct 5 usability tests",
+                            "completed": true,
+                            "index": "2"
+                        }
+                    ]
+                },
+                {
+                    "title": "Create paper prototypes and conduct 10 usability tests with potential customers",
+                    "description": "",
+                    "statusName": "Done",
+                    "index": "3",
+                    "subtasks": [
+                        {
+                            "title": "Create paper prototypes for version one",
+                            "completed": true,
+                            "index": "0"
+                        },
+                        {
+                            "title": "Complete 10 usability tests",
+                            "completed": true,
+                            "index": "1"
+                        }
+                    ]
+                },
+                {
+                    "title": "Market discovery",
+                    "description": "We need to define and refine our core product. Interviews will help us learn common pain points and help us define the strongest MVP.",
+                    "statusName": "Done",
+                    "index": "4",
+                    "subtasks": [
+                        {
+                            "title": "Interview 10 prospective customers",
+                            "completed": true,
+                            "index": "0"
+                        }
+                    ]
+                },
+                {
+                    "title": "Competitor analysis",
+                    "description": "",
+                    "statusName": "Done",
+                    "index": "5",
+                    "subtasks": [
+                        {
+                            "title": "Find direct and indirect competitors",
+                            "completed": true,
+
+                            "index": "0"
+                        },
+                        {
+                            "title": "SWOT analysis for each competitor",
+                            "completed": true,
+
+                            "index": "1"
+                        }
+                    ]
+                },
+                {
+                    "title": "Research the market",
+                    "description": "We need to get a solid overview of the market to ensure we have up-to-date estimates of market size and demand.",
+                    "statusName": "Done",
+                    "index": "6",
+                    "subtasks": [
+                        {
+                            "title": "Write up research analysis",
+                            "completed": true,
+
+                            "index": "0"
+                        },
+                        {
+                            "title": "Calculate TAM",
+                            "completed": true,
+
+                            "index": "1"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

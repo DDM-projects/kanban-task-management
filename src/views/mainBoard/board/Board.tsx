@@ -3,7 +3,7 @@ import {
     StyledNewColumnContainer,
     StyledNewColumnButton,
     StyledContainer,
-    StyledAddColummnButton,
+    StyledAddColumnButton,
     StyledText,
 } from "./board.style";
 import Column from "./column/Column";
@@ -16,8 +16,14 @@ import { AppDispatch } from "../../../state/store";
 import { moveTasks, updateBoard } from "../../../service/services";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import _ from "lodash";
+import Button from "../../../components/button/Button";
 
-const Board = () => {
+interface BoardProps {
+    isAddExampleDataButtonVisible: boolean;
+    addExampleDataButtonFunction: () => void;
+}
+
+const Board = ({ isAddExampleDataButtonVisible = false, addExampleDataButtonFunction }: BoardProps) => {
     const dispatch = useDispatch<AppDispatch>();
     const selectedBoard = useSelector(selectBoard);
     const [isEditBoardModalOpen, setIsEditBoardModalOpen] = useState(false);
@@ -55,13 +61,13 @@ const Board = () => {
             return (
                 <StyledContainer>
                     <StyledText>This board is empty. Create a new column to get started.</StyledText>
-                    <StyledAddColummnButton
+                    <StyledAddColumnButton
                         width={174}
                         buttonFunction={handleEditBoardModalOpen}
                         category="primaryLarge"
                     >
                         + Add New Column
-                    </StyledAddColummnButton>
+                    </StyledAddColumnButton>
                 </StyledContainer>
             );
         }
@@ -212,7 +218,10 @@ const Board = () => {
     //TODO: handle dark mode
 
     return (
-        <StyledMainContainer $isAddColumnButtonVisible={!columnExists}>
+        <StyledMainContainer
+            $isAddColumnButtonVisible={!columnExists}
+            $isAddExampleDataButtonVisible={isAddExampleDataButtonVisible}
+        >
             <DndContext onDragEnd={handleDragEnd}>
                 {selectedBoard?.statuses?.map((column) => (
                     <Column key={column.id} column={column} />
@@ -220,6 +229,11 @@ const Board = () => {
             </DndContext>
             {emptyBoardView}
             {boardWithColumnsView}
+            {isAddExampleDataButtonVisible && (
+                <Button category="primaryLarge" buttonFunction={addExampleDataButtonFunction} width={300}>
+                    + Add Example Board
+                </Button>
+            )}
 
             {isEditBoardModalVisible && (
                 <AddOrEditBoardModal

@@ -6,7 +6,10 @@ import { COLUMN_MAIN_CONTAINER_GAP } from "./column/column.data";
 
 export const COLUMN_TITLE_HEIGHT = 39;
 
-export const StyledMainContainer = styled.div<{ $isAddColumnButtonVisible: boolean }>`
+export const StyledMainContainer = styled.div<{
+    $isAddColumnButtonVisible: boolean;
+    $isAddExampleDataButtonVisible: boolean;
+}>`
     display: flex;
     box-sizing: border-box;
     width: 100%;
@@ -15,8 +18,8 @@ export const StyledMainContainer = styled.div<{ $isAddColumnButtonVisible: boole
     padding: 20px;
     overflow: auto;
 
-    ${({ $isAddColumnButtonVisible }) =>
-        $isAddColumnButtonVisible &&
+    ${({ $isAddColumnButtonVisible, $isAddExampleDataButtonVisible }) =>
+        ($isAddColumnButtonVisible || $isAddExampleDataButtonVisible) &&
         css`
             justify-content: center;
             align-items: center;
@@ -63,7 +66,7 @@ export const StyledText = styled.p`
     color: ${themeColors.grey};
 `;
 
-export const StyledAddColummnButton = styled(Button)`
+export const StyledAddColumnButton = styled(Button)`
     ${fontHeadingMediumStyle};
 
     color: ${themeColors.white};

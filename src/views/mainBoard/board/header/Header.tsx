@@ -29,7 +29,11 @@ import { deleteBoard, selectBoards } from "../../../../state/boards/boardsSlice"
 import { AppDispatch } from "../../../../state/store";
 import { deleteBoardById, getBoardById, postNewTask, updateBoard } from "../../../../service/services";
 
-const Header = () => {
+interface HeaderProps {
+    onLastBoardDelete: () => void;
+}
+
+const Header = ({ onLastBoardDelete }: HeaderProps) => {
     const dispatch = useDispatch<AppDispatch>();
     const selectedBoard = useSelector(selectBoard);
     const boards = useSelector(selectBoards);
@@ -112,6 +116,7 @@ const Header = () => {
         if (remainingBoards.length === 0) {
             dispatch(setSelectedBoard(undefined));
             handleDeleteModalCancel();
+            onLastBoardDelete();
             return;
         }
 

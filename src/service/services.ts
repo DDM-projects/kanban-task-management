@@ -14,6 +14,8 @@ const tasksMoveURL = "/api/boards/move-tasks";
 
 const columnsColorPostURL = "/api/status/update-by-color";
 
+const exampleDataURL = "/data.json"
+
 type Response<T> =
     | {
           status: "success";
@@ -117,6 +119,7 @@ const updateFetch = async <T>(url: string, data: any): Promise<Response<T>> => {
 
 export const getAllBoards = async () => await getFetch<BoardInfo[]>(boardsGetAllURL);
 export const getBoardById = async (id: string) => await getFetch<Board>(`${boardGetById}?id=${id}`);
+export const getExampleData = async () => await getFetch<Board>(exampleDataURL);
 
 export const postNewBoard = async (data: Board) => await postFetch<Board>(boardsPostURL, data);
 export const postNewTask = async (data: Task) => await postFetch<Task>(tasksPostURL, data);

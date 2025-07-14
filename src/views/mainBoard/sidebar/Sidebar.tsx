@@ -27,9 +27,10 @@ import { getBoardById, postNewBoard } from "../../../service/services";
 
 interface SidebarProps {
     setSidebarVisibility: (isVisible: boolean) => void;
+    onFirstBoardCreate: () => void;
 }
 
-const Sidebar = ({ setSidebarVisibility }: SidebarProps) => {
+const Sidebar = ({ setSidebarVisibility, onFirstBoardCreate }: SidebarProps) => {
     const dispatch = useDispatch<AppDispatch>();
     const boards = useSelector(selectBoards);
     const selectedBoard = useSelector(selectBoard);
@@ -125,6 +126,10 @@ const Sidebar = ({ setSidebarVisibility }: SidebarProps) => {
         dispatch(addBoard(response.data));
         dispatch(setSelectedBoard(response.data));
         handleAddBoardModalCancel();
+
+        if (boards.length === 0) {
+            onFirstBoardCreate();
+        }
     };
 
     //TODO: handle dark mode

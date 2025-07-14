@@ -7,14 +7,44 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../state/store";
 import { setSelectedBoard } from "../../state/selectedBoard/selectedBoardSlice";
 import { setBoards } from "../../state/boards/boardsSlice";
-import { getAllBoards, getBoardById } from "../../service/services";
+import { getAllBoards, getBoardById, getExampleData, postNewBoard } from "../../service/services";
 
 const MainBoard = () => {
     const dispatch = useDispatch<AppDispatch>();
     const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+    const [isExampleDataButtonVisible, setIsExampleDataButtonVisible] = useState(false);
 
     const handleSidebarVisibility = (isVisible: boolean) => {
         setIsSidebarVisible(isVisible);
+    };
+
+    const hideExampleDataButton = () => {
+        setIsExampleDataButtonVisible(false);
+    };
+
+    const showExampleDataButton = () => {
+        setIsExampleDataButtonVisible(true);
+    };
+
+    const handleAddExampleData = async () => {
+        const response = await getExampleData();
+
+        if (response.status !== "success") {
+            console.error("error");
+            return;
+        }
+
+        const exampleData = response.data;
+        const postResponse = await postNewBoard(exampleData);
+
+        if (postResponse.status !== "success") {
+            console.error("error");
+            return;
+        }
+
+        dispatch(setSelectedBoard(postResponse.data));
+        dispatch(setBoards([postResponse.data]));
+        hideExampleDataButton();
     };
 
     const fetchBoards = async () => {
@@ -32,7 +62,10 @@ const MainBoard = () => {
             };
         });
 
-        if (fetchedBoards.length === 0) return;
+        if (fetchedBoards.length === 0) {
+            showExampleDataButton();
+            return;
+        }
 
         const boardResponse = await getBoardById(fetchedBoards[0].id);
 
@@ -52,11 +85,14 @@ const MainBoard = () => {
 
     return (
         <StyledMainContainer>
-            <Header />
+            <Header onLastBoardDelete={showExampleDataButton} />
             <StyledRowContainer>
-                <Sidebar setSidebarVisibility={handleSidebarVisibility} />
+                <Sidebar setSidebarVisibility={handleSidebarVisibility} onFirstBoardCreate={hideExampleDataButton} />
                 <StyledBoardContainer $isSidebarVisible={isSidebarVisible}>
-                    <Board />
+                    <Board
+                        isAddExampleDataButtonVisible={isExampleDataButtonVisible}
+                        addExampleDataButtonFunction={handleAddExampleData}
+                    />
                 </StyledBoardContainer>
             </StyledRowContainer>
         </StyledMainContainer>
