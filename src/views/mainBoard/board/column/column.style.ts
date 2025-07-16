@@ -42,5 +42,5 @@ export const StyledTasksContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 10px;
-    height: 100%;
+    height: fit-content;
 `;
