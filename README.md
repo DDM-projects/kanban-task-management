@@ -16,13 +16,14 @@ The "Kanban Task Management" application is a full-stack project management tool
 ## Table of contents
 
 -   [Overview](#overview)
-        -   [Exptected Behaviour](#expected-behaviour)
-        -   [The challenge](#the-challenge)
-        -   [Screenshot](#screenshot)
-        -   [Links](#links)
+    -   [Expected Behaviour](#expected-behaviour)
+    -   [Unit tests](#unit-tests)
+    -   [The challenge](#the-challenge)
+    -   [Screenshot](#screenshot)
+    -   [Links](#links)
 -   [My process](#my-process)
-        -   [Built with](#built-with)
-        -   [What I learned](#what-i-learned)
+    -   [Built with](#built-with)
+    -   [What I learned](#what-i-learned)
 -   [Author](#author)
 -   [Acknowledgments](#acknowledgments)
 
