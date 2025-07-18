@@ -71,7 +71,7 @@ describe("Task Component", () => {
         getRenderedComponent();
 
         const task = screen.getByTestId("task");
-        fireEvent.click(task);
+        fireEvent.doubleClick(task);
         fireEvent.click(screen.getByAltText("menu"));
     };
 
@@ -89,12 +89,12 @@ describe("Task Component", () => {
         expect(screen.getByText("1 of 2 subtasks")).toBeInTheDocument();
     });
 
-    it("opens ViewTaskModal on task click", () => {
+    it("opens ViewTaskModal on double task click", () => {
         getRenderedComponent();
 
         const task = screen.getByTestId("task");
 
-        fireEvent.click(task);
+        fireEvent.doubleClick(task);
 
         expect(screen.getByText("Test Description")).toBeInTheDocument();
     });
