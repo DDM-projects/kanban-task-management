@@ -1,4 +1,5 @@
 # Frontend Mentor - Kanban task management web app solution
+Live Site URL: [Kanban task management](https://projekty.tojest.dev/)
 
 This is a solution to the [Kanban task management web app challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/kanban-task-management-web-app-wgQLt-HlbB). Frontend Mentor challenges help you improve your coding skills by building realistic projects.
 
@@ -20,7 +21,6 @@ The "Kanban Task Management" application is a full-stack project management tool
     -   [Unit tests](#unit-tests)
     -   [The challenge](#the-challenge)
     -   [Screenshot](#screenshot)
-    -   [Links](#links)
 -   [My process](#my-process)
     -   [Built with](#built-with)
     -   [What I learned](#what-i-learned)
@@ -85,10 +85,6 @@ Users should be able to:
 ### Screenshot
 
 ![Project](/src/assets/project.png)
-
-### Links
-
--   Live Site URL: [Live site URL](https://projekty.tojest.dev/)
 
 ## My process
 
