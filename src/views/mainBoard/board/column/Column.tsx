@@ -29,9 +29,9 @@ const Column = ({ column }: ColumnProps) => {
     const numberOfTasks = column.tasks?.length;
     const deleteModalText = taskToDelete ? getDeleteModalText(taskToDelete.title) : "";
 
-    const {setNodeRef} = useDroppable({
+    const { setNodeRef } = useDroppable({
         id: column.id,
-    })
+    });
 
     const handleColumnColorChange = async (color: Color) => {
         const response = await postNewColumnColor({ id: column.id, color: color.toHexString() });
