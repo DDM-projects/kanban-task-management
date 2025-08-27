@@ -9,6 +9,7 @@ export const StyledMainContainer = styled.div`
     min-width: 260px;
     max-width: 260px;
     height: 100%;
+    min-height: fit-content;
     gap: ${COLUMN_MAIN_CONTAINER_GAP}px;
 `;
 
@@ -42,5 +43,7 @@ export const StyledTasksContainer = styled.div`
     display: flex;
     flex-direction: column;
     gap: 10px;
-    height: fit-content;
+    height: 100%;
+    min-height: fit-content;
+    padding-bottom: 120px;
 `;
