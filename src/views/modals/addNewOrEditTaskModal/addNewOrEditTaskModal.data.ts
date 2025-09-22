@@ -11,7 +11,7 @@ export const subtaskSchema = Yup.object().shape({
     title: Yup.string()
         .test(spaceTest.title, spaceTest.message, spaceTest.function)
         .min(2, "Title must contain at least 2 characters")
-        .max(60, "Title is too long")
+        .max(100, "Title is too long")
         .required("Title is required"),
     completed: Yup.boolean(),
 });
@@ -20,12 +20,12 @@ export const validationSchema = Yup.object().shape({
     title: Yup.string()
         .test(spaceTest.title, spaceTest.message, spaceTest.function)
         .min(2, "Title must contain at least 2 characters")
-        .max(80, "Title is too long")
+        .max(100, "Title is too long")
         .required("Title is required"),
     description: Yup.string()
         .test(spaceTest.title, spaceTest.message, spaceTest.function)
         .min(2, "Description must contain at least 2 characters")
-        .max(140, "Description is too long"),
+        .max(200, "Description is too long"),
     subtasks: Yup.array().of(subtaskSchema),
     statusName: Yup.string().required("Status is required"),
 });
