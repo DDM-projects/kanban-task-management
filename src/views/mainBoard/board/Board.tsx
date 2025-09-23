@@ -7,7 +7,7 @@ import {
     StyledText,
 } from "./board.style";
 import Column from "./column/Column";
-import { Board as BoardType, Task, Column as ColumnType } from "../../../types";
+import { Board as BoardType, Task, Column as ColumnType, BoardInfo } from "../../../types";
 import AddOrEditBoardModal from "../../modals/addOrEditBoardModal/AddOrEditBoardModal";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,6 +17,7 @@ import { moveTasks, updateBoard } from "../../../service/services";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import _ from "lodash";
 import Button from "../../../components/button/Button";
+import { selectBoards, setBoards } from "../../../state/boards/boardsSlice";
 
 interface BoardProps {
     isAddExampleDataButtonVisible: boolean;
@@ -26,6 +27,7 @@ interface BoardProps {
 const Board = ({ isAddExampleDataButtonVisible = false, addExampleDataButtonFunction }: BoardProps) => {
     const dispatch = useDispatch<AppDispatch>();
     const selectedBoard = useSelector(selectBoard);
+    const boards = useSelector(selectBoards);
     const [isEditBoardModalOpen, setIsEditBoardModalOpen] = useState(false);
     const [isEditBoardModalVisible, setIsEditBoardModalVisible] = useState(isEditBoardModalOpen);
     const columnExists = !!selectedBoard?.statuses?.length;
@@ -52,7 +54,17 @@ const Board = ({ isAddExampleDataButtonVisible = false, addExampleDataButtonFunc
             return;
         }
 
+        const updatedSelectedBoard: BoardInfo = {
+            id: response.data.id,
+            name: response.data.name,
+        };
+
+        const updatedBoards = boards.map((board) =>
+            board.id === updatedSelectedBoard.id ? updatedSelectedBoard : board
+        );
+
         dispatch(setSelectedBoard(response.data));
+        dispatch(setBoards(updatedBoards));
         setIsEditBoardModalOpen(false);
     };
 
