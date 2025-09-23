@@ -20,12 +20,12 @@ import DeleteModal from "../../../modals/deleteBoardOrTaskModal/DeleteModal";
 import AddOrEditBoardModal from "../../../modals/addOrEditBoardModal/AddOrEditBoardModal";
 import AddNewOrEditTaskModal from "../../../modals/addNewOrEditTaskModal/AddNewOrEditTaskModal";
 import { Dropdown, type MenuProps } from "antd";
-import { Board, Task } from "../../../../types";
+import { Board, BoardInfo, Task } from "../../../../types";
 import { themeColors } from "../../../../theme";
 import logoDark from "../../../../assets/logo-dark.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { selectBoard, setSelectedBoard, addTask } from "../../../../state/selectedBoard/selectedBoardSlice";
-import { deleteBoard, selectBoards } from "../../../../state/boards/boardsSlice";
+import { deleteBoard, selectBoards, setBoards } from "../../../../state/boards/boardsSlice";
 import { AppDispatch } from "../../../../state/store";
 import { deleteBoardById, getBoardById, postNewTask, updateBoard } from "../../../../service/services";
 
@@ -149,7 +149,16 @@ const Header = ({ onLastBoardDelete }: HeaderProps) => {
             return;
         }
 
+        const updatedSelectedBoard: BoardInfo = {
+            id: response.data.id,
+            name: response.data.name,
+        };
+        const updatedBoards = boards.map((board) =>
+            board.id === updatedSelectedBoard.id ? updatedSelectedBoard : board
+        );
+
         dispatch(setSelectedBoard(response.data));
+        dispatch(setBoards(updatedBoards));
         handleEditModalCancel();
     };
 
