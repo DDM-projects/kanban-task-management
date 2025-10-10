@@ -28,20 +28,31 @@ const Column = ({ column }: ColumnProps) => {
     const [taskToDelete, setTaskToDelete] = useState<TaskType | null>(null);
     const numberOfTasks = column.tasks?.length;
     const deleteModalText = taskToDelete ? getDeleteModalText(taskToDelete.title) : "";
+    const [isColorPickerOpen, setIsColorPickerOpen] = useState(false);
+    const [newColumnColor, setNewColumnColor] = useState<Color | null>(null);
 
     const { setNodeRef } = useDroppable({
         id: column.id,
     });
 
-    const handleColumnColorChange = async (color: Color) => {
-        const response = await postNewColumnColor({ id: column.id, color: color.toHexString() });
+    const handleColumnColorChange = (color: Color) => {
+        setNewColumnColor(color);
+    };
 
-        if (response.status !== "success") {
-            console.error("error");
-            return;
+    const handleColorPickerOpenChange = async (open: boolean) => {
+        setIsColorPickerOpen(open);
+
+        if (!open && newColumnColor) {
+            const response = await postNewColumnColor({ id: column.id, color: newColumnColor.toHexString() });
+
+            if (response.status !== "success") {
+                console.error("error");
+                return;
+            }
+
+            dispatch(updateColumn(response.data));
+            setNewColumnColor(null);
         }
-
-        dispatch(updateColumn(response.data));
     };
 
     const handleDeleteModalOpen = (task: TaskType) => {
@@ -76,7 +87,11 @@ const Column = ({ column }: ColumnProps) => {
         <>
             <StyledMainContainer>
                 <StyledContainer>
-                    <ColorPicker onChangeComplete={handleColumnColorChange} value={column.color}>
+                    <ColorPicker 
+                        onChangeComplete={handleColumnColorChange}
+                        value={column.color}
+                        onOpenChange={handleColorPickerOpenChange}
+                    >
                         <StyledColumnIcon style={{ backgroundColor: column.color }} />
                     </ColorPicker>
                     <StyledTitle>
