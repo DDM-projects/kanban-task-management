@@ -89,7 +89,7 @@ const Column = ({ column }: ColumnProps) => {
                 <StyledContainer>
                     <ColorPicker 
                         onChangeComplete={handleColumnColorChange}
-                        value={column.color}
+                        defaultValue={column.color}
                         onOpenChange={handleColorPickerOpenChange}
                     >
                         <StyledColumnIcon style={{ backgroundColor: column.color }} />
